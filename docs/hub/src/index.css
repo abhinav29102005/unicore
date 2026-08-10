@@ -1,4 +1,8 @@
-@import "https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/base.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --bg-primary: #090d16;
