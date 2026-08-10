@@ -1,0 +1,61 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{enumitem}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan,
+    pdftitle={UIMS - Technical Master Report},
+}
+
+\title{\textbf{University Integrated Management System (UIMS)}\\ \Large Technical Project Report -- DBMS Lab}
+\author{\textbf{Ankit Rath} (1024030458) \quad \textbf{Manan Kapoor} (1024030467) \quad \textbf{Abhinav Kumar Singh} (1024030440)\\
+\small Department of Computer Science \& Engineering\\
+\small Thapar Institute of Engineering \& Technology, Patiala\\
+\small Course: UCS310 -- Database Management Systems}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Modern universities manage student records, hostel allocation, library inventory, and examination processing through disconnected systems, leading to data redundancy, inconsistency, and security risks. This project presents the University Integrated Management System (UIMS), a centralized PostgreSQL relational platform normalized to Boyce-Codd Normal Form (BCNF) across 8 domain schemas and 35+ tables.
+\end{abstract}
+
+\section{Problem Statement}
+Fragmented systems create five critical operational failure modes:
+\begin{enumerate}
+    \item \textbf{Data Duplication:} Redundant address entries across modules.
+    \item \textbf{Inconsistency:} Mismatched records during partial updates.
+    \item \textbf{Resource Tracking:} Manual tracking of bed capacities and book copies.
+    \item \textbf{Transaction Hazards:} Double-allocation of rooms during peak rushes.
+    \item \textbf{Security Gaps:} Unscoped permissions across modules.
+\end{enumerate}
+
+\section{Functional Modules \& Domain Boundaries}
+\begin{table}[h!]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Module} & \textbf{Core Responsibility} & \textbf{Key Entities} \\
+\midrule
+Academic & Profiles, CGPA, branching & \texttt{faculties, departments, courses, students} \\
+Hostel & Automated bed allotment & \texttt{hostels, hostel\_rooms, allocations} \\
+Library & Inventory, circulation, fines & \texttt{books, authors, members, borrow\_records} \\
+Exam & Scheduling, invigilation, grades & \texttt{exams, exam\_schedules, exam\_results} \\
+Auth & RBAC \& sessions & \texttt{users, roles, permissions, refresh\_tokens} \\
+Audit & Forensics \& mutation logs & \texttt{audit\_logs, login\_logs, system\_events} \\
+\bottomrule
+\end{tabular}
+\caption{UIMS Module Boundaries}
+\end{table}
+
+\section{Conclusion}
+UIMS delivers a reliable, scalable, and secure solution for university administration through strict BCNF normalization, PL/SQL automation, and immutable audit logging.
+
+\end{document}

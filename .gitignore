@@ -1,0 +1,28 @@
+# Node & Vite Dependencies
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Environment & Logs
+.env
+.env.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Reference Documents for PC processing only (Hidden from Git repo)
+*.pdf
+*.docx
+*.txt
+UIMS_TECHNICAL_MASTER_REPORT.pdf
+UniCore-Campus-Operating-Platform-1.pdf
+main.pdf
+How to Draft Academic Project Proposals.docx
+
+# IDE & OS Files
+.DS_Store
+.vscode/
+.idea/
+*.suo
+*.user

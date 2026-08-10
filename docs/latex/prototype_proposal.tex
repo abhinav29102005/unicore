@@ -1,0 +1,69 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    commentstyle=\color{gray},
+    breaklines=true,
+    frame=single
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan,
+    pdftitle={UniCore - Prototype Specification},
+}
+
+\title{\textbf{UniCore Prototype Specification}\\ \Large Architecture \& PL/SQL Implementation}
+\author{\textbf{Ankit Rath} (1024030458) \quad \textbf{Manan Kapoor} (1024030467) \quad \textbf{Abhinav Kumar Singh} (1024030440)\\
+\small Department of Computer Science \& Engineering\\
+\small Thapar Institute of Engineering \& Technology, Patiala\\
+\small Course: UCS310 -- Database Management Systems}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+The UniCore Prototype is a database-first software application engineered to demonstrate real-time transaction safeguards, PL/SQL trigger automation, role-based authentication, and immutable audit logging.
+\end{abstract}
+
+\section{Implemented PL/SQL Stored Procedures}
+\begin{lstlisting}[language=SQL,caption=Atomic Hostel Allotment Stored Procedure]
+CREATE OR REPLACE PROCEDURE hostel.hostel_allot(
+    p_student_id UUID,
+    p_room_id UUID,
+    p_academic_year TEXT
+) AS $$
+DECLARE
+    v_bed_count INT;
+    v_current_alloc INT;
+BEGIN
+    SELECT bed_count INTO v_bed_count
+    FROM hostel.hostel_rooms
+    WHERE id = p_room_id FOR UPDATE;
+
+    SELECT COUNT(*) INTO v_current_alloc
+    FROM hostel.allocations
+    WHERE room_id = p_room_id AND status = 'active';
+
+    IF v_current_alloc >= v_bed_count THEN
+        RAISE EXCEPTION 'Room capacity reached.';
+    END IF;
+
+    INSERT INTO hostel.allocations (student_id, room_id, academic_year, status)
+    VALUES (p_student_id, p_room_id, p_academic_year, 'active');
+END;
+$$ LANGUAGE plpgsql;
+\end{lstlisting}
+
+\end{document}
