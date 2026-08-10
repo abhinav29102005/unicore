@@ -33,7 +33,7 @@ jobs:
       - name: Install Documentation Hub Dependencies
         run: |
           cd docs/hub
-          npm ci
+          npm install
 
       - name: Build Web Documentation Site
         run: |
