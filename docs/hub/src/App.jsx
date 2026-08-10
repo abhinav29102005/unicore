@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { 
   Database, ShieldCheck, FileText, Code2, Search, 
   Sun, Moon, Printer, Copy, Check, Layers, Cpu, 
-  Key, AlertTriangle, ChevronRight, Lock, Clock, Target, Calendar
+  Key, AlertTriangle, ChevronRight, Lock, Clock, Target, Calendar,
+  Download, Settings, Eye, Sliders, FileCode, CheckCircle2, HelpCircle
 } from 'lucide-react';
 
 const DOCUMENTS_DATA = {
@@ -36,7 +37,7 @@ const DOCUMENTS_DATA = {
     subtitle: "Stage 2 Milestone — Under Active Development",
     stage: "Stage 2",
     status: "Coming Soon",
-    display: false, // Hidden until display=true
+    display: false,
     authors: [
       { name: "Ankit Rath", roll: "1024030458" },
       { name: "Manan Kapoor", roll: "1024030467" },
@@ -52,7 +53,7 @@ const DOCUMENTS_DATA = {
     subtitle: "Stage 3 Milestone — Scheduled Post-Prototype",
     stage: "Stage 3",
     status: "Coming Soon",
-    display: false, // Hidden until display=true
+    display: false,
     authors: [
       { name: "Ankit Rath", roll: "1024030458" },
       { name: "Manan Kapoor", roll: "1024030467" },
@@ -67,42 +68,246 @@ const DOCUMENTS_DATA = {
 const RAW_MARKDOWN_CONTENT = {
   project_proposal: `# PROJECT PROPOSAL: UniCore (Campus Operating Platform)
 
-**Title of Proposal:** UniCore: Centralized Campus Operating Platform & High-Concurrency Transaction Layer
+**Title of Proposal:**  
+**UniCore: Centralized Campus Operating Platform & High-Concurrency Transaction Layer**
+
+**Institutional Metadata:**  
 **Institution:** Thapar Institute of Engineering & Technology, Patiala  
-**Course:** UCS310 – Database Management Systems | Target Scale: 30,000+ Students
+**Department:** Computer Science & Engineering Department (CSED)  
+**Course:** UCS310 – Database Management Systems  
+**Target Enrollment Scale:** 30,000+ Active Students  
 
 **Project Team & Roles:**
-- Ankit Rath (1024030458) — Systems Architect & Concurrency Specialist
-- Manan Kapoor (1024030467) — Database Schema & BCNF Normalization Specialist
-- Abhinav Kumar Singh (1024030440) — API Middleware & Audit Pipeline Engineer
+- **Ankit Rath** (Roll No. 1024030458) — *Systems Architect & Concurrency Specialist*
+- **Manan Kapoor** (Roll No. 1024030467) — *Database Schema & BCNF Normalization Specialist*
+- **Abhinav Kumar Singh** (Roll No. 1024030440) — *API Middleware & PL/SQL Audit Pipeline Engineer*
+
+---
 
 ## 1. Elevator Pitch & Executive Summary
-- The Gap: Disconnected departmental silos cause severe data duplication, room double-booking race conditions during peak rushes, and zero auditability.
-- The Solution: Centralized PostgreSQL operating platform (8 BCNF schemas, 35+ tables) governed by SELECT FOR UPDATE row locks, PL/SQL triggers, and immutable JSON audit ledgers.
-- The Impact: Eliminates administrative overhead, guarantees 100% ACID safety, and achieves Time-To-Acknowledgement (TTA) <= 2 hours.
 
-## 2. SMART Objectives
-- Primary Goal: Centralized BCNF PostgreSQL operating platform for 30,000+ students with 100% ACID transaction safety.
-- Sub-Goals: BCNF normalization, SELECT FOR UPDATE row locks, fine threshold triggers, pgBench throughput evaluation.`,
+- **The Gap:** Modern educational institutions run student academics, hostel allotment, library circulation, and examination scheduling as disconnected, standalone system silos. This fragmentation creates severe data duplication, drifting records, room double-booking race conditions during peak rushes, and zero forensic auditability.
+- **The Solution:** UniCore provides a centralized, database-first operating platform built on PostgreSQL. It consolidates all institutional workflows under 8 domain schemas and 35+ Boyce-Codd Normal Form (BCNF) tables, governed by atomic row-level locks (\`SELECT FOR UPDATE\`), automated PL/SQL triggers, and immutable JSON audit ledgers.
+- **The Impact:** UniCore eliminates administrative overhead, guarantees 100% ACID transaction safety during concurrent enrollment rushes, and achieves a target Time-To-Acknowledgement (TTA) of <= 2 hours for operational requests across 30,000+ students.
 
-  prototype_proposal: `# PROTOTYPE PROPOSAL (Stage 2 - Coming Soon)`,
-  final_report: `# FINAL TECHNICAL MASTER REPORT (Stage 3 - Coming Soon)`
+---
+
+## 2. Introduction & Problem Statement
+
+### Context & Operational Relevance
+Modern university administrative workflows suffer from extreme fragmentation. Student profiles, residential hostel bed allocations, library book inventories, and exam marks are entered and managed in separate software tools. As campus enrollment scales past 30,000 students, manual inter-department coordination fails, yielding five recurring failure modes:
+
+\`\`\`
+┌──────────────────────────────────────────────────────────┐
+│             Disconnected System Silos                    │
+└───────────┬──────────────┬──────────────┬────────────────┘
+            │              │              │
+            ▼              ▼              ▼
+┌──────────────────┐┌──────────────┐┌──────────────┐┌──────────────┐
+│ Data Duplication ││Inconsistency ││ Resource     ││ Transaction  │
+│ (Address/Contact)││(Drifting Rec)││ Tracking Err ││ Hazards/Races│
+└──────────────────┘└──────────────┘└──────────────┘└──────────────┘
+\`\`\`
+
+1. **Data Duplication:** Redundant identity and address records entered separately across hostel, library, and student registrar databases.
+2. **Data Inconsistency:** Mismatched student profiles when details update in one department portal but fail to propagate to others.
+3. **Resource Tracking Errors:** Manual, error-prone tracking of bed availability, room statuses, and library book copies.
+4. **Transaction Hazards (Race Conditions):** Concurrent HTTP requests during peak room-allotment windows result in double-allocating hostel beds or overbooking exam hall seats.
+5. **Security & Audit Gaps:** Unscoped administrative permissions allow unauthorized modifications without traceable actor logs.
+
+---
+
+## 3. SMART Project Objectives
+
+\`\`\`
+  Specific ──────► Centralized PostgreSQL platform with 8 domain BCNF schemas
+  Measurable ───► Median TTA <= 2 hrs, 0 double-booking errors under load
+  Attainable ───► 12-Week milestone plan with modular database-first architecture
+  Relevant ─────► Solves campus operational fragmentation at 30k student scale
+  Time-Bound ───► Phased deliverables with week-by-week verification benchmarks
+\`\`\`
+
+### Primary Objective
+To design, implement, and benchmark a unified, BCNF-normalized PostgreSQL database operating platform for 30,000+ active students that eliminates data redundancy, guarantees ACID transaction safety during peak concurrent rushes, and records immutable audit ledgers.
+
+### Specific Sub-Goals
+1. **BCNF Schema Normalization:** Decompose 35+ relational tables across 8 domain schemas (\`Auth\`, \`Audit\`, \`Academic\`, \`Hostel\`, \`Library\`, \`Exam\`, \`Admin\`, \`Core\`) strictly into Boyce-Codd Normal Form.
+2. **Atomic Concurrency Control:** Enforce row-level locking (\`SELECT FOR UPDATE\`) and PostgreSQL advisory locks within PL/SQL stored procedures (\`hostel_allot()\`) to guarantee zero double-booking under 10,000+ concurrent requests.
+3. **Automated Business Rules:** Implement PL/SQL \`BEFORE INSERT\` triggers to block invalid operations (e.g. blocking book issuance if unpaid fines exceed Rs. 500) and \`AFTER\` triggers to emit JSON before/after state diffs to an immutable \`audit_logs\` table.
+4. **Empirical Performance Benchmarking:** Evaluate transaction throughput (TPS), latency percentiles (p95/p99), and write amplification under simulated high-concurrency loads using \`pgBench\`.
+
+---
+
+## 4. Engineering Methodology & System Architecture
+
+UniCore follows a 3-tier engineering methodology tailored for robust software systems:
+
+\`\`\`
+┌──────────────────────────────────────────────────────────┐
+│                 Tier 1: Responsive Web UI                │
+│    (Citizen/Student Portal, Staff Workflow, Admin)       │
+└────────────────────────────┬─────────────────────────────┘
+                             │ REST API (JSON / HTTPS)
+                             ▼
+┌──────────────────────────────────────────────────────────┐
+│                 Tier 2: Backend REST API                 │
+│      (Auth Middleware, RBAC Scoping, Business Logic)     │
+└────────────────────────────┬─────────────────────────────┘
+                             │ Connection Pooling (pg)
+                             ▼
+┌──────────────────────────────────────────────────────────┐
+│            Tier 3: PostgreSQL 16 System of Record        │
+│   (8 Schemas, 35+ BCNF Tables, PL/SQL Triggers, Locks)   │
+└────────────────────────────┬─────────────────────────────┘
+\`\`\`
+
+### 4.1 Module Breakdown & Domain Schematics
+- **Auth Schema:** Unified identity, \`users\` super-type entity, password hashing, RBAC junction tables (\`roles\`, \`permissions\`, \`user_roles\`, \`role_permissions\`), session revocation.
+- **Audit Schema:** Immutable forensic ledger (\`audit_logs\`), actor identity, UTC timestamps, JSON \`change_details\`, \`login_logs\`.
+- **Academic Schema:** Department hierarchy, courses, student profiles, semester enrollments, grades, dynamic SGPA functions.
+- **Hostel Schema:** Hostels, room types, bed capacities, allocations, warden assignments, maintenance work orders.
+- **Library Schema:** Publishers, categories, book titles, physical copies, member borrowing, automated fine calculation.
+- **Exam Schema:** Schedules, hall capacities, invigilator rosters, grading policies.
+- **Admin & Core Schemas:** Staff leaves, asset maintenance, geographic hierarchy (\`countries\` -> \`states\` -> \`cities\` -> \`addresses\`), global settings.
+
+### 4.2 Concurrency Safeguards & Isolation Matrix
+
+| Operational Scenario | Isolation Level | Technical Mechanism | Enforced Guarantee |
+| :--- | :--- | :--- | :--- |
+| **Hostel Bed Allotment** | \`SERIALIZABLE\` | \`SELECT FOR UPDATE\` on room row | Zero double-booking of beds |
+| **Exam Seat Registration** | \`READ COMMITTED\` | \`pg_advisory_xact_lock(exam_id)\` | Hall seat capacity never exceeded |
+| **Library Book Circulation** | \`READ COMMITTED\` | In-transaction decrement | Copy count never drops below 0 |
+| **Grade Record Updates** | \`READ COMMITTED\` | \`UPSERT\` (\`ON CONFLICT DO UPDATE\`) | Updates existing row; zero duplicate rows |
+
+---
+
+## 5. Project Timeline & Phase Deliverables
+
+| Phase / Weeks | Technical Task Focus | Key Milestone & Deliverable |
+| :--- | :--- | :--- |
+| **Weeks 1–3** | Literature Review, Domain Requirements & ER Modeling | 8-Domain ER Schematic & Proposal Approval |
+| **Weeks 4–6** | BCNF Normalization & PostgreSQL DDL Schema Setup | 35+ BCNF Tables Created with Foreign Key Constraints |
+| **Weeks 7–8** | PL/SQL Triggers, Stored Procedures & Row Locking | \`hostel_allot()\`, \`fine_block_trigger\`, \`audit_mutation()\` |
+| **Weeks 9–10** | REST API Integration & Concurrency Benchmarking | \`pgBench\` Concurrency Suite & TPS Latency Metrics |
+| **Weeks 11–12** | End-to-End System Testing & Documentation | Final Evaluation Report & Staging Bundle |
+
+---
+
+## 6. Resources & Budget
+
+- **Human Resources:**
+  - *Ankit Rath:* Concurrency control, transaction isolation, and load benchmarking.
+  - *Manan Kapoor:* Relational algebra, BCNF decomposition proofs, and schema normalization.
+  - *Abhinav Kumar Singh:* REST API middleware, RBAC security scoping, and PL/SQL audit trigger integration.
+- **Engine Availability & Infrastructure:** Mature, production-ready components are utilized (PostgreSQL 16 relational database engine, Node.js runtime, Git version control).
+- **Budget:** **No external funding required.** All development, testing, and database execution run on existing university laboratory infrastructure and local computing resources.
+
+---
+
+## 7. Risk Assessment & Mitigation Strategies
+
+| Identified Risk | Risk Impact | Proposed Mitigation Strategy |
+| :--- | :--- | :--- |
+| **High Lock Contention** | High (Transaction Retries) | Implement pessimistic \`SELECT FOR UPDATE\` under \`READ COMMITTED\` with short transaction boundaries. |
+| **Data Privacy & Scope** | Medium (Unauthorized Access) | Enforce strict RBAC permission scoping at API middleware layer and soft-delete historical preservation. |
+| **Measurement Ambiguity** | Medium (Evaluation Errors) | Instrument automated UTC timestamps in database \`AFTER\` triggers prior to execution. |`,
+
+  prototype_proposal: `# PROTOTYPE PROPOSAL: UniCore Technical Specification (Stage 2)
+
+**Status:** Locked (display: false) — Scheduled for Prototype Release Phase.`,
+  final_report: `# FINAL TECHNICAL MASTER REPORT: UniCore Evaluation (Stage 3)
+
+**Status:** Locked (display: false) — Scheduled Post-Evaluation.`
 };
 
 const RAW_LATEX_CONTENT = {
   project_proposal: `\\documentclass[11pt,a4paper]{article}
+\\usepackage[utf8]{inputenc}
+\\usepackage[margin=1in]{geometry}
 \\usepackage{hyperref}
 \\usepackage{booktabs}
+\\usepackage{enumitem}
+\\usepackage{amsmath,amssymb}
+\\usepackage{listings}
+\\usepackage{xcolor}
 
-\\title{\\textbf{UniCore: Project Proposal}}
-\\author{Ankit Rath (1024030458) \\quad Manan Kapoor (1024030467) \\quad Abhinav Kumar Singh (1024030440)}
+\\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan,
+    pdftitle={UniCore - Project Proposal},
+}
+
+\\title{\\textbf{UniCore: Centralized Campus Operating Platform \\& High-Concurrency Transaction Layer}\\\\ \\Large Project Proposal}
+\\author{\\textbf{Ankit Rath} (1024030458) \\quad \\textbf{Manan Kapoor} (1024030467) \\quad \\textbf{Abhinav Kumar Singh} (1024030440)\\\\
+\\small Department of Computer Science \\& Engineering\\\\
+\\small Thapar Institute of Engineering \\& Technology, Patiala\\\\
+\\small Course: UCS310 -- Database Management Systems}
 \\date{\\today}
 
 \\begin{document}
+
 \\maketitle
+
 \\begin{abstract}
-UniCore is a centralized, database-driven campus operating platform engineered to unify student academic records, residential hostel allotment, library asset circulation, examination processing, and administrative workflows under a single PostgreSQL system of record.
+UniCore is a centralized, database-driven campus operating platform engineered to unify student academic records, residential hostel allotment, library asset circulation, examination processing, and administrative workflows under a single PostgreSQL system of record. Decomposed into Boyce-Codd Normal Form (BCNF) across 8 domain schemas and 35+ tables, UniCore guarantees 100\\% ACID transaction safety during peak concurrent rushes via explicit row-level locking (\\texttt{SELECT FOR UPDATE}), automated PL/SQL triggers, and immutable JSON audit ledgers, targeting a Time-To-Acknowledgement (TTA) of $\\le 2$ hours across 30,000+ active students.
 \\end{abstract}
+
+\\section{Elevator Pitch}
+\\begin{itemize}[leftmargin=*]
+    \\item \\textbf{The Gap:} Modern universities run academics, hostels, library, and exams as disconnected system silos, causing severe data duplication, drifting records, room double-booking race conditions during peak rushes, and zero forensic auditability.
+    \\item \\textbf{The Solution:} UniCore provides a centralized PostgreSQL operating platform (8 BCNF schemas, 35+ tables) governed by atomic row locks (\\texttt{SELECT FOR UPDATE}), automated PL/SQL triggers, and immutable JSON audit ledgers.
+    \\item \\textbf{The Impact:} Eliminates administrative overhead, guarantees 100\\% ACID transaction safety during enrollment rushes, and achieves a target Time-To-Acknowledgement (TTA) $\\le 2$ hours across 30,000+ students.
+\\end{itemize}
+
+\\section{SMART Project Objectives}
+\\begin{enumerate}[leftmargin=*]
+    \\item \\textbf{Primary Objective:} Design, implement, and benchmark a unified BCNF PostgreSQL operating platform for 30,000+ students that eliminates data redundancy and guarantees ACID transaction safety during peak concurrent rushes.
+    \\item \\textbf{Sub-Goal 1 (BCNF Normalization):} Decompose 35+ relational tables across 8 domain schemas strictly into Boyce-Codd Normal Form.
+    \\item \\textbf{Sub-Goal 2 (Atomic Concurrency Control):} Enforce row-level locking (\\texttt{SELECT FOR UPDATE}) within stored procedures (\\texttt{hostel\\_allot()}) to guarantee zero double-booking under 10,000+ concurrent requests.
+    \\item \\textbf{Sub-Goal 3 (Automated Triggers):} Implement PL/SQL \\texttt{BEFORE INSERT} triggers blocking invalid operations (unpaid fines $>$ Rs. 500) and \\texttt{AFTER} triggers emitting JSON state diffs to an immutable \\texttt{audit\\_logs} table.
+    \\item \\textbf{Sub-Goal 4 (Concurrency Benchmarking):} Evaluate transaction throughput (TPS) and latency percentiles (p95/p99) under high-concurrency loads using \\texttt{pgBench}.
+\\end{enumerate}
+
+\\section{System Architecture \\& Concurrency Controls}
+\\begin{table}[h!]
+\\centering
+\\begin{tabular}{llll}
+\\toprule
+\\textbf{Scenario} & \\textbf{Isolation Level} & \\textbf{Mechanism} & \\textbf{Enforced Guarantee} \\\\
+\\midrule
+Hostel Bed Allotment & \\texttt{SERIALIZABLE} & \\texttt{SELECT FOR UPDATE} & Zero double-booking \\\\
+Exam Seat Registration & \\texttt{READ COMMITTED} & \\texttt{pg\\_advisory\\_xact\\_lock()} & Seat count $\\le$ Capacity \\\\
+Library Book Issue & \\texttt{READ COMMITTED} & Decrement \\texttt{total\\_copies} & Available count $\\ge 0$ \\\\
+Grade Record Updates & \\texttt{READ COMMITTED} & \\texttt{UPSERT} & Updates row without duplication \\\\
+\\bottomrule
+\\end{tabular}
+\\caption{UniCore Transaction Concurrency Matrix}
+\\end{table}
+
+\\section{Timeline \\& Milestones}
+\\begin{table}[h!]
+\\centering
+\\begin{tabular}{lll}
+\\toprule
+\\textbf{Weeks} & \\textbf{Technical Task Focus} & \\textbf{Key Deliverable} \\\\
+\\midrule
+Weeks 1--3 & Domain Requirements \\& ER Modeling & 8-Domain ER Schematic \\& Proposal Approval \\\\
+Weeks 4--6 & BCNF Normalization \\& PostgreSQL DDL & 35+ BCNF Tables Created \\\\
+Weeks 7--8 & PL/SQL Triggers \\& Row Locks & \\texttt{hostel\\_allot()}, \\texttt{fine\\_block\\_trigger} \\\\
+Weeks 9--10 & REST API Integration \\& Benchmarking & \\texttt{pgBench} Concurrency Metrics \\\\
+Weeks 11--12 & End-to-End Evaluation \\& Testing & Final Master Report \\& Staging Build \\\\
+\\bottomrule
+\\end{tabular}
+\\caption{Week-by-Week Development Schedule}
+\\end{table}
+
+\\section{Resources \\& Budget}
+\\begin{itemize}[leftmargin=*]
+    \\item \\textbf{Team Roles:} Ankit Rath (Concurrency Isolation), Manan Kapoor (BCNF Normalization), Abhinav Kumar Singh (REST API \\& PL/SQL Audit).
+    \\item \\textbf{Budget:} \\textbf{No external funding required.} All development executes on existing university laboratory infrastructure.
+\\end{itemize}
+
 \\end{document}`,
 
   prototype_proposal: `% Stage 2 Prototype Proposal (Coming Soon)`,
@@ -115,6 +320,9 @@ export default function App() {
   const [isDarkTheme, setIsDarkTheme] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [copiedFormat, setCopiedFormat] = useState(null);
+  const [fontSize, setFontSize] = useState('text-xs'); // 'text-xs' | 'text-sm' | 'text-base'
+  const [wordWrap, setWordWrap] = useState(true);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   const currentDoc = DOCUMENTS_DATA[activeDoc];
 
@@ -124,9 +332,29 @@ export default function App() {
     setTimeout(() => setCopiedFormat(null), 2000);
   };
 
+  const handleDownloadFile = (content, filename) => {
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   const handlePrint = () => {
     window.print();
   };
+
+  const activeContentText = viewFormat === 'markdown' 
+    ? RAW_MARKDOWN_CONTENT[activeDoc] 
+    : RAW_LATEX_CONTENT[activeDoc];
+
+  const activeFileName = viewFormat === 'markdown' 
+    ? currentDoc.markdownFile 
+    : currentDoc.latexFile;
 
   return (
     <div className={`min-h-screen ${isDarkTheme ? '' : 'light-theme'} transition-colors duration-300`}>
@@ -142,7 +370,7 @@ export default function App() {
                 UniCore
               </span>
               <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                Project Proposal Portal
+                Documentation Hub
               </span>
             </div>
             <p className="text-xs text-slate-400">TIET Campus Operating Platform</p>
@@ -163,7 +391,7 @@ export default function App() {
             />
           </div>
 
-          {/* Format Selector Switcher */}
+          {/* 3-Format Switcher */}
           <div className="flex items-center bg-slate-900/80 p-1 rounded-lg border border-slate-800">
             <button 
               onClick={() => setViewFormat('rendered')}
@@ -193,6 +421,15 @@ export default function App() {
             </button>
           </div>
 
+          {/* Settings Modal Button */}
+          <button 
+            onClick={() => setShowSettingsModal(!showSettingsModal)}
+            className="p-2 rounded-lg glass-panel hover:bg-slate-800/50 text-slate-300 transition-colors"
+            title="Viewer Settings"
+          >
+            <Settings className="w-4 h-4 text-slate-300" />
+          </button>
+
           {/* Theme & PDF Export */}
           <button 
             onClick={() => setIsDarkTheme(!isDarkTheme)}
@@ -212,6 +449,59 @@ export default function App() {
           </button>
         </div>
       </header>
+
+      {/* Settings Modal Bar */}
+      {showSettingsModal && (
+        <div className="no-print bg-slate-900 border-b border-slate-800 px-4 lg:px-8 py-3 text-xs text-slate-300">
+          <div className="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-4">
+            <div className="flex items-center space-x-4">
+              <span className="font-semibold text-blue-400 flex items-center space-x-1">
+                <Sliders className="w-3.5 h-3.5" />
+                <span>Viewer Settings:</span>
+              </span>
+
+              <div className="flex items-center space-x-2">
+                <span className="text-slate-400">Code Font Size:</span>
+                <button 
+                  onClick={() => setFontSize('text-xs')}
+                  className={`px-2 py-0.5 rounded ${fontSize === 'text-xs' ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400'}`}
+                >
+                  Small
+                </button>
+                <button 
+                  onClick={() => setFontSize('text-sm')}
+                  className={`px-2 py-0.5 rounded ${fontSize === 'text-sm' ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400'}`}
+                >
+                  Medium
+                </button>
+                <button 
+                  onClick={() => setFontSize('text-base')}
+                  className={`px-2 py-0.5 rounded ${fontSize === 'text-base' ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400'}`}
+                >
+                  Large
+                </button>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <span className="text-slate-400">Word Wrap:</span>
+                <button 
+                  onClick={() => setWordWrap(!wordWrap)}
+                  className={`px-2.5 py-0.5 rounded font-medium ${wordWrap ? 'bg-indigo-600 text-white' : 'bg-slate-800 text-slate-400'}`}
+                >
+                  {wordWrap ? 'Enabled (Wrap)' : 'Disabled (Scroll)'}
+                </button>
+              </div>
+            </div>
+
+            <button 
+              onClick={() => setShowSettingsModal(false)}
+              className="text-slate-400 hover:text-slate-200 text-xs"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Stage Progression Banner */}
       <div className="no-print bg-slate-900/60 border-b border-slate-800/60 px-4 lg:px-8 py-2.5">
@@ -308,7 +598,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* Section Index (Only rendered when display === true) */}
+          {/* Section Index */}
           {currentDoc.display && currentDoc.sections.length > 0 && (
             <div className="glass-panel p-5 rounded-2xl space-y-3">
               <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between">
@@ -362,45 +652,63 @@ export default function App() {
             </div>
           ) : (
             <>
-              {/* RAW FORMAT VIEWER */}
+              {/* RAW FORMAT CODE VIEWER (.MD & LaTeX) */}
               {viewFormat !== 'rendered' ? (
                 <div className="space-y-4">
-                  <div className="glass-panel p-4 rounded-xl flex items-center justify-between border-blue-500/30 bg-blue-950/20">
+                  {/* Code Header Bar */}
+                  <div className="glass-panel p-4 rounded-xl flex items-center justify-between border-blue-500/30 bg-slate-900">
                     <div className="flex items-center space-x-3">
-                      <Code2 className="w-5 h-5 text-blue-400" />
+                      <div className="w-9 h-9 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                        {viewFormat === 'markdown' ? <FileText className="w-5 h-5" /> : <Code2 className="w-5 h-5" />}
+                      </div>
                       <div>
-                        <h4 className="text-sm font-semibold text-slate-100">
-                          Source Code: {viewFormat === 'markdown' ? currentDoc.markdownFile : currentDoc.latexFile}
-                        </h4>
+                        <div className="flex items-center space-x-2">
+                          <h4 className="text-sm font-bold text-slate-100 font-mono">
+                            {activeFileName}
+                          </h4>
+                          <span className="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono">
+                            {viewFormat === 'markdown' ? 'MARKDOWN SOURCE' : 'LATEX SOURCE'}
+                          </span>
+                        </div>
                         <p className="text-xs text-slate-400">
-                          Complete proposal raw content formatted for academic compilation.
+                          Complete 100% academic source code for publication and compilation.
                         </p>
                       </div>
                     </div>
-                    <button 
-                      onClick={() => handleCopyCode(
-                        viewFormat === 'markdown' ? RAW_MARKDOWN_CONTENT[activeDoc] : RAW_LATEX_CONTENT[activeDoc],
-                        viewFormat
-                      )}
-                      className="flex items-center space-x-1.5 px-3 py-1.5 text-xs rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium transition-colors shadow-md shadow-blue-600/20"
-                    >
-                      {copiedFormat === viewFormat ? (
-                        <>
-                          <Check className="w-3.5 h-3.5 text-emerald-300" />
-                          <span>Copied!</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3.5 h-3.5" />
-                          <span>Copy Raw {viewFormat.toUpperCase()}</span>
-                        </>
-                      )}
-                    </button>
+
+                    <div className="flex items-center space-x-2">
+                      <button 
+                        onClick={() => handleDownloadFile(activeContentText, activeFileName)}
+                        className="flex items-center space-x-1.5 px-3 py-1.5 text-xs rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-colors border border-slate-700"
+                        title="Download raw file"
+                      >
+                        <Download className="w-3.5 h-3.5 text-blue-400" />
+                        <span>Download</span>
+                      </button>
+
+                      <button 
+                        onClick={() => handleCopyCode(activeContentText, viewFormat)}
+                        className="flex items-center space-x-1.5 px-3.5 py-1.5 text-xs rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors shadow-md shadow-blue-600/20"
+                      >
+                        {copiedFormat === viewFormat ? (
+                          <>
+                            <Check className="w-3.5 h-3.5 text-emerald-300" />
+                            <span>Copied Code!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3.5 h-3.5" />
+                            <span>Copy {viewFormat.toUpperCase()}</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
                   </div>
 
-                  <div className="glass-panel p-6 rounded-2xl overflow-x-auto font-mono text-xs leading-relaxed text-slate-300 bg-slate-950">
-                    <pre className="whitespace-pre-wrap">
-                      {viewFormat === 'markdown' ? RAW_MARKDOWN_CONTENT[activeDoc] : RAW_LATEX_CONTENT[activeDoc]}
+                  {/* Code Body Container */}
+                  <div className="glass-panel p-6 rounded-2xl overflow-x-auto bg-slate-950 border-slate-800">
+                    <pre className={`font-mono ${fontSize} leading-relaxed text-slate-200 ${wordWrap ? 'whitespace-pre-wrap' : 'whitespace-pre'}`}>
+                      {activeContentText}
                     </pre>
                   </div>
                 </div>
@@ -428,7 +736,7 @@ export default function App() {
                   <section id="pitch" className="glass-panel p-6 lg:p-8 rounded-2xl space-y-4">
                     <h2 className="text-xl font-bold font-heading text-slate-100 flex items-center space-x-2">
                       <Target className="w-5 h-5 text-blue-400" />
-                      <span>1. Elevator Pitch</span>
+                      <span>1. Elevator Pitch & Executive Summary</span>
                     </h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
@@ -442,7 +750,7 @@ export default function App() {
                       <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
                         <div className="text-xs font-bold text-blue-400 uppercase tracking-wide">The Software Solution</div>
                         <p className="text-xs text-slate-300 leading-relaxed">
-                          A centralized PostgreSQL operating layer (8 BCNF schemas, 35+ tables) governed by <code className="text-blue-300">SELECT FOR UPDATE</code> row locks, PL/SQL triggers, and JSON audit ledgers.
+                          A centralized PostgreSQL operating layer (8 BCNF schemas, 35+ tables) governed by <code className="text-blue-300 font-mono">SELECT FOR UPDATE</code> row locks, PL/SQL triggers, and JSON audit ledgers.
                         </p>
                       </div>
 
@@ -515,13 +823,13 @@ export default function App() {
                           <strong className="text-indigo-400">Sub-Goal 1: BCNF Normalization:</strong> Decompose 35+ tables across 8 domain schemas strictly into Boyce-Codd Normal Form.
                         </div>
                         <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-xs text-slate-300">
-                          <strong className="text-emerald-400">Sub-Goal 2: Atomic Row Locks:</strong> Enforce <code className="text-emerald-300">SELECT FOR UPDATE</code> in <code className="text-emerald-300">hostel_allot()</code> procedure.
+                          <strong className="text-emerald-400">Sub-Goal 2: Atomic Row Locks:</strong> Enforce <code className="text-emerald-300 font-mono">SELECT FOR UPDATE</code> in <code className="text-emerald-300 font-mono">hostel_allot()</code> procedure.
                         </div>
                         <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-xs text-slate-300">
                           <strong className="text-cyan-400">Sub-Goal 3: Automated Triggers:</strong> Implement fine check triggers (&gt; Rs. 500 block) and JSON audit triggers.
                         </div>
                         <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-xs text-slate-300">
-                          <strong className="text-amber-400">Sub-Goal 4: Concurrency Metrics:</strong> Measure TPS throughput and p95/p99 latency via <code className="text-amber-300">pgBench</code>.
+                          <strong className="text-amber-400">Sub-Goal 4: Concurrency Metrics:</strong> Measure TPS throughput and p95/p99 latency via <code className="text-amber-300 font-mono">pgBench</code>.
                         </div>
                       </div>
                     </div>
@@ -604,12 +912,12 @@ export default function App() {
                           <tr>
                             <td className="p-3 font-bold text-indigo-400">Weeks 7–8</td>
                             <td className="p-3">PL/SQL Triggers, Stored Procedures & Row Locking</td>
-                            <td className="p-3 text-slate-300"><code className="text-indigo-300">hostel_allot()</code>, <code className="text-indigo-300">fine_block_trigger</code></td>
+                            <td className="p-3 text-slate-300"><code className="text-indigo-300 font-mono">hostel_allot()</code>, <code className="text-indigo-300 font-mono">fine_block_trigger</code></td>
                           </tr>
                           <tr>
                             <td className="p-3 font-bold text-emerald-400">Weeks 9–10</td>
                             <td className="p-3">REST API Integration & Concurrency Benchmarking</td>
-                            <td className="p-3 text-slate-300"><code className="text-emerald-300">pgBench</code> Concurrency Metrics</td>
+                            <td className="p-3 text-slate-300"><code className="text-emerald-300 font-mono">pgBench</code> Concurrency Metrics</td>
                           </tr>
                           <tr>
                             <td className="p-3 font-bold text-cyan-400">Weeks 11–12</td>
@@ -644,6 +952,43 @@ export default function App() {
                           <strong>No external funding required.</strong> All development, testing, and database execution run on existing university laboratory infrastructure and local computing resources.
                         </p>
                       </div>
+                    </div>
+                  </section>
+
+                  {/* 7. Risks & Mitigations */}
+                  <section id="risks" className="glass-panel p-6 lg:p-8 rounded-2xl space-y-4">
+                    <h2 className="text-xl font-bold font-heading text-slate-100 flex items-center space-x-2">
+                      <ShieldCheck className="w-5 h-5 text-indigo-400" />
+                      <span>7. Risk Assessment & Mitigation Strategies</span>
+                    </h2>
+
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-xs text-left">
+                        <thead className="bg-slate-900 text-slate-300 uppercase tracking-wider font-semibold border-b border-slate-800">
+                          <tr>
+                            <th className="p-3">Identified Risk</th>
+                            <th className="p-3">Risk Impact</th>
+                            <th className="p-3">Proposed Mitigation Strategy</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-800/80 text-slate-300">
+                          <tr>
+                            <td className="p-3 font-semibold text-red-400">High Lock Contention</td>
+                            <td className="p-3 text-amber-400">High (Transaction Retries)</td>
+                            <td className="p-3 text-slate-300">Implement pessimistic SELECT FOR UPDATE under READ COMMITTED with short transaction boundaries.</td>
+                          </tr>
+                          <tr>
+                            <td className="p-3 font-semibold text-amber-400">Data Privacy & Scope</td>
+                            <td className="p-3 text-indigo-400">Medium (Unauthorized Access)</td>
+                            <td className="p-3 text-slate-300">Enforce strict RBAC permission scoping at API middleware layer and soft-delete historical preservation.</td>
+                          </tr>
+                          <tr>
+                            <td className="p-3 font-semibold text-yellow-400">Measurement Ambiguity</td>
+                            <td className="p-3 text-cyan-400">Medium (Evaluation Errors)</td>
+                            <td className="p-3 text-slate-300">Instrument automated UTC timestamps in database AFTER triggers prior to execution.</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </section>
 
