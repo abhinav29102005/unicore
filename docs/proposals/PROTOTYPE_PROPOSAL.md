@@ -1,10 +1,11 @@
 # PROTOTYPE PROPOSAL: UniCore System Architecture & Specs
 
-*(Stage 3 Proposal — Development in Progress)*
+*(Stage 2 Proposal — Development in Progress)*
 
 **Institutional Metadata:**  
 **Institution:** Thapar Institute of Engineering & Technology, Patiala  
-**Course:** UCS310 – Database Management Systems  
+**Department:** Computer Science & Engineering Department (CSED)  
+**Target Scale:** 30,000+ Active Students  
 
 **Project Team:**
 - **Ankit Rath** (Roll No. 1024030458)
@@ -33,7 +34,7 @@ UniCore Prototype is designed as a database-first 3-tier software architecture e
 ┌──────────────────────────────────────────────────────────┐
 │                PostgreSQL 16 Database                    │
 │      8 Domain Schemas | 35+ BCNF Tables | PL/SQL         │
-└──────────────────────────────────────────────────────────┘
+└────────────────────────────┴─────────────────────────────┘
 ```
 
 ---

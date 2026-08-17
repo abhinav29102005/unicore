@@ -6,19 +6,18 @@
 **Institutional Metadata:**  
 **Institution:** Thapar Institute of Engineering & Technology, Patiala  
 **Department:** Computer Science & Engineering Department (CSED)  
-**Course:** UCS310 – Database Management Systems  
 **Target Enrollment Scale:** 30,000+ Active Students  
 
-**Project Team & Roles:**
-- **Ankit Rath** (Roll No. 1024030458) — *Systems Architect & Concurrency Specialist*
-- **Manan Kapoor** (Roll No. 1024030467) — *Database Schema & BCNF Normalization Specialist*
-- **Abhinav Kumar Singh** (Roll No. 1024030440) — *API Middleware & PL/SQL Audit Pipeline Engineer*
+**Project Team:**
+- **Ankit Rath** (Roll No. 1024030458)
+- **Manan Kapoor** (Roll No. 1024030467)
+- **Abhinav Kumar Singh** (Roll No. 1024030440)
 
 ---
 
 ## 1. Elevator Pitch & Executive Summary
 
-- **The Gap:** Modern educational institutions run student academics, hostel allotment, library circulation, and examination scheduling as disconnected, standalone system silos. This fragmentation creates severe data duplication, drifting records, room double-booking race conditions during peak rushes, and zero forensic auditability.
+- **The Gap:** Modern educational institutions run student academics, residential hostel allotment, library circulation, and examination scheduling as disconnected, standalone system silos. This fragmentation creates severe data duplication, drifting records, room double-booking race conditions during peak rushes, and zero forensic auditability.
 - **The Solution:** UniCore provides a centralized, database-first operating platform built on PostgreSQL. It consolidates all institutional workflows under 8 domain schemas and 35+ Boyce-Codd Normal Form (BCNF) tables, governed by atomic row-level locks (`SELECT FOR UPDATE`), automated PL/SQL triggers, and immutable JSON audit ledgers.
 - **The Impact:** UniCore eliminates administrative overhead, guarantees 100% ACID transaction safety during concurrent enrollment rushes, and achieves a target Time-To-Acknowledgement (TTA) of $\le 2$ hours for operational requests across 30,000+ students.
 
@@ -113,6 +112,282 @@ UniCore follows a 3-tier engineering methodology tailored for robust software sy
 
 ---
 
+### 4.3 Unified Modeling Language (UML) Diagrams
+
+#### 4.3.1 UML Use Case Diagram
+The Use Case Diagram illustrates the interactions between primary system actors and core functional use cases provided by the UniCore platform:
+
+```
+                  ┌──────────────────────────────────────────────────────────────┐
+                  │                 UniCore System Boundary                      │
+                  │                                                              │
+                  │   ┌───────────────────────┐      ┌───────────────────────┐   │
+   ┌───────────┐  │   │ Enroll in Courses     │      │ Allot Hostel Bed      │   │
+   │  Student  ├──┼──►│  (Academic Schema)    │      │    (Hostel Schema)    │◄──┼────┐───────────┐
+   └───────────┘  │   └───────────────────────┘      └───────────────────────┘   │    │  Warden   │
+                  │               ▲                              ▲               │    └───────────┘
+                  │               │ <<include>>                  │ <<include>>   │
+                  │   ┌───────────┴───────────┐      ┌───────────┴───────────┐   │
+                  │   │ Verify Prerequisites  │      │ Lock Bed Capacity     │   │
+                  │   └───────────────────────┘      └───────────────────────┘   │
+                  │                                                              │
+   ┌───────────┐  │   ┌───────────────────────┐      ┌───────────────────────┐   │  ┌─────────────┐
+   │ Academic  ├──┼──►│ Post Semester Grades  │      │ Issue & Borrow Books  │◄──┼──┤ Library Off │
+   │   Staff   │  │   │  (Academic Schema)    │      │   (Library Schema)    │   │  └─────────────┘
+   └───────────┘  │   └───────────────────────┘      └───────────────────────┘   │
+                  │               │                              │               │
+                  │               │ <<include>>                  │ <<include>>   │
+                  │               ▼                              ▼               │
+                  │   ┌──────────────────────────────────────────────────────┐   │  ┌─────────────┐
+                  │   │ Emit JSON Mutation Event to Audit Logs Ledger        │◄──┼──┤ System Admin│
+                  │   │                   (Audit Schema)                     │   │  └─────────────┘
+                  │   └──────────────────────────────────────────────────────┘   │
+                  └──────────────────────────────────────────────────────────────┘
+```
+
+#### 4.3.2 UML Class & Data Entity Architecture Diagram
+The Class Diagram models the core structural entities, domain attributes, and associations within the BCNF-normalized data layer:
+
+```
+┌─────────────────────────┐       1..* ┌─────────────────────────┐
+│       User              │ ──────────►│      User_Role          │
+├─────────────────────────┤            ├─────────────────────────┤
+│ id: UUID                │            │ user_id: UUID           │
+│ email: String           │            │ role_id: UUID           │
+│ password_hash: String   │            └────────────┬────────────┘
+│ user_type: Enum         │                         │ *..1
+└──────────┬──────────────┘                         ▼
+           │ 1..1                              ┌─────────────────────────┐
+           ▼                                   │        Role             │
+┌─────────────────────────┐                    ├─────────────────────────┤
+│      Student            │                    │ id: UUID                │
+├─────────────────────────┤                    │ name: String            │
+│ id: UUID                │                    └─────────────────────────┘
+│ roll_number: String     │
+│ department_id: UUID     │
+│ current_cgpa: Numeric   │
+└──────────┬──────────────┘
+           │
+           ├─────────────────────────┬─────────────────────────┐
+           │ 1..*                    │ 1..*                    │ 1..*
+           ▼                         ▼                         ▼
+┌─────────────────────────┐ ┌─────────────────────────┐ ┌─────────────────────────┐
+│     Enrollment          │ │    Bed_Allocation       │ │     Borrow_Record       │
+├─────────────────────────┤ ├─────────────────────────┤ ├─────────────────────────┤
+│ id: UUID                │ │ id: UUID                │ │ id: UUID                │
+│ student_id: UUID        │ │ student_id: UUID        │ │ member_id: UUID         │
+│ course_id: UUID         │ │ room_id: UUID           │ │ book_copy_id: UUID      │
+│ grade: String           │ │ academic_year: String   │ │ issue_date: Timestamp   │
+└─────────────────────────┘ │ status: Enum            │ │ due_date: Timestamp     │
+                            └────────────┬────────────┘ └─────────────────────────┘
+                                         │ *..1
+                                         ▼
+                            ┌─────────────────────────┐
+                            │      Hostel_Room        │
+                            ├─────────────────────────┤
+                            │ id: UUID                │
+                            │ hostel_id: UUID         │
+                            │ room_number: String     │
+                            │ bed_count: Integer      │
+                            └─────────────────────────┘
+```
+
+#### 4.3.3 UML Sequence Diagram: Atomic Allotment & Audit Ledger Execution
+This Sequence Diagram illustrates the high-concurrency execution flow during bed allotment under pessimistic locking (`SELECT FOR UPDATE`) and automated PL/SQL trigger emission:
+
+```
+ Client App               REST API Gateway           PostgreSQL Engine        Hostel Room Row           Audit Logs Store
+     │                          │                           │                        │                         │
+     │── 1. POST /hostel/allot ─►│                           │                        │                         │
+     │   (student_id, room_id)  │── 2. Begin Transaction ───►│                        │                         │
+     │                          │   & Call hostel_allot()   │                        │                         │
+     │                          │                           │── 3. SELECT FOR UPDATE►│                         │
+     │                          │                           │   (Pessimistic Lock)   │                         │
+     │                          │                           │◄── 4. Lock Acquired ───│                         │
+     │                          │                           │                        │                         │
+     │                          │                           │── 5. Check Bed Count ──┤                         │
+     │                          │                           │   Current < Capacity?  │                         │
+     │                          │                           │                        │                         │
+     │                          │                           │── 6. INSERT Allocation ┼─────────────────────────►│
+     │                          │                           │      (Status: Active)  │                         │
+     │                          │                           │                        │  7. AFTER INSERT Trigger│
+     │                          │                           │                        │── Emits JSON State Diff─►│
+     │                          │                           │                        │   (Write Audit Log)     │
+     │                          │   8. Commit Transaction   │                        │                         │
+     │                          │◄──────────────────────────┤                        │                         │
+     │◄── 9. HTTP 201 Created ──│                           │                        │                         │
+     │   (Allocation Confirmed) │                           │                        │                         │
+```
+
+#### 4.3.4 UML Component & Deployment Diagram
+The Component & Deployment Diagram displays the physical and logical software nodes across UniCore's 3-tier architecture:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                                 Client Node / Web Browser                              │
+│  ┌──────────────────────────────────────────────────────────────────────────────────┐  │
+│  │                        React 18 Single Page Application (SPA)                     │  │
+│  │   [ Dashboard Component ]  [ Allotment Module ]  [ Audit Trail Visualizer ]    │  │
+│  └──────────────────────────────────────────┬───────────────────────────────────────┘  │
+└─────────────────────────────────────────────┼──────────────────────────────────────────┘
+                                              │ HTTPS / REST (JSON API)
+                                              ▼
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                              Application Server (Node.js Engine)                       │
+│  ┌──────────────────────────────────────────────────────────────────────────────────┐  │
+│  │                            Express API Router Gateway                            │  │
+│  │   [ Auth / JWT Middleware ]  [ RBAC Scope Validator ]  [ Connection Pool (pg) ]  │  │
+│  └──────────────────────────────────────────┬───────────────────────────────────────┘  │
+└─────────────────────────────────────────────┼──────────────────────────────────────────┘
+                                              │ Connection Pool Socket
+                                              ▼
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                              PostgreSQL 16 System of Record Server                     │
+│  ┌──────────────────────────────────────────────────────────────────────────────────┐  │
+│  │                              Database Engine Host                                │  │
+│  │  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐  ┌──────────┐  │  │
+│  │  │   Auth Schema    │  │  Hostel Schema   │  │ Academic Schema  │  │ Audit    │  │  │
+│  │  │ (35+ BCNF Tables)│  │ (hostel_allot()) │  │  (SGPA Triggers) │  │ Schema   │  │  │
+│  │  └──────────────────┘  └──────────────────┘  └──────────────────┘  └──────────┘  │  │
+│  └──────────────────────────────────────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+#### 4.3.5 UML State Machine Diagram: Bed Allocation Transaction Lifecycle
+The State Machine Diagram documents the lifecycle transitions of a hostel bed allocation:
+
+```
+ [ Initial State ]
+         │
+         ▼
+┌─────────────────┐       Request Received & Pessimistic Lock Acquired
+│    REQUESTED    ├─────────────────────────────────────────┐
+└────────┬────────┘                                         │
+         │ Capacity Available                               │ Capacity Exceeded / Fine Blocked
+         ▼                                                  ▼
+┌─────────────────┐       Student Checkout / Cancel   ┌─────────────────┐
+│     ACTIVE      ├──────────────────────────────────►│    CANCELLED    │
+└────────┬────────┘                                   └─────────────────┘
+         │ Academic Year Finished                           ▲
+         ▼                                                  │
+┌─────────────────┐                                         │
+│    COMPLETED    ├─────────────────────────────────────────┘
+└─────────────────┘
+```
+
+---
+
+### 4.4 Data Flow Diagrams (DFDs)
+
+#### 4.4.1 DFD Level 0 (Context Diagram)
+The DFD Level 0 Context Diagram establishes the macro system boundaries and key data exchanges between external campus entities and the UniCore Platform:
+
+```
+                    Student Credentials / Room Choice Requests / Fine Queries
+           ┌────────────────────────────────────────────────────────────────────────┐
+           │                                                                        │
+           ▼                                                                        │
+    ┌─────────────┐       Room Allotment Receipts, SGPA Statements, Fine Alerts     │
+    │   Student   │◄────────────────────────────────────────────────────────────────┤
+    └─────────────┘                                                                 │
+                                                                                    │
+                                                                                    │
+    ┌─────────────┐       Grade Postings, Course Offerings, Exam Roster Approvals   │
+    │  Academic   ├─────────────────────────────────────────────────────────────────┼──┐
+    │    Staff    │◄────────────────────────────────────────────────────────────────┤  │
+    └─────────────┘         Class Roster Reports, SGPA Calculation Outputs          │  │
+                                                                                       │
+                                                                                       │
+                                                                                       ▼
+    ┌─────────────┐       Hostel Capacity Updates, Room Maintenance Work Orders    ┌─────────────────────────┐
+    │   Hostel    ├───────────────────────────────────────────────────────────────►│                         │
+    │   Warden    │◄───────────────────────────────────────────────────────────────┤    UniCore Campus       │
+    └─────────────┘         Bed Occupancy Matrices, Allotment Audit Logs           │   Operating Platform    │
+                                                                                   │   (Central Layer)       │
+                                                                                   │                         │
+    ┌─────────────┐       Book Circulation Transactions, Fine Clearances           │                         │
+    │ Library Off ├───────────────────────────────────────────────────────────────►│                         │
+    │   Member    │◄───────────────────────────────────────────────────────────────┤                         │
+    └─────────────┘         Borrow Receipts, Overdue Block Notices                 └─────────────────────────┘
+                                                                                       ▲
+                                                                                       │
+    ┌─────────────┐       System Configs, RBAC Scoping, User Account Actions           │
+    │   System    ├────────────────────────────────────────────────────────────────────┘
+    │  Admin      │◄────────────────────────────────────────────────────────────────────
+    └─────────────┘         Forensic Audit Ledgers, System Event Diagnostics
+```
+
+#### 4.4.2 DFD Level 1 (System-Level Process Flow Diagram)
+The DFD Level 1 diagram details data transformation paths across the system's primary sub-processes and normalized data stores:
+
+```
+  External Entities             Sub-Processes                                       Data Stores
+  
+  ┌─────────────┐        1.0 User Authentication     ┌────────────────────────┐    ┌────────────────────────┐
+  │  Students / ├───────►  & RBAC Verification  ────►│ Verify Session & Token ├───►│  D1: Auth & Users      │
+  │    Staff    │        └──────────┬─────────────┘    └────────────────────────┘    └────────────────────────┘
+  └─────────────┘                   │
+                                    │ Authenticated Context & Scoped Perms
+                                    ▼
+                         2.0 Academic Management     ┌────────────────────────┐    ┌────────────────────────┐
+                         │   & Grade Engine       ──►│ Compute SGPA / CGPA    ├───►│  D2: Academic Records  │
+                         └──────────┬─────────────┘    └────────────────────────┘    └────────────────────────┘
+                                    │
+                                    │ Student Eligibility State
+                                    ▼
+                         3.0 Hostel Allotment        ┌────────────────────────┐    ┌────────────────────────┐
+                         │   & Lock Engine        ──►│ Pessimistic Row Lock   ├───►│  D3: Hostel Allotments │
+                         └──────────┬─────────────┘    └────────────────────────┘    └────────────────────────┘
+                                    │
+                                    │ Room Capacity & Allocation Event
+                                    ▼
+                         4.0 Library Circulation     ┌────────────────────────┐    ┌────────────────────────┐
+                         │   & Fine Control       ──►│ Fine Check (< Rs 500)  ├───►│  D4: Library Records   │
+                         └──────────┬─────────────┘    └────────────────────────┘    └────────────────────────┘
+                                    │
+                                    │ Mutation Event (State Diff)
+                                    ▼
+                         5.0 Forensic Audit          ┌────────────────────────┐    ┌────────────────────────┐
+                         │   Ledger Engine        ──►│ Write JSON Audit Record├───►│  D5: Audit Ledger Logs │
+                         └────────────────────────┘    └────────────────────────┘    └────────────────────────┘
+```
+
+#### 4.4.3 DFD Level 2 (Detailed Process Flow for High-Concurrency Bed Allotment & Audit)
+DFD Level 2 decomposes Process 3.0 (Hostel Allotment) and Process 5.0 (Forensic Audit Logging) into specific procedural steps, data checks, and locks:
+
+```
+                                    Process 3.0: Hostel Allotment Deep-Dive
+                                    
+ ┌──────────────┐    3.1 Parse Request    ┌──────────────┐    3.2 Execute Lock     ┌──────────────┐
+ │ Allotment    ├───►   & Member ID   ───►│ Check Active ├───► SELECT FOR UPDATE   ├───► Row Locked│
+ │ Request Payload   └──────────────┘    │ Fine Balance │    │ on hostel_rooms    │    in DB     │
+ └──────────────┘                         └──────┬──────┘    └──────────┬─────────┘    └──────┬───────┘
+                                                 │                      │                     │
+                                         Unpaid Fine > 500              │ Capacity Available  │
+                                                 │                      ▼                     │
+                                                 ▼             3.3 Insert Allocation          │
+                                          ┌──────────────┐        Record (Status: Active)     │
+                                          │ Abort & Return│    └──────────┬──────────────┘    │
+                                          │ Exception    │               │                    │
+                                          └──────────────┘               │                    │
+                                                                         ▼                    │
+                                                               Process 5.0: Audit Logging     │
+                                                                         │                    │
+                                                             3.4 AFTER INSERT Trigger Fires   │
+                                                             ┌───────────┴───────────┐        │
+                                                             │ Generate JSON State   │◄───────┘
+                                                             │ Diff (Old vs New)     │
+                                                             └───────────┬───────────┘
+                                                                         │
+                                                                         ▼
+                                                             ┌───────────────────────┐
+                                                             │ Append Immutable Row  │
+                                                             │ to audit_logs Store   │
+                                                             └───────────────────────┘
+```
+
+---
+
 ## 5. Project Timeline & Phase Deliverables
 
 | Phase / Weeks | Technical Task Focus | Key Milestone & Deliverable |
@@ -127,10 +402,10 @@ UniCore follows a 3-tier engineering methodology tailored for robust software sy
 
 ## 6. Resources & Budget
 
-- **Human Resources:**
-  - *Ankit Rath:* Concurrency control, transaction isolation, and load benchmarking.
-  - *Manan Kapoor:* Relational algebra, BCNF decomposition proofs, and schema normalization.
-  - *Abhinav Kumar Singh:* REST API middleware, RBAC security scoping, and PL/SQL audit trigger integration.
+- **Project Engineering Team:**
+  - Ankit Rath
+  - Manan Kapoor
+  - Abhinav Kumar Singh
 - **Engine Availability & Infrastructure:** Mature, production-ready components are utilized (PostgreSQL 16 relational database engine, Node.js runtime, Git version control).
 - **Budget:** **No external funding required.** All development, testing, and database execution run on existing university laboratory infrastructure and local computing resources.
 

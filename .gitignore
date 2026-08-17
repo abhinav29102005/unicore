@@ -13,12 +13,21 @@ yarn-error.log*
 
 # Reference Documents for PC processing only (Hidden from Git repo)
 *.pdf
+!docs/hub/public/pdfs/*.pdf
 *.docx
 *.txt
 UIMS_TECHNICAL_MASTER_REPORT.pdf
 UniCore-Campus-Operating-Platform-1.pdf
 main.pdf
 How to Draft Academic Project Proposals.docx
+
+# TeX Build Auxiliaries
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
 
 # IDE & OS Files
 .DS_Store

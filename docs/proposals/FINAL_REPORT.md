@@ -1,10 +1,11 @@
-# Technical Master Report: University Integrated Management System (UIMS) / UniCore
+# Technical Master Report: UniCore (Campus Operating Platform)
 
-*(Stage 4 Final Technical Report)*
+*(Stage 3 Technical Report)*
 
 **Institutional Metadata:**  
 **Institution:** Thapar Institute of Engineering & Technology, Patiala  
-**Course:** UCS310 – Database Management Systems | B.Tech 2nd Year, CSED  
+**Department:** Department of Computer Science & Engineering (CSED)  
+**Target Scale:** 30,000+ Active Students  
 
 **Project Team:**
 - **Ankit Rath** (Roll No. 1024030458)
@@ -17,7 +18,7 @@
 
 Modern universities manage multiple operational systems — student records, hostel allocation, library management, and examination processing. Handling these through disconnected or manual processes leads to data redundancy, inconsistency, and security risks. 
 
-This project delivers a centralized, database-driven University Integrated Management System (UIMS) built on PostgreSQL, consolidating all critical operations into a single, cohesive platform scalable to 30,000+ students with strict transactional integrity and full auditability.
+This project delivers a centralized campus operating platform (UniCore) built on PostgreSQL, consolidating all critical operations into a single, cohesive system scalable to 30,000+ students with strict transactional integrity and full auditability.
 
 ---
 
@@ -62,4 +63,4 @@ Existing fragmented systems introduce five severe operational failure modes:
 
 ## 5. Conclusion
 
-The Thapar University Integrated Management System (UIMS / UniCore) directly addresses the fundamental shortcomings of fragmented university administration through strict BCNF normalization, PL/SQL automation, and immutable audit logging.
+The UniCore Campus Operating Platform directly addresses the fundamental shortcomings of fragmented university administration through strict BCNF normalization, PL/SQL automation, and immutable audit logging.

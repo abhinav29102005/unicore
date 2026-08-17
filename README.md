@@ -1,7 +1,7 @@
 # UniCore: Campus Operating Platform
 
-**Centralized PostgreSQL Operating System for 30,000+ Students**  
-*Thapar Institute of Engineering & Technology, Patiala — UCS310 Database Management Systems*
+**Centralized Operating System for 30,000+ Students**  
+*Thapar Institute of Engineering & Technology, Patiala*
 
 ---
 

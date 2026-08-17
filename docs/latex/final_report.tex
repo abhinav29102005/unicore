@@ -9,14 +9,13 @@
     colorlinks=true,
     linkcolor=blue,
     urlcolor=cyan,
-    pdftitle={UIMS - Technical Master Report},
+    pdftitle={UniCore - Technical Master Report},
 }
 
-\title{\textbf{University Integrated Management System (UIMS)}\\ \Large Technical Project Report -- DBMS Lab}
+\title{\textbf{UniCore Campus Operating Platform}\\ \Large Technical Project Master Report}
 \author{\textbf{Ankit Rath} (1024030458) \quad \textbf{Manan Kapoor} (1024030467) \quad \textbf{Abhinav Kumar Singh} (1024030440)\\
 \small Department of Computer Science \& Engineering\\
-\small Thapar Institute of Engineering \& Technology, Patiala\\
-\small Course: UCS310 -- Database Management Systems}
+\small Thapar Institute of Engineering \& Technology, Patiala}
 \date{\today}
 
 \begin{document}
@@ -24,7 +23,7 @@
 \maketitle
 
 \begin{abstract}
-Modern universities manage student records, hostel allocation, library inventory, and examination processing through disconnected systems, leading to data redundancy, inconsistency, and security risks. This project presents the University Integrated Management System (UIMS), a centralized PostgreSQL relational platform normalized to Boyce-Codd Normal Form (BCNF) across 8 domain schemas and 35+ tables.
+Modern universities manage student records, hostel allocation, library inventory, and examination processing through disconnected systems, leading to data redundancy, inconsistency, and security risks. This project presents the UniCore Campus Operating Platform, a centralized PostgreSQL relational platform normalized to Boyce-Codd Normal Form (BCNF) across 8 domain schemas and 35+ tables.
 \end{abstract}
 
 \section{Problem Statement}
@@ -52,10 +51,10 @@ Auth & RBAC \& sessions & \texttt{users, roles, permissions, refresh\_tokens} \\
 Audit & Forensics \& mutation logs & \texttt{audit\_logs, login\_logs, system\_events} \\
 \bottomrule
 \end{tabular}
-\caption{UIMS Module Boundaries}
+\caption{UniCore Module Boundaries}
 \end{table}
 
 \section{Conclusion}
-UIMS delivers a reliable, scalable, and secure solution for university administration through strict BCNF normalization, PL/SQL automation, and immutable audit logging.
+UniCore delivers a reliable, scalable, and secure solution for university administration through strict BCNF normalization, PL/SQL automation, and immutable audit logging.
 
 \end{document}
