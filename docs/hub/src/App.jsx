@@ -22,7 +22,7 @@ const DOCUMENTS_DATA = {
     ],
     markdownFile: "PROJECT_PROPOSAL.md",
     latexFile: "project_proposal.tex",
-    pdfFile: "/pdfs/project_proposal.pdf",
+    pdfFile: "./pdfs/project_proposal.pdf",
     pdfFileName: "project_proposal.pdf",
     sections: [
       { id: "pitch", title: "1. Elevator Pitch" },
@@ -50,7 +50,7 @@ const DOCUMENTS_DATA = {
     ],
     markdownFile: "PROTOTYPE_PROPOSAL.md",
     latexFile: "prototype_proposal.tex",
-    pdfFile: "/pdfs/prototype_proposal.pdf",
+    pdfFile: "./pdfs/prototype_proposal.pdf",
     pdfFileName: "prototype_proposal.pdf",
     sections: []
   },
@@ -68,7 +68,7 @@ const DOCUMENTS_DATA = {
     ],
     markdownFile: "FINAL_REPORT.md",
     latexFile: "final_report.tex",
-    pdfFile: "/pdfs/final_report.pdf",
+    pdfFile: "./pdfs/final_report.pdf",
     pdfFileName: "final_report.pdf",
     sections: []
   }
