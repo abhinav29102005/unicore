@@ -1158,7 +1158,7 @@ export default function App() {
                           <p className="text-xs text-[var(--text-muted)]">3-Tier deployment architecture across nodes.</p>
                           <div className="p-3.5 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 text-[11px] font-mono text-red-700 dark:text-red-300 space-y-1">
                             <div>• Tier 1: React 18 SPA (Presentation Node)</div>
-                            <div>• Tier 2: Express Node.js REST API (App Server)</div>
+                            <div>• Tier 2: Tezz API Microservices (App Server)</div>
                             <div>• Tier 3: PostgreSQL 16 (8 Schemas & Triggers)</div>
                             <div>• Communication: HTTPS JSON REST & Connection Pool</div>
                           </div>

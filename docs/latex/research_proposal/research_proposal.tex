@@ -72,7 +72,7 @@
 
 This research proposal delineates the end-to-end architectural integrity of UniCore. At its core lies a strictly normalized (BCNF) PostgreSQL cluster across 8 domain schemas. This data layer guarantees absolute ACID transaction safety during catastrophic concurrent enrollment spikes by utilizing row-level locking (\texttt{SELECT FOR UPDATE}) and immutable JSON audit ledgers. 
 
-Building upon this foundation is a robust Microservices API Backend (Node.js/Express) that acts as the primary gateway, providing secure JWT-based stateless routing. The client interface is driven by a highly dynamic, component-based Frontend built with React, Vite, and Tailwind CSS. This combination delivers a highly responsive, accessible (WCAG 2.1), and visually profound web design tailored for 30,000+ active students. 
+Building upon this foundation is a robust Microservices API Backend (Tezz) that acts as the primary gateway, providing secure JWT-based stateless routing. The client interface is driven by a highly dynamic, component-based Frontend built with React, Vite, and Tailwind CSS. This combination delivers a highly responsive, accessible (WCAG 2.1), and visually profound web design tailored for 30,000+ active students. 
 
 Finally, the system's operational continuity is maintained via automated CI/CD deployment pipelines utilizing GitHub Actions. Furthermore, this proposal explores the deep ethical implications, algorithmic inclusivity, and rigorous project management frameworks ensuring the timely delivery of this monumental infrastructure. 
 
@@ -99,7 +99,7 @@ Furthermore, traditional systems suffer from poor web design and rigid user inte
 UniCore is not simply a database. It is an \textbf{Comprehensive Unified Infrastructure}. 
 \begin{itemize}
     \item \textbf{The Core Database (PostgreSQL):} Manages the fundamental state, concurrency locks, and memory (data) allocation.
-    \item \textbf{The System APIs (Node.js Backend):} Exposes system calls to the outside world, validating permissions and managing process routing.
+    \item \textbf{The System APIs (Tezz Backend):} Exposes system calls to the outside world, validating permissions and managing process routing.
     \item \textbf{The Client Interface (React Frontend):} Provides the interactive, visual interface for the user to interface with the kernel.
 \end{itemize}
 
@@ -159,8 +159,8 @@ Synchronizing the UI with the backend kernel requires robust state management. U
 
 The backend acts as the critical intermediary—the system call handler—between the React shell and the PostgreSQL kernel.
 
-\subsection{Node.js and Express Framework}
-The server infrastructure is built on \textbf{Node.js} utilizing the \textbf{Express} framework. Node.js's asynchronous, event-driven architecture is ideally suited for handling the high volume of concurrent I/O requests generated during peak campus events (e.g., thousands of simultaneous grade-checks).
+\subsection{Tezz Language}
+The server infrastructure is built on \textbf{Tezz}, a blazing-fast, transpiled language natively executed on V8 runtimes. Tezz's asynchronous, zero-overhead architecture is ideally suited for handling the high volume of concurrent I/O requests generated during peak campus events (e.g., thousands of simultaneous grade-checks).
 
 \subsection{Stateless RESTful Architecture}
 To ensure horizontal scalability, the backend is entirely stateless.
@@ -192,11 +192,11 @@ As evidenced by the \texttt{.github/workflows/deploy.yml} configuration within t
 \begin{itemize}
     \item \textbf{Continuous Integration:} Every \texttt{git push} triggers an automated workflow that installs dependencies, lints the codebase, and executes unit tests.
     \item \textbf{Automated Build:} The React/Vite frontend is automatically bundled into optimized static assets.
-    \item \textbf{Continuous Deployment (GitHub Pages \& VPS):} The documentation hub and frontend artifacts are automatically deployed to GitHub Pages, while the backend Node.js services are containerized via Docker and deployed to institutional Virtual Private Servers (VPS).
+    \item \textbf{Continuous Deployment (GitHub Pages \& VPS):} The documentation hub and frontend artifacts are automatically deployed to GitHub Pages, while the backend Tezz services are containerized via Docker and deployed to institutional Virtual Private Servers (VPS).
 \end{itemize}
 
 \subsection{Load Balancing and Containerization}
-By containerizing the Node.js backend using \textbf{Docker}, the university IT department can utilize orchestration tools (like Kubernetes or Docker Swarm) to spin up multiple instances of the backend API behind a Load Balancer (e.g., Nginx) during the "Elective Rush," dynamically scaling resources to meet demand.
+By containerizing the Tezz backend using \textbf{Docker}, the university IT department can utilize orchestration tools (like Kubernetes or Docker Swarm) to spin up multiple instances of the backend API behind a Load Balancer (e.g., Nginx) during the "Elective Rush," dynamically scaling resources to meet demand.
 
 
 \section{The Core Database: Database Design \& Normalization}
@@ -344,7 +344,7 @@ Proper management of work is critical to delivering a platform of this complexit
 \textbf{Domain} & \textbf{Technologies} & \textbf{Purpose} \\
 \midrule
 \textbf{Kernel / Database} & PostgreSQL, BCNF & ACID Transactions, Concurrency, Locking \\
-\textbf{Backend APIs} & Node.js, Express, JWT & System Call Routing, Auth, Microservices \\
+\textbf{Backend APIs} & Tezz, Node.js, JWT & System Call Routing, Auth, Microservices \\
 \textbf{Frontend Shell} & React, Vite, Tailwind CSS & User Interface, State Management, A11y \\
 \textbf{Deployment} & GitHub Actions, Docker & CI/CD Pipelines, Load Balancing \\
 \bottomrule
@@ -364,7 +364,7 @@ Finalization of the 8-Domain ER Diagrams, mapping functional dependencies, and g
 Implementation of \texttt{SELECT FOR UPDATE}, advisory locks, and PL/SQL \texttt{AFTER/BEFORE} triggers. Initial stress testing of the database utilizing pgbench.
 
 \textbf{Phase 3: API \& CI/CD DevOps}\\
-Building the Node.js REST API. Implementing JWT-based Role-Based Access Control (RBAC). Setting up the GitHub Actions deploy.yml pipeline.
+Building the Tezz REST API. Implementing JWT-based Role-Based Access Control (RBAC). Setting up the GitHub Actions deploy.yml pipeline.
 
 \textbf{Phase 4: UI, UX, Web Design, and Simulation}\\
 Finalizing the React/Tailwind interfaces. Conducting end-to-end "stampede" simulations mimicking the 30,000+ student enrollment rush. Final compilation of the Technical Master Report.
@@ -407,7 +407,7 @@ To objectively measure the success of the UniCore platform, we have defined stri
 
 The UniCore Unified Campus Infrastructure represents a critical evolutionary leap for institutional infrastructure. By rigorously applying database normalization theory (BCNF) and advanced relational concurrency controls (\texttt{SELECT FOR UPDATE}, PL/SQL triggers) at the Kernel level, UniCore eliminates the endemic issues of data fragmentation and race conditions. 
 
-Moving up the stack, the robust Node.js backend ensures secure, stateless API routing, while the highly dynamic React and Tailwind CSS frontend delivers an uncompromising, accessible user experience. The entire ecosystem is bound together by automated CI/CD deployment pipelines, ensuring continuous delivery and operational resilience. Furthermore, this proposal highlights that UniCore is not just a technical endeavor; it is an ethical one. Through unbiased algorithmic structures and stringent data privacy controls, UniCore establishes a framework that is both highly efficient and deeply equitable. The implementation of UniCore will secure the operational future of the Thapar Institute of Engineering \& Technology, serving its 30,000+ students with unprecedented speed, transparency, and reliability.
+Moving up the stack, the robust Tezz backend ensures secure, stateless API routing, while the highly dynamic React and Tailwind CSS frontend delivers an uncompromising, accessible user experience. The entire ecosystem is bound together by automated CI/CD deployment pipelines, ensuring continuous delivery and operational resilience. Furthermore, this proposal highlights that UniCore is not just a technical endeavor; it is an ethical one. Through unbiased algorithmic structures and stringent data privacy controls, UniCore establishes a framework that is both highly efficient and deeply equitable. The implementation of UniCore will secure the operational future of the Thapar Institute of Engineering \& Technology, serving its 30,000+ students with unprecedented speed, transparency, and reliability.
 
 \newpage
 \section{References}
