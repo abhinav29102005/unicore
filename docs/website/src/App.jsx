@@ -666,7 +666,7 @@ export default function App() {
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Left Sidebar */}
-        {viewFormat === 'rendered' && (<aside className="lg:col-span-3 no-print space-y-6">
+        {viewFormat === 'rendered' && (<aside className="lg:col-span-3 no-print space-y-6 sticky top-8 self-start max-h-[calc(100vh-4rem)] overflow-y-auto hidden-scrollbar">
           {/* Metadata Card */}
           <div className="glass-panel p-5 rounded-2xl space-y-4">
             <div className="flex items-center justify-between">
