@@ -886,21 +886,21 @@ export default function App() {
                     </h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
-                      <div className="p-4 rounded-xl bg-slate-900/40 border border-[var(--border-color)] space-y-2">
+                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
                         <div className="text-xs font-bold text-red-400 uppercase tracking-wide">The Operational Gap</div>
                         <p className="text-xs text-[var(--text-muted)] leading-relaxed">
                           Disconnected departmental silos cause severe data duplication, room double-booking race conditions during peak rushes, and zero forensic auditability.
                         </p>
                       </div>
 
-                      <div className="p-4 rounded-xl bg-slate-900/40 border border-[var(--border-color)] space-y-2">
+                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
                         <div className="text-xs font-bold text-red-400 uppercase tracking-wide">The Software Solution</div>
                         <p className="text-xs text-[var(--text-muted)] leading-relaxed">
                           A centralized operating platform (8 BCNF schemas, 35+ tables) governed by <code className="text-red-400 font-mono">SELECT FOR UPDATE</code> row locks, PL/SQL triggers, and JSON audit ledgers.
                         </p>
                       </div>
 
-                      <div className="p-4 rounded-xl bg-slate-900/40 border border-[var(--border-color)] space-y-2">
+                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
                         <div className="text-xs font-bold text-red-400 uppercase tracking-wide">The Measurable Impact</div>
                         <p className="text-xs text-[var(--text-muted)] leading-relaxed">
                           Eliminates administrative overhead, guarantees 100% ACID transaction safety during rushes, and achieves a target Time-To-Acknowledgement (TTA) $\le 2$ hours across 30,000+ students.
@@ -922,27 +922,27 @@ export default function App() {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div className="p-4 rounded-xl bg-slate-900/40 border border-[var(--border-color)] space-y-1">
+                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-1">
                         <div className="text-xs font-bold text-red-400">1. Data Duplication</div>
                         <p className="text-xs text-[var(--text-muted)]">Redundant address & contact records stored across hostel, library, and academic databases.</p>
                       </div>
 
-                      <div className="p-4 rounded-xl bg-slate-900/40 border border-[var(--border-color)] space-y-1">
+                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-1">
                         <div className="text-xs font-bold text-red-400">2. Data Inconsistency</div>
                         <p className="text-xs text-[var(--text-muted)]">Mismatched student profiles when details update in one portal but fail to propagate to others.</p>
                       </div>
 
-                      <div className="p-4 rounded-xl bg-slate-900/40 border border-[var(--border-color)] space-y-1">
+                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-1">
                         <div className="text-xs font-bold text-red-400">3. Resource Tracking Errors</div>
                         <p className="text-xs text-[var(--text-muted)]">Manual, error-prone tracking of bed availability, room statuses, and library book copies.</p>
                       </div>
 
-                      <div className="p-4 rounded-xl bg-slate-900/40 border border-[var(--border-color)] space-y-1">
+                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-1">
                         <div className="text-xs font-bold text-red-400">4. Transaction Hazards</div>
                         <p className="text-xs text-[var(--text-muted)]">Concurrent HTTP requests during room allotment rushes result in double-booking beds.</p>
                       </div>
 
-                      <div className="p-4 rounded-xl bg-slate-900/40 border border-[var(--border-color)] space-y-1">
+                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-1">
                         <div className="text-xs font-bold text-red-400">5. Security & Audit Gaps</div>
                         <p className="text-xs text-[var(--text-muted)]">Unscoped administrative permissions allow modifications without traceable actor logs.</p>
                       </div>
@@ -965,16 +965,16 @@ export default function App() {
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div className="p-3.5 rounded-xl bg-slate-900/40 border border-[var(--border-color)] text-xs text-[var(--text-muted)]">
+                        <div className="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] text-xs text-[var(--text-muted)]">
                           <strong className="text-red-400">Sub-Goal 1: BCNF Normalization:</strong> Decompose 35+ tables across 8 domain schemas strictly into Boyce-Codd Normal Form.
                         </div>
-                        <div className="p-3.5 rounded-xl bg-slate-900/40 border border-[var(--border-color)] text-xs text-[var(--text-muted)]">
+                        <div className="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] text-xs text-[var(--text-muted)]">
                           <strong className="text-red-400">Sub-Goal 2: Atomic Row Locks:</strong> Enforce <code className="text-red-400 font-mono">SELECT FOR UPDATE</code> in <code className="text-red-400 font-mono">hostel_allot()</code> procedure.
                         </div>
-                        <div className="p-3.5 rounded-xl bg-slate-900/40 border border-[var(--border-color)] text-xs text-[var(--text-muted)]">
+                        <div className="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] text-xs text-[var(--text-muted)]">
                           <strong className="text-red-400">Sub-Goal 3: Automated Triggers:</strong> Implement fine check triggers (&gt; Rs. 500 block) and JSON audit triggers.
                         </div>
-                        <div className="p-3.5 rounded-xl bg-slate-900/40 border border-[var(--border-color)] text-xs text-[var(--text-muted)]">
+                        <div className="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] text-xs text-[var(--text-muted)]">
                           <strong className="text-red-400">Sub-Goal 4: Concurrency Metrics:</strong> Measure TPS throughput and p95/p99 latency via <code className="text-red-400 font-mono">pgBench</code>.
                         </div>
                       </div>
@@ -999,25 +999,25 @@ export default function App() {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-[var(--border-color)] text-[var(--text-muted)]">
-                          <tr className="hover:bg-slate-900/20">
+                          <tr className="hover:bg-slate-100 dark:hover:bg-slate-900/20">
                             <td className="p-3 font-semibold text-red-400">Hostel Bed Allotment</td>
                             <td className="p-3 font-mono text-red-400">SERIALIZABLE</td>
                             <td className="p-3 font-mono text-[var(--text-muted)]">SELECT FOR UPDATE on room row</td>
                             <td className="p-3 text-red-400">Zero double-booking of beds</td>
                           </tr>
-                          <tr className="hover:bg-slate-900/20">
+                          <tr className="hover:bg-slate-100 dark:hover:bg-slate-900/20">
                             <td className="p-3 font-semibold text-red-400">Exam Seat Registration</td>
                             <td className="p-3 font-mono text-red-400">READ COMMITTED</td>
                             <td className="p-3 font-mono text-[var(--text-muted)]">pg_advisory_xact_lock(exam_id)</td>
                             <td className="p-3 text-red-400">Seat count never exceeds capacity</td>
                           </tr>
-                          <tr className="hover:bg-slate-900/20">
+                          <tr className="hover:bg-slate-100 dark:hover:bg-slate-900/20">
                             <td className="p-3 font-semibold text-red-400">Library Book Issue</td>
                             <td className="p-3 font-mono text-red-400">READ COMMITTED</td>
                             <td className="p-3 font-mono text-[var(--text-muted)]">In-transaction decrement</td>
                             <td className="p-3 text-red-400">Copy count never drops below 0</td>
                           </tr>
-                          <tr className="hover:bg-slate-900/20">
+                          <tr className="hover:bg-slate-100 dark:hover:bg-slate-900/20">
                             <td className="p-3 font-semibold text-red-400">Grade Record Updates</td>
                             <td className="p-3 font-mono text-red-400">READ COMMITTED</td>
                             <td className="p-3 font-mono text-[var(--text-muted)]">UPSERT (ON CONFLICT DO UPDATE)</td>
@@ -1047,7 +1047,7 @@ export default function App() {
 
                     <div className="space-y-6">
                       {/* Use Case */}
-                      <div className="p-5 rounded-xl bg-slate-900/40 border border-[var(--border-color)] space-y-3">
+                      <div className="p-5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-3">
                         <div className="flex items-center justify-between">
                           <h3 className="text-sm font-bold text-red-400 flex items-center space-x-2">
                             <Box className="w-4 h-4" />
@@ -1090,7 +1090,7 @@ export default function App() {
                       </div>
 
                       {/* Class Diagram */}
-                      <div className="p-5 rounded-xl bg-slate-900/40 border border-[var(--border-color)] space-y-3">
+                      <div className="p-5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-3">
                         <div className="flex items-center justify-between">
                           <h3 className="text-sm font-bold text-red-400 flex items-center space-x-2">
                             <Layers className="w-4 h-4" />
@@ -1133,7 +1133,7 @@ export default function App() {
 
                       {/* Sequence & Component Grid */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div className="p-5 rounded-xl bg-slate-900/40 border border-[var(--border-color)] space-y-3">
+                        <div className="p-5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-3">
                           <h3 className="text-sm font-bold text-red-400 flex items-center space-x-2">
                             <Activity className="w-4 h-4" />
                             <span>4.3.3 UML Sequence Diagram</span>
@@ -1150,7 +1150,7 @@ export default function App() {
                           </div>
                         </div>
 
-                        <div className="p-5 rounded-xl bg-slate-900/40 border border-[var(--border-color)] space-y-3">
+                        <div className="p-5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-3">
                           <h3 className="text-sm font-bold text-red-400 flex items-center space-x-2">
                             <Network className="w-4 h-4" />
                             <span>4.3.4 UML Component Diagram</span>
@@ -1186,7 +1186,7 @@ export default function App() {
 
                     <div className="space-y-6">
                       {/* DFD Level 0 Context */}
-                      <div className="p-5 rounded-xl bg-slate-900/40 border border-[var(--border-color)] space-y-3">
+                      <div className="p-5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-3">
                         <h3 className="text-sm font-bold text-red-400 flex items-center space-x-2">
                           <ArrowRight className="w-4 h-4" />
                           <span>4.4.1 DFD Level 0 (Context Diagram)</span>
@@ -1210,7 +1210,7 @@ export default function App() {
 
                       {/* DFD Level 1 & 2 Grid */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div className="p-5 rounded-xl bg-slate-900/40 border border-[var(--border-color)] space-y-3">
+                        <div className="p-5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-3">
                           <h3 className="text-sm font-bold text-red-400">4.4.2 DFD Level 1 (System Flow)</h3>
                           <p className="text-xs text-[var(--text-muted)]">Main process pipelines and data stores.</p>
                           <div className="space-y-2 text-xs text-[var(--text-muted)]">
@@ -1232,7 +1232,7 @@ export default function App() {
                           </div>
                         </div>
 
-                        <div className="p-5 rounded-xl bg-slate-900/40 border border-[var(--border-color)] space-y-3">
+                        <div className="p-5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-3">
                           <h3 className="text-sm font-bold text-red-400">4.4.3 DFD Level 2 (Allotment & Audit)</h3>
                           <p className="text-xs text-[var(--text-muted)]">Procedural sub-steps for bed allocation and audit log generation.</p>
                           <div className="p-3.5 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 text-[11px] font-mono text-red-300 space-y-1">
@@ -1303,7 +1303,7 @@ export default function App() {
                     </h2>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-[var(--text-muted)]">
-                      <div className="p-4 rounded-xl bg-slate-900/40 border border-[var(--border-color)] space-y-2">
+                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
                         <strong className="text-[var(--text-main)] font-semibold">Project Engineering Team:</strong>
                         <ul className="list-disc list-inside space-y-1 text-[var(--text-muted)]">
                           <li>Ankit Rath</li>
@@ -1312,7 +1312,7 @@ export default function App() {
                         </ul>
                       </div>
 
-                      <div className="p-4 rounded-xl bg-slate-900/40 border border-[var(--border-color)] space-y-2">
+                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
                         <strong className="text-[var(--text-main)] font-semibold">Infrastructure & Budget:</strong>
                         <p className="text-[var(--text-muted)] leading-relaxed">
                           <strong>No external funding required.</strong> All development, testing, and database execution run on existing university laboratory infrastructure and local computing resources.
