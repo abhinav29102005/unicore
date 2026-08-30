@@ -4,7 +4,7 @@ import {
   Sun, Moon, Printer, Copy, Check, Layers, Cpu, 
   Key, AlertTriangle, ChevronRight, Lock, Clock, Target, Calendar,
   Download, Settings, Sliders, GitBranch, Workflow, Network, Box, Activity, ArrowRight,
-  Eye, FileCode, ExternalLink, RefreshCw, Flame, Shield, ShieldAlert
+  Eye, FileCode, Maximize2, X, ExternalLink, RefreshCw, Flame, Shield, ShieldAlert
 } from 'lucide-react';
 
 const DOCUMENTS_DATA = {
@@ -551,6 +551,7 @@ export default function App() {
   const [fontSize, setFontSize] = useState('text-xs');
   const [wordWrap, setWordWrap] = useState(true);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [expandedImage, setExpandedImage] = useState(null);
 
   
   useEffect(() => {
@@ -1127,9 +1128,17 @@ export default function App() {
                           </h3>
                           <span className="text-[10px] text-[var(--text-muted)] font-mono">Domain Entities & Relations</span>
                         </div>
-                        <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto">
+                        <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto relative group">
                           <div className="w-full flex justify-center py-2">
-                            <img src="./images/class_diagram_light.png" alt="Class Diagram" className="dark:hidden max-w-full h-auto rounded-lg" />
+
+                          <button 
+                            onClick={() => setExpandedImage({light: './images/class_diagram_light.png', dark: './images/class_diagram_dark.png'})} 
+                            className="absolute top-3 right-3 p-2 bg-slate-800/60 hover:bg-red-600 rounded-lg opacity-0 group-hover:opacity-100 transition-all z-10"
+                            title="Expand Image"
+                          >
+                            <Maximize2 className="w-4 h-4 text-white" />
+                          </button>
+ <img src="./images/class_diagram_light.png" alt="Class Diagram" className="dark:hidden max-w-full h-auto rounded-lg" />
                             <img src="./images/class_diagram_dark.png" alt="Class Diagram" className="hidden dark:block max-w-full h-auto rounded-lg" />
                           </div>
                         </div>
@@ -1143,9 +1152,17 @@ export default function App() {
                             <span>4.3.3 UML Sequence Diagram</span>
                           </h3>
                           <p className="text-xs text-[var(--text-muted)]">Pessimistic lock acquisition and trigger execution flow.</p>
-                          <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto">
+                          <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto relative group">
                             <div className="w-full flex justify-center py-2">
-                              <img src="./images/seq_light.png" alt="Sequence Diagram" className="dark:hidden max-w-full h-auto rounded-lg" />
+
+                          <button 
+                            onClick={() => setExpandedImage({light: './images/seq_light.png', dark: './images/seq_dark.png'})} 
+                            className="absolute top-3 right-3 p-2 bg-slate-800/60 hover:bg-red-600 rounded-lg opacity-0 group-hover:opacity-100 transition-all z-10"
+                            title="Expand Image"
+                          >
+                            <Maximize2 className="w-4 h-4 text-white" />
+                          </button>
+ <img src="./images/seq_light.png" alt="Sequence Diagram" className="dark:hidden max-w-full h-auto rounded-lg" />
                               <img src="./images/seq_dark.png" alt="Sequence Diagram" className="hidden dark:block max-w-full h-auto rounded-lg" />
                             </div>
                           </div>
@@ -1157,9 +1174,17 @@ export default function App() {
                             <span>4.3.4 UML Component Diagram</span>
                           </h3>
                           <p className="text-xs text-[var(--text-muted)]">3-Tier deployment architecture across nodes.</p>
-                          <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto">
+                          <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto relative group">
                             <div className="w-full flex justify-center py-2">
-                              <img src="./images/comp_light.png" alt="Component Diagram" className="dark:hidden max-w-full h-auto rounded-lg" />
+
+                          <button 
+                            onClick={() => setExpandedImage({light: './images/comp_light.png', dark: './images/comp_dark.png'})} 
+                            className="absolute top-3 right-3 p-2 bg-slate-800/60 hover:bg-red-600 rounded-lg opacity-0 group-hover:opacity-100 transition-all z-10"
+                            title="Expand Image"
+                          >
+                            <Maximize2 className="w-4 h-4 text-white" />
+                          </button>
+ <img src="./images/comp_light.png" alt="Component Diagram" className="dark:hidden max-w-full h-auto rounded-lg" />
                               <img src="./images/comp_dark.png" alt="Component Diagram" className="hidden dark:block max-w-full h-auto rounded-lg" />
                             </div>
                           </div>
@@ -1195,9 +1220,17 @@ export default function App() {
                         <p className="text-xs text-[var(--text-muted)]">
                           Establishes external entities (Students, Faculty, Wardens, Library Staff, Admins) and boundary data flows.
                         </p>
-                        <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto">
+                        <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto relative group">
                           <div className="w-full flex justify-center py-2">
-                            <img src="./images/dfd0_light.png" alt="DFD Level 0" className="dark:hidden max-w-full h-auto rounded-lg" />
+
+                          <button 
+                            onClick={() => setExpandedImage({light: './images/dfd0_light.png', dark: './images/dfd0_dark.png'})} 
+                            className="absolute top-3 right-3 p-2 bg-slate-800/60 hover:bg-red-600 rounded-lg opacity-0 group-hover:opacity-100 transition-all z-10"
+                            title="Expand Image"
+                          >
+                            <Maximize2 className="w-4 h-4 text-white" />
+                          </button>
+ <img src="./images/dfd0_light.png" alt="DFD Level 0" className="dark:hidden max-w-full h-auto rounded-lg" />
                             <img src="./images/dfd0_dark.png" alt="DFD Level 0" className="hidden dark:block max-w-full h-auto rounded-lg" />
                           </div>
                         </div>
@@ -1208,9 +1241,17 @@ export default function App() {
                         <div className="p-5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-3">
                           <h3 className="text-sm font-bold text-red-600 dark:text-red-400">4.4.2 DFD Level 1 (System Flow)</h3>
                           <p className="text-xs text-[var(--text-muted)]">Main process pipelines and data stores.</p>
-                          <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto">
+                          <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto relative group">
                             <div className="w-full flex justify-center py-2">
-                              <img src="./images/dfd1_light.png" alt="DFD Level 1" className="dark:hidden max-w-full h-auto rounded-lg" />
+
+                          <button 
+                            onClick={() => setExpandedImage({light: './images/dfd1_light.png', dark: './images/dfd1_dark.png'})} 
+                            className="absolute top-3 right-3 p-2 bg-slate-800/60 hover:bg-red-600 rounded-lg opacity-0 group-hover:opacity-100 transition-all z-10"
+                            title="Expand Image"
+                          >
+                            <Maximize2 className="w-4 h-4 text-white" />
+                          </button>
+ <img src="./images/dfd1_light.png" alt="DFD Level 1" className="dark:hidden max-w-full h-auto rounded-lg" />
                               <img src="./images/dfd1_dark.png" alt="DFD Level 1" className="hidden dark:block max-w-full h-auto rounded-lg" />
                             </div>
                           </div>
@@ -1390,6 +1431,26 @@ export default function App() {
         <p>UniCore — Thapar Institute of Engineering & Technology, Patiala</p>
         <p className="font-mono text-[11px] text-[var(--text-muted)] opacity-70">Built with React, Vite, Tailwind CSS, & GitHub Pages</p>
       </footer>
+
+      {/* Fullscreen Image Modal */}
+      {expandedImage && (
+        <div 
+          className="fixed inset-0 z-[100] bg-slate-900/95 backdrop-blur-md flex items-center justify-center p-4 sm:p-8 cursor-zoom-out" 
+          onClick={() => setExpandedImage(null)}
+        >
+          <button 
+            className="absolute top-6 right-6 p-3 bg-slate-800 hover:bg-red-600 rounded-xl text-white transition-colors shadow-2xl z-50 cursor-pointer" 
+            onClick={() => setExpandedImage(null)}
+            title="Close Expanded View"
+          >
+            <X className="w-6 h-6" />
+          </button>
+          <div className="relative max-w-[95vw] max-h-[90vh] w-full flex items-center justify-center cursor-default" onClick={e => e.stopPropagation()}>
+            <img src={expandedImage.light} className="dark:hidden max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl border border-slate-700" alt="Expanded Light" />
+            <img src={expandedImage.dark} className="hidden dark:block max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl border border-slate-700" alt="Expanded Dark" />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
