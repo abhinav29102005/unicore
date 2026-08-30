@@ -28,12 +28,13 @@ const DOCUMENTS_DATA = {
       { id: "pitch", title: "1. Elevator Pitch" },
       { id: "intro", title: "2. Introduction & Problem" },
       { id: "objectives", title: "3. SMART Objectives" },
-      { id: "methodology", title: "4. System Architecture" },
+      { id: "methodology", title: "4. Architecture" },
       { id: "uml", title: "4.3 UML Diagrams" },
       { id: "dfd", title: "4.4 Data Flow Diagrams" },
-      { id: "timeline", title: "5. Timeline & Milestones" },
-      { id: "resources", title: "6. Resources & Budget" },
-      { id: "risks", title: "7. Risks & Mitigations" }
+      { id: "ethics", title: "5. Ethical Implications" },
+      { id: "management", title: "6. Work Management" },
+      { id: "evaluation", title: "7. Evaluation Metrics" },
+      { id: "risks", title: "8. Risk Management" }
     ]
   },
   prototype_proposal: {
@@ -665,7 +666,7 @@ export default function App() {
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Left Sidebar */}
-        {viewFormat !== 'rendered' && (<aside className="lg:col-span-3 no-print space-y-6">
+        {viewFormat === 'rendered' && (<aside className="lg:col-span-3 no-print space-y-6">
           {/* Metadata Card */}
           <div className="glass-panel p-5 rounded-2xl space-y-4">
             <div className="flex items-center justify-between">
@@ -722,7 +723,7 @@ export default function App() {
         </aside>)}
 
         {/* Right Main Content */}
-        <main className={`space-y-8 ${viewFormat === 'rendered' ? 'lg:col-span-12' : 'lg:col-span-9'}`}>
+        <main className={`space-y-8 ${viewFormat !== 'rendered' ? 'lg:col-span-12' : 'lg:col-span-9'}`}>
           
           {!currentDoc.display ? (
             <div className="glass-panel p-12 rounded-3xl text-center space-y-6 border-red-200 dark:border-red-500/20 bg-gradient-to-b from-slate-100 dark:from-slate-900 via-slate-100 dark:via-slate-900 to-red-100 dark:to-red-950/10">
@@ -878,17 +879,7 @@ export default function App() {
                     </div>
                   </div>
 
-                                    {/* Sticky Table of Contents for Full-Width Mode */}
-                  <div className="sticky top-20 z-40 bg-slate-100/90 dark:bg-slate-950/90 backdrop-blur-md p-3 rounded-2xl border border-[var(--border-color)] shadow-sm hidden md:flex items-center justify-center space-x-6 overflow-x-auto whitespace-nowrap mb-8">
-                    <a href="#pitch" className="text-xs font-bold text-[var(--text-muted)] hover:text-red-600 dark:hover:text-red-400 transition-colors">1. Pitch</a>
-                    <a href="#intro" className="text-xs font-bold text-[var(--text-muted)] hover:text-red-600 dark:hover:text-red-400 transition-colors">2. Problem</a>
-                    <a href="#objectives" className="text-xs font-bold text-[var(--text-muted)] hover:text-red-600 dark:hover:text-red-400 transition-colors">3. Objectives</a>
-                    <a href="#methodology" className="text-xs font-bold text-[var(--text-muted)] hover:text-red-600 dark:hover:text-red-400 transition-colors">4. Architecture</a>
-                    <a href="#ethics" className="text-xs font-bold text-[var(--text-muted)] hover:text-red-600 dark:hover:text-red-400 transition-colors">5. Ethics</a>
-                    <a href="#management" className="text-xs font-bold text-[var(--text-muted)] hover:text-red-600 dark:hover:text-red-400 transition-colors">6. Management</a>
-                    <a href="#evaluation" className="text-xs font-bold text-[var(--text-muted)] hover:text-red-600 dark:hover:text-red-400 transition-colors">7. Evaluation</a>
-                    <a href="#risks" className="text-xs font-bold text-[var(--text-muted)] hover:text-red-600 dark:hover:text-red-400 transition-colors">8. Risks</a>
-                  </div>
+                                    
 
                   {/* 1. Elevator Pitch */}
                   <section id="pitch" className="glass-panel p-6 lg:p-10 rounded-3xl space-y-8 bg-gradient-to-br from-red-50 dark:from-red-950/20 to-slate-50 dark:to-slate-900 border-red-200 dark:border-red-500/20">
