@@ -26,7 +26,7 @@ function App() {
             href="/unicore/docs/"
             className="inline-flex items-center space-x-2 px-8 py-4 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-lg transition-all shadow-lg shadow-red-600/30 hover:shadow-red-600/50 transform hover:-translate-y-0.5"
           >
-            <span>Go to Documentation Hub</span>
+            <span>Go to Documentation</span>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
