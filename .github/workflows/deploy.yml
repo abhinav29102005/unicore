@@ -32,18 +32,18 @@ jobs:
 
       - name: Install Documentation Hub Dependencies
         run: |
-          cd docs/hub
+          cd docs/website
           npm install
 
       - name: Build Web Documentation Site
         run: |
-          cd docs/hub
+          cd docs/website
           npm run build
 
       - name: Upload GitHub Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './docs/hub/dist'
+          path: './docs/website/dist'
 
   deploy:
     runs-on: ubuntu-latest
