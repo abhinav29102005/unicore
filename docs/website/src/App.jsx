@@ -96,7 +96,7 @@ const RAW_MARKDOWN_CONTENT = {
 ## 1. Elevator Pitch & Executive Summary
 
 - **The Gap:** Modern educational institutions run student academics, hostel allotment, library circulation, and examination scheduling as disconnected, standalone system silos. This fragmentation creates severe data duplication, drifting records, room double-booking race conditions during peak rushes, and zero forensic auditability.
-- **The Solution:** A centralized operating platform (8 BCNF schemas, 35+ tables) governed by `SELECT FOR UPDATE` row locks, PL/SQL triggers, and JSON audit ledgers.
+- **The Solution:** A centralized operating platform (8 BCNF schemas, 35+ tables) governed by \`SELECT FOR UPDATE\` row locks, PL/SQL triggers, and JSON audit ledgers.
 - **The Impact:** Eliminates administrative overhead, guarantees 100% ACID transaction safety during rushes, and achieves a target Time-To-Acknowledgement (TTA) <= 2 hours across 30,000+ students.
 
 ---
@@ -118,9 +118,9 @@ Five recurring operational failure modes in multi-tier administrative software:
 To design, implement, and benchmark a unified BCNF PostgreSQL operating platform for 30,000+ active students that eliminates data redundancy, guarantees ACID transaction safety during peak concurrent rushes, and records immutable audit ledgers.
 
 - **Sub-Goal 1:** BCNF Normalization (Decompose 35+ tables across 8 schemas).
-- **Sub-Goal 2:** Atomic Row Locks (Enforce `SELECT FOR UPDATE` in allotment procedures).
+- **Sub-Goal 2:** Atomic Row Locks (Enforce \`SELECT FOR UPDATE\` in allotment procedures).
 - **Sub-Goal 3:** Automated Triggers (Implement fine check triggers and JSON audit triggers).
-- **Sub-Goal 4:** Concurrency Metrics (Measure TPS throughput and latency via `pgBench`).
+- **Sub-Goal 4:** Concurrency Metrics (Measure TPS throughput and latency via \`pgBench\`).
 
 ---
 
@@ -619,6 +619,20 @@ export default function App() {
         {/* Right Controls */}
         <div className="flex items-center space-x-3">
           
+          
+          {/* Document Switcher */}
+          <div className="flex items-center">
+            <select
+              value={activeDoc}
+              onChange={(e) => setActiveDoc(e.target.value)}
+              className="bg-slate-100 dark:bg-slate-900/80 text-xs font-semibold px-3 py-2 rounded-xl border border-[var(--border-color)] text-[var(--text-main)] outline-none cursor-pointer focus:border-red-400 transition-colors"
+            >
+              <option value="project_proposal">Project Proposal (Stage 1)</option>
+              <option value="prototype_proposal">Prototype Proposal (Stage 2)</option>
+              <option value="final_report">Final Master Report (Stage 3)</option>
+            </select>
+          </div>
+
           {/* Format Switcher */}
           <div className="flex items-center bg-slate-100 dark:bg-slate-900/80 p-1 rounded-xl border border-[var(--border-color)]">
             <button 
