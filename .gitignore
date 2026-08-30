@@ -13,7 +13,7 @@ yarn-error.log*
 
 # Reference Documents for PC processing only (Hidden from Git repo)
 *.pdf
-!docs/hub/public/pdfs/*.pdf
+!docs/website/public/pdfs/*.pdf
 *.docx
 *.txt
 UIMS_TECHNICAL_MASTER_REPORT.pdf
