@@ -1099,35 +1099,10 @@ export default function App() {
                           <span className="text-[10px] text-[var(--text-muted)] font-mono">Domain Entities & Relations</span>
                         </div>
                         <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto">
-                          <pre className="font-mono text-[11px] text-red-700 dark:text-red-300 leading-relaxed whitespace-pre">
-{`┌─────────────────────────┐       1..* ┌─────────────────────────┐
-│       User              │ ──────────►│      User_Role          │
-├─────────────────────────┤            ├─────────────────────────┤
-│ id: UUID                │            │ user_id: UUID           │
-│ email: String           │            │ role_id: UUID           │
-│ user_type: Enum         │            └────────────┬────────────┘
-└──────────┬──────────────┘                         │ *..1 -> Role (id, name)
-           │ 1..1
-           ▼
-┌─────────────────────────┐
-│      Student            │
-├─────────────────────────┤
-│ id: UUID                │
-│ roll_number: String     │
-│ current_cgpa: Numeric   │
-└──────────┬──────────────┘
-           │ 1..*
-           ├─────────────────────────┬─────────────────────────┐
-           ▼                         ▼                         ▼
-┌─────────────────────────┐ ┌─────────────────────────┐ ┌─────────────────────────┐
-│     Enrollment          │ │    Bed_Allocation       │ │     Borrow_Record       │
-├─────────────────────────┤ ├─────────────────────────┤ ├─────────────────────────┤
-│ id: UUID                │ │ id: UUID                │ │ id: UUID                │
-│ student_id: UUID        │ │ student_id: UUID        │ │ member_id: UUID         │
-│ course_id: UUID         │ │ room_id: UUID           │ │ book_copy_id: UUID      │
-│ grade: String           │ │ status: Enum            │ │ due_date: Timestamp     │
-└─────────────────────────┘ └─────────────────────────┘ └─────────────────────────┘`}
-                          </pre>
+                          <div className="w-full flex justify-center py-2">
+                            <img src="/images/class_diagram_light.png" alt="Class Diagram" className="dark:hidden max-w-full h-auto rounded-lg" />
+                            <img src="/images/class_diagram_dark.png" alt="Class Diagram" className="hidden dark:block max-w-full h-auto rounded-lg" />
+                          </div>
                         </div>
                       </div>
 
