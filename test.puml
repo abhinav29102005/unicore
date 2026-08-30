@@ -1,8 +1,0 @@
-@startuml
-left to right direction
-actor "Student" as student
-rectangle "System" {
-  usecase "Enroll" as enroll
-}
-student -- enroll
-@enduml
