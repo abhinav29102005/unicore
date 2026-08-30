@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Database, ShieldCheck, FileText, Code2, Search, 
   Sun, Moon, Printer, Copy, Check, Layers, Cpu, 
@@ -11,7 +11,7 @@ const DOCUMENTS_DATA = {
   project_proposal: {
     id: "project_proposal",
     title: "UniCore: Project Proposal",
-    subtitle: "Centralized Campus Operating Platform & High-Concurrency Transaction Layer",
+    subtitle: "High-Concurrency Transaction Layer",
     stage: "Stage 1 Milestone",
     status: "Active Proposal",
     display: true,
@@ -75,10 +75,10 @@ const DOCUMENTS_DATA = {
 };
 
 const RAW_MARKDOWN_CONTENT = {
-  project_proposal: `# PROJECT PROPOSAL: UniCore (Campus Operating Platform)
+  project_proposal: `# PROJECT PROPOSAL: UniCore
 
 **Title of Proposal:**  
-**UniCore: Centralized Campus Operating Platform & High-Concurrency Transaction Layer**
+**UniCore: High-Concurrency Transaction Layer**
 
 **Institutional Metadata:**  
 **Institution:** Thapar Institute of Engineering & Technology, Patiala  
@@ -183,7 +183,7 @@ Includes DFD Level 0 Context Diagram, DFD Level 1 System Flow, and DFD Level 2 D
 - **Manan Kapoor** (Roll No. 1024030467)
 - **Abhinav Kumar Singh** (Roll No. 1024030440)`,
 
-  final_report: `# Technical Master Report: UniCore (Campus Operating Platform)
+  final_report: `# Technical Master Report: UniCore
 
 *(Stage 3 Technical Report)*
 
@@ -216,7 +216,7 @@ const RAW_LATEX_CONTENT = {
     pdftitle={UniCore - Project Proposal},
 }
 
-\\title{\\textbf{UniCore: Centralized Campus Operating Platform \\& High-Concurrency Transaction Layer}\\\\ \\Large Project Proposal}
+\\title{\\textbf{UniCore: Centralized System \\& High-Concurrency Transaction Layer}\\\\ \\Large Project Proposal}
 \\author{\\textbf{Ankit Rath} (1024030458) \\quad \\textbf{Manan Kapoor} (1024030467) \\quad \\textbf{Abhinav Kumar Singh} (1024030440)\\\\
 \\small Department of Computer Science \\& Engineering\\\\
 \\small Thapar Institute of Engineering \\& Technology, Patiala}
@@ -268,7 +268,7 @@ function FormattedMarkdownView({ docId }) {
         <div className="border-b border-[var(--border-color)] pb-6 space-y-2">
           <span className="text-xs font-mono text-red-400 uppercase tracking-widest">Document Title</span>
           <h1 className="text-2xl font-extrabold font-heading">
-            UniCore: Centralized Campus Operating Platform & High-Concurrency Transaction Layer
+            UniCore: High-Concurrency Transaction Layer
           </h1>
           <div className="flex flex-wrap gap-4 text-xs text-[var(--text-muted)] pt-2 font-mono">
             <div><strong>Institution:</strong> Thapar Institute of Engineering & Technology, Patiala</div>
@@ -369,7 +369,7 @@ function FormattedLaTeXView({ docId }) {
         {/* Paper Title & Authors Block */}
         <div className="text-center space-y-3 border-b border-[var(--border-color)] pb-8">
           <h1 className="text-2xl sm:text-3xl font-extrabold font-serif tracking-tight leading-snug">
-            UniCore: Centralized Campus Operating Platform & High-Concurrency Transaction Layer
+            UniCore: High-Concurrency Transaction Layer
           </h1>
           <div className="text-sm font-medium text-red-400 font-mono">
             Ankit Rath (1024030458) &nbsp;•&nbsp; Manan Kapoor (1024030467) &nbsp;•&nbsp; Abhinav Kumar Singh (1024030440)
@@ -542,7 +542,17 @@ export default function App() {
   const [wordWrap, setWordWrap] = useState(true);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
 
+  
+  useEffect(() => {
+    if (isDarkTheme) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkTheme]);
+
   const currentDoc = DOCUMENTS_DATA[activeDoc];
+
 
   const handleCopyCode = (text, formatName) => {
     navigator.clipboard.writeText(text);
@@ -575,7 +585,7 @@ export default function App() {
     : currentDoc.latexFile;
 
   return (
-    <div className={`min-h-screen ${isDarkTheme ? 'dark' : ''} transition-colors duration-300`}>
+    <div className={`min-h-screen ${''} transition-colors duration-300`}>
       
       {/* Top Navbar */}
       <header className="sticky top-0 z-50 glass-nav no-print px-4 lg:px-8 py-3 flex items-center justify-between flex-wrap gap-4">
@@ -587,14 +597,12 @@ export default function App() {
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="font-extrabold text-lg tracking-tight font-heading bg-clip-text text-transparent bg-gradient-to-r from-red-400 via-red-300 to-red-400">
+              <span className="font-extrabold text-2xl tracking-tight font-heading bg-clip-text text-transparent bg-gradient-to-r from-red-500 via-red-400 to-red-600">
                 UniCore
               </span>
-              <span className="text-[10px] px-2 py-0.5 rounded-full font-medium bg-red-500/10 text-red-400 border border-red-500/20">
-                Documentation Hub
-              </span>
+              
             </div>
-            <p className="text-[11px] text-[var(--text-muted)]">TIET Campus Operating Platform</p>
+            
           </div>
         </div>
 
@@ -862,7 +870,7 @@ export default function App() {
                         <span>Thapar Institute of Engineering & Technology | CSED</span>
                       </div>
                       <h1 className="text-3xl lg:text-4xl font-extrabold text-[var(--text-main)] font-heading tracking-tight leading-tight">
-                        UniCore: Centralized Campus Operating Platform & High-Concurrency Transaction Layer
+                        UniCore: High-Concurrency Transaction Layer
                       </h1>
                       <p className="text-[var(--text-muted)] text-sm leading-relaxed max-w-3xl">
                         A centralized campus operating platform that unifies student academic records, residential hostel allotment, library circulation, and examination processing under one system of record — built for strict transactional integrity, BCNF normalization, and scale to 30,000+ students.
