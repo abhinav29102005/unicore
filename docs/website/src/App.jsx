@@ -4,7 +4,7 @@ import {
   Sun, Moon, Printer, Copy, Check, Layers, Cpu, 
   Key, AlertTriangle, ChevronRight, Lock, Clock, Target, Calendar,
   Download, Settings, Sliders, GitBranch, Workflow, Network, Box, Activity, ArrowRight,
-  Eye, FileCode, ExternalLink, RefreshCw
+  Eye, FileCode, ExternalLink, RefreshCw, Flame, Shield, ShieldAlert
 } from 'lucide-react';
 
 const DOCUMENTS_DATA = {
