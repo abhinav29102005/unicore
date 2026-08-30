@@ -22,7 +22,7 @@ const DOCUMENTS_DATA = {
     ],
     markdownFile: "PROJECT_PROPOSAL.md",
     latexFile: "project_proposal.tex",
-    pdfFile: "/unicore/docs/pdfs/project_proposal.pdf",
+    pdfFile: "./pdfs/project_proposal.pdf",
     pdfFileName: "project_proposal.pdf",
     sections: [
       { id: "pitch", title: "1. Elevator Pitch" },
@@ -51,7 +51,7 @@ const DOCUMENTS_DATA = {
     ],
     markdownFile: "PROTOTYPE_PROPOSAL.md",
     latexFile: "prototype_proposal.tex",
-    pdfFile: "/unicore/docs/pdfs/prototype_proposal.pdf",
+    pdfFile: "./pdfs/prototype_proposal.pdf",
     pdfFileName: "prototype_proposal.pdf",
     sections: []
   },
@@ -69,7 +69,7 @@ const DOCUMENTS_DATA = {
     ],
     markdownFile: "FINAL_REPORT.md",
     latexFile: "final_report.tex",
-    pdfFile: "/unicore/docs/pdfs/final_report.pdf",
+    pdfFile: "./pdfs/final_report.pdf",
     pdfFileName: "final_report.pdf",
     sections: []
   }
@@ -1129,8 +1129,8 @@ export default function App() {
                         </div>
                         <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto">
                           <div className="w-full flex justify-center py-2">
-                            <img src="/unicore/docs/images/class_diagram_light.png" alt="Class Diagram" className="dark:hidden max-w-full h-auto rounded-lg" />
-                            <img src="/unicore/docs/images/class_diagram_dark.png" alt="Class Diagram" className="hidden dark:block max-w-full h-auto rounded-lg" />
+                            <img src="./images/class_diagram_light.png" alt="Class Diagram" className="dark:hidden max-w-full h-auto rounded-lg" />
+                            <img src="./images/class_diagram_dark.png" alt="Class Diagram" className="hidden dark:block max-w-full h-auto rounded-lg" />
                           </div>
                         </div>
                       </div>
@@ -1145,8 +1145,8 @@ export default function App() {
                           <p className="text-xs text-[var(--text-muted)]">Pessimistic lock acquisition and trigger execution flow.</p>
                           <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto">
                             <div className="w-full flex justify-center py-2">
-                              <img src="/unicore/docs/images/seq_light.png" alt="Sequence Diagram" className="dark:hidden max-w-full h-auto rounded-lg" />
-                              <img src="/unicore/docs/images/seq_dark.png" alt="Sequence Diagram" className="hidden dark:block max-w-full h-auto rounded-lg" />
+                              <img src="./images/seq_light.png" alt="Sequence Diagram" className="dark:hidden max-w-full h-auto rounded-lg" />
+                              <img src="./images/seq_dark.png" alt="Sequence Diagram" className="hidden dark:block max-w-full h-auto rounded-lg" />
                             </div>
                           </div>
                         </div>
@@ -1159,8 +1159,8 @@ export default function App() {
                           <p className="text-xs text-[var(--text-muted)]">3-Tier deployment architecture across nodes.</p>
                           <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto">
                             <div className="w-full flex justify-center py-2">
-                              <img src="/unicore/docs/images/comp_light.png" alt="Component Diagram" className="dark:hidden max-w-full h-auto rounded-lg" />
-                              <img src="/unicore/docs/images/comp_dark.png" alt="Component Diagram" className="hidden dark:block max-w-full h-auto rounded-lg" />
+                              <img src="./images/comp_light.png" alt="Component Diagram" className="dark:hidden max-w-full h-auto rounded-lg" />
+                              <img src="./images/comp_dark.png" alt="Component Diagram" className="hidden dark:block max-w-full h-auto rounded-lg" />
                             </div>
                           </div>
                         </div>
@@ -1197,8 +1197,8 @@ export default function App() {
                         </p>
                         <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto">
                           <div className="w-full flex justify-center py-2">
-                            <img src="/unicore/docs/images/dfd0_light.png" alt="DFD Level 0" className="dark:hidden max-w-full h-auto rounded-lg" />
-                            <img src="/unicore/docs/images/dfd0_dark.png" alt="DFD Level 0" className="hidden dark:block max-w-full h-auto rounded-lg" />
+                            <img src="./images/dfd0_light.png" alt="DFD Level 0" className="dark:hidden max-w-full h-auto rounded-lg" />
+                            <img src="./images/dfd0_dark.png" alt="DFD Level 0" className="hidden dark:block max-w-full h-auto rounded-lg" />
                           </div>
                         </div>
                       </div>
@@ -1210,8 +1210,8 @@ export default function App() {
                           <p className="text-xs text-[var(--text-muted)]">Main process pipelines and data stores.</p>
                           <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto">
                             <div className="w-full flex justify-center py-2">
-                              <img src="/unicore/docs/images/dfd1_light.png" alt="DFD Level 1" className="dark:hidden max-w-full h-auto rounded-lg" />
-                              <img src="/unicore/docs/images/dfd1_dark.png" alt="DFD Level 1" className="hidden dark:block max-w-full h-auto rounded-lg" />
+                              <img src="./images/dfd1_light.png" alt="DFD Level 1" className="dark:hidden max-w-full h-auto rounded-lg" />
+                              <img src="./images/dfd1_dark.png" alt="DFD Level 1" className="hidden dark:block max-w-full h-auto rounded-lg" />
                             </div>
                           </div>
                         </div>
