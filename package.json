@@ -4,14 +4,14 @@
   "private": true,
   "description": "UniCore: Centralized Campus Operating Platform Mono-repo",
   "workspaces": [
-    "docs/hub",
+    "docs/website",
     "frontend",
     "backend"
   ],
   "scripts": {
-    "dev:docs": "npm run dev --prefix docs/hub",
-    "build:docs": "npm run build --prefix docs/hub",
-    "dev": "npm run dev --prefix docs/hub",
-    "build": "npm run build --prefix docs/hub"
+    "dev:docs": "npm run dev --prefix docs/website",
+    "build:docs": "npm run build --prefix docs/website",
+    "dev": "npm run dev --prefix docs/website",
+    "build": "npm run build --prefix docs/website"
   }
 }

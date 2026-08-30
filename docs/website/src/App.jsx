@@ -96,79 +96,88 @@ const RAW_MARKDOWN_CONTENT = {
 ## 1. Elevator Pitch & Executive Summary
 
 - **The Gap:** Modern educational institutions run student academics, hostel allotment, library circulation, and examination scheduling as disconnected, standalone system silos. This fragmentation creates severe data duplication, drifting records, room double-booking race conditions during peak rushes, and zero forensic auditability.
-- **The Solution:** UniCore provides a centralized, database-first operating platform built on PostgreSQL. It consolidates all institutional workflows under 8 domain schemas and 35+ Boyce-Codd Normal Form (BCNF) tables, governed by atomic row-level locks (\`SELECT FOR UPDATE\`), automated PL/SQL triggers, and immutable JSON audit ledgers.
-- **The Impact:** UniCore eliminates administrative overhead, guarantees 100% ACID transaction safety during concurrent enrollment rushes, and achieves a target Time-To-Acknowledgement (TTA) of <= 2 hours for operational requests across 30,000+ students.
+- **The Solution:** A centralized operating platform (8 BCNF schemas, 35+ tables) governed by `SELECT FOR UPDATE` row locks, PL/SQL triggers, and JSON audit ledgers.
+- **The Impact:** Eliminates administrative overhead, guarantees 100% ACID transaction safety during rushes, and achieves a target Time-To-Acknowledgement (TTA) <= 2 hours across 30,000+ students.
 
 ---
 
 ## 2. Introduction & Problem Statement
 
-### Context & Operational Relevance
-Modern university administrative workflows suffer from extreme fragmentation. Student profiles, residential hostel bed allocations, library book inventories, and exam marks are entered and managed in separate software tools. As campus enrollment scales past 30,000 students, manual inter-department coordination fails, yielding five recurring failure modes:
-
-\`\`\`
-┌──────────────────────────────────────────────────────────┐
-│             Disconnected System Silos                    │
-└───────────┬──────────────┬──────────────┬────────────────┘
-            │              │              │
-            ▼              ▼              ▼
-┌──────────────────┐┌──────────────┐┌──────────────┐┌──────────────┐
-│ Data Duplication ││Inconsistency ││ Resource     ││ Transaction  │
-│ (Address/Contact)││(Drifting Rec)││ Tracking Err ││ Hazards/Races│
-└──────────────────┘└──────────────┘└──────────────┘└──────────────┘
-\`\`\`
-
-1. **Data Duplication:** Redundant identity and address records entered separately across hostel, library, and student registrar databases.
-2. **Data Inconsistency:** Mismatched student profiles when details update in one department portal but fail to propagate to others.
+Five recurring operational failure modes in multi-tier administrative software:
+1. **Data Duplication:** Redundant address & contact records stored across hostel, library, and academic databases.
+2. **Data Inconsistency:** Mismatched student profiles when details update in one portal but fail to propagate to others.
 3. **Resource Tracking Errors:** Manual, error-prone tracking of bed availability, room statuses, and library book copies.
-4. **Transaction Hazards (Race Conditions):** Concurrent HTTP requests during peak room-allotment windows result in double-allocating hostel beds or overbooking exam hall seats.
-5. **Security & Audit Gaps:** Unscoped administrative permissions allow unauthorized modifications without traceable actor logs.
+4. **Transaction Hazards:** Concurrent HTTP requests during room allotment rushes result in double-booking beds.
+5. **Security & Audit Gaps:** Unscoped administrative permissions allow modifications without traceable actor logs.
 
 ---
 
 ## 3. SMART Project Objectives
 
-\`\`\`
-  Specific ──────► Centralized PostgreSQL platform with 8 domain BCNF schemas
-  Measurable ───► Median TTA <= 2 hrs, 0 double-booking errors under load
-  Attainable ───► 12-Week milestone plan with modular database-first architecture
-  Relevant ─────► Solves campus operational fragmentation at 30k student scale
-  Time-Bound ───► Phased deliverables with week-by-week verification benchmarks
-\`\`\`
+**Primary Overarching Objective**
+To design, implement, and benchmark a unified BCNF PostgreSQL operating platform for 30,000+ active students that eliminates data redundancy, guarantees ACID transaction safety during peak concurrent rushes, and records immutable audit ledgers.
 
-### Primary Objective
-To design, implement, and benchmark a unified, BCNF-normalized PostgreSQL database operating platform for 30,000+ active students that eliminates data redundancy, guarantees ACID transaction safety during peak concurrent rushes, and records immutable audit ledgers.
+- **Sub-Goal 1:** BCNF Normalization (Decompose 35+ tables across 8 schemas).
+- **Sub-Goal 2:** Atomic Row Locks (Enforce `SELECT FOR UPDATE` in allotment procedures).
+- **Sub-Goal 3:** Automated Triggers (Implement fine check triggers and JSON audit triggers).
+- **Sub-Goal 4:** Concurrency Metrics (Measure TPS throughput and latency via `pgBench`).
 
 ---
 
-## 4. Engineering Methodology & System Architecture
+## 4. Methodology & System Architecture
 
-UniCore follows a 3-tier engineering methodology tailored for robust software systems.
+### Concurrency Matrix
+| Scenario | Isolation Level | Safeguard Mechanism | Enforced Guarantee |
+| :--- | :--- | :--- | :--- |
+| Hostel Bed Allotment | SERIALIZABLE | SELECT FOR UPDATE on room row | Zero double-booking of beds |
+| Exam Seat Registration | READ COMMITTED | pg_advisory_xact_lock(exam_id) | Seat count never exceeds capacity |
+| Library Book Issue | READ COMMITTED | In-transaction decrement | Copy count never drops below 0 |
+| Grade Record Updates | READ COMMITTED | UPSERT (ON CONFLICT) | Updates existing; zero duplicate rows |
 
-### 4.3 Unified Modeling Language (UML) Diagrams
-Models include Use Case Diagram, Class Diagram, Sequence Diagram, Component & Deployment Diagram, and State Machine Diagram.
-
-### 4.4 Data Flow Diagrams (DFDs)
-Includes DFD Level 0 Context Diagram, DFD Level 1 System Flow, and DFD Level 2 Detailed Process Flow.
+### Unified Modeling Language (UML) Diagrams
+*Refer to the Interactive Proposal for high-resolution renders of the Class Diagram, Sequence Diagram, Component Diagram, and DFDs.*
 
 ---
 
-## 5. Project Timeline & Phase Deliverables
+## 5. Ethical Implications & Inclusivity
 
-| Phase / Weeks | Technical Task Focus | Key Milestone & Deliverable |
+A centralized OS of this magnitude wields immense power. Proper management of this data requires strict adherence to ethical principles:
+- **Algorithmic Fairness:** Allocation algorithms are designed to be completely blind to ethnicity, religion, or linguistic background.
+- **Demographic Representation:** Demographic data is physically partitioned and restricted via RBAC, ensuring zero implicit bias.
+- **Accessibility Compliance (A11y):** The Frontend is designed following WCAG 2.1 AA standards for screen readers.
+- **Data Privacy & GDPR:** Strict data minimization. Passwords hashed using bcrypt. Right to Erasure implemented for graduated students.
+
+---
+
+## 6. Management of Work & Tech Stack
+
+| Domain | Technologies | Purpose |
 | :--- | :--- | :--- |
-| **Weeks 1–3** | Literature Review, Domain Requirements & ER Modeling | 8-Domain ER Schematic & Proposal Approval |
-| **Weeks 4–6** | BCNF Normalization & PostgreSQL DDL Schema Setup | 35+ BCNF Tables Created |
-| **Weeks 7–8** | PL/SQL Triggers, Stored Procedures & Row Locking | \`hostel_allot()\`, \`fine_block_trigger\` |
-| **Weeks 9–10** | REST API Integration & Concurrency Benchmarking | \`pgBench\` Concurrency Suite Metrics |
-| **Weeks 11–12** | End-to-End System Testing & Documentation | Final Evaluation Report & Staging Bundle |
+| **Kernel / Database** | PostgreSQL, BCNF | ACID Transactions, Concurrency, Locking |
+| **Backend APIs** | Tezz, JWT | System Call Routing, Auth, Microservices |
+| **Frontend Shell** | React, Vite, Tailwind | User Interface, State Management, A11y |
+| **Deployment** | GitHub Actions, Docker | CI/CD Pipelines, Load Balancing |
+
+**12-Week Sprint Milestones**
+- **Phase 1:** Kernel Architecture & BCNF DDL Scripts
+- **Phase 2:** Concurrency Layer (SELECT FOR UPDATE)
+- **Phase 3:** API (Tezz) & CI/CD DevOps
+- **Phase 4:** UI, UX, Web Design, and Stampede Simulation
 
 ---
 
-## 6. Resources & Budget
+## 7. Evaluation Metrics & Benchmarking
 
-- **Project Engineering Team:** Ankit Rath, Manan Kapoor, Abhinav Kumar Singh
-- **Budget:** No external funding required. All development runs on university laboratory infrastructure.`,
+- **Peak TPS:** 2,500+ sustained throughput during simulated "Elective Rush" without degrading APIs beyond 200ms.
+- **p95 Latency:** <= 50ms standard queries remain ultra-fast under continuous load.
+
+---
+
+## 8. Risk Mitigation Strategy
+
+- **Database Deadlocks:** Mitigated via strict lock ordering in PL/SQL.
+- **Data Migration Loss:** Mitigated via staging envs & dual-writes.
+- **Unauthorized Access:** Mitigated via mandatory MFA & JWT expiration.`,
 
   prototype_proposal: `# PROTOTYPE PROPOSAL: UniCore System Architecture & Specs
 
