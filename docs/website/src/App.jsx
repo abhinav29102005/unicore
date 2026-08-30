@@ -665,7 +665,7 @@ export default function App() {
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Left Sidebar */}
-        <aside className="lg:col-span-3 no-print space-y-6">
+        {viewFormat !== 'rendered' && (<aside className="lg:col-span-3 no-print space-y-6">
           {/* Metadata Card */}
           <div className="glass-panel p-5 rounded-2xl space-y-4">
             <div className="flex items-center justify-between">
@@ -719,10 +719,10 @@ export default function App() {
               </nav>
             </div>
           )}
-        </aside>
+        </aside>)}
 
         {/* Right Main Content */}
-        <main className="lg:col-span-9 space-y-8">
+        <main className={`space-y-8 ${viewFormat === 'rendered' ? 'lg:col-span-12' : 'lg:col-span-9'}`}>
           
           {!currentDoc.display ? (
             <div className="glass-panel p-12 rounded-3xl text-center space-y-6 border-red-200 dark:border-red-500/20 bg-gradient-to-b from-slate-100 dark:from-slate-900 via-slate-100 dark:via-slate-900 to-red-100 dark:to-red-950/10">
@@ -878,157 +878,172 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* 1. Elevator Pitch */}
-                  <section id="pitch" className="glass-panel p-6 lg:p-8 rounded-2xl space-y-4">
-                    <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
-                      <Target className="w-5 h-5 text-red-600 dark:text-red-400" />
-                      <span>1. Elevator Pitch & Executive Summary</span>
-                    </h2>
+                                    {/* Sticky Table of Contents for Full-Width Mode */}
+                  <div className="sticky top-20 z-40 bg-slate-100/90 dark:bg-slate-950/90 backdrop-blur-md p-3 rounded-2xl border border-[var(--border-color)] shadow-sm hidden md:flex items-center justify-center space-x-6 overflow-x-auto whitespace-nowrap mb-8">
+                    <a href="#pitch" className="text-xs font-bold text-[var(--text-muted)] hover:text-red-600 dark:hover:text-red-400 transition-colors">1. Pitch</a>
+                    <a href="#intro" className="text-xs font-bold text-[var(--text-muted)] hover:text-red-600 dark:hover:text-red-400 transition-colors">2. Problem</a>
+                    <a href="#objectives" className="text-xs font-bold text-[var(--text-muted)] hover:text-red-600 dark:hover:text-red-400 transition-colors">3. Objectives</a>
+                    <a href="#methodology" className="text-xs font-bold text-[var(--text-muted)] hover:text-red-600 dark:hover:text-red-400 transition-colors">4. Architecture</a>
+                    <a href="#ethics" className="text-xs font-bold text-[var(--text-muted)] hover:text-red-600 dark:hover:text-red-400 transition-colors">5. Ethics</a>
+                    <a href="#management" className="text-xs font-bold text-[var(--text-muted)] hover:text-red-600 dark:hover:text-red-400 transition-colors">6. Management</a>
+                    <a href="#evaluation" className="text-xs font-bold text-[var(--text-muted)] hover:text-red-600 dark:hover:text-red-400 transition-colors">7. Evaluation</a>
+                    <a href="#risks" className="text-xs font-bold text-[var(--text-muted)] hover:text-red-600 dark:hover:text-red-400 transition-colors">8. Risks</a>
+                  </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
-                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
-                        <div className="text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-wide">The Operational Gap</div>
-                        <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+                  {/* 1. Elevator Pitch */}
+                  <section id="pitch" className="glass-panel p-6 lg:p-10 rounded-3xl space-y-8 bg-gradient-to-br from-red-50 dark:from-red-950/20 to-slate-50 dark:to-slate-900 border-red-200 dark:border-red-500/20">
+                    <div>
+                      <h2 className="text-2xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-3">
+                        <Flame className="w-6 h-6 text-red-600 dark:text-red-400" />
+                        <span>1. The UniCore Elevator Pitch</span>
+                      </h2>
+                      <div className="w-20 h-1 bg-red-600 dark:bg-red-500 rounded-full mt-3"></div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="p-6 rounded-2xl bg-white dark:bg-slate-900/60 shadow-lg border border-[var(--border-color)] space-y-3 transform hover:-translate-y-1 transition-all duration-300">
+                        <div className="text-sm font-bold text-red-600 dark:text-red-400 uppercase tracking-wider">The Operational Gap</div>
+                        <p className="text-sm text-[var(--text-muted)] leading-relaxed">
                           Disconnected departmental silos cause severe data duplication, room double-booking race conditions during peak rushes, and zero forensic auditability.
                         </p>
                       </div>
 
-                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
-                        <div className="text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-wide">The Software Solution</div>
-                        <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-                          A centralized operating platform (8 BCNF schemas, 35+ tables) governed by <code className="text-red-600 dark:text-red-400 font-mono">SELECT FOR UPDATE</code> row locks, PL/SQL triggers, and JSON audit ledgers.
+                      <div className="p-6 rounded-2xl bg-white dark:bg-slate-900/60 shadow-lg border border-[var(--border-color)] space-y-3 transform hover:-translate-y-1 transition-all duration-300">
+                        <div className="text-sm font-bold text-red-600 dark:text-red-400 uppercase tracking-wider">The Software Solution</div>
+                        <p className="text-sm text-[var(--text-muted)] leading-relaxed">
+                          A centralized operating platform (8 BCNF schemas, 35+ tables) governed by <code className="text-red-600 dark:text-red-400 font-mono text-xs">SELECT FOR UPDATE</code> row locks, PL/SQL triggers, and JSON audit ledgers.
                         </p>
                       </div>
 
-                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
-                        <div className="text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-wide">The Measurable Impact</div>
-                        <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-                          Eliminates administrative overhead, guarantees 100% ACID transaction safety during rushes, and achieves a target Time-To-Acknowledgement (TTA) $\le 2$ hours across 30,000+ students.
+                      <div className="p-6 rounded-2xl bg-white dark:bg-slate-900/60 shadow-lg border border-[var(--border-color)] space-y-3 transform hover:-translate-y-1 transition-all duration-300">
+                        <div className="text-sm font-bold text-red-600 dark:text-red-400 uppercase tracking-wider">The Measurable Impact</div>
+                        <p className="text-sm text-[var(--text-muted)] leading-relaxed">
+                          Eliminates administrative overhead, guarantees 100% ACID transaction safety during rushes, and achieves a target Time-To-Acknowledgement (TTA) ≤ 2 hours across 30,000+ students.
                         </p>
                       </div>
                     </div>
                   </section>
 
                   {/* 2. Introduction & Problem Statement */}
-                  <section id="intro" className="glass-panel p-6 lg:p-8 rounded-2xl space-y-6">
+                  <section id="intro" className="glass-panel p-6 lg:p-10 rounded-3xl space-y-6">
                     <div>
                       <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
                         <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400" />
                         <span>2. Introduction & Problem Statement</span>
                       </h2>
-                      <p className="text-xs text-[var(--text-muted)] mt-1">
+                      <p className="text-sm text-[var(--text-muted)] mt-2 max-w-3xl leading-relaxed">
                         Five recurring operational failure modes in multi-tier administrative software:
                       </p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-1">
-                        <div className="text-xs font-bold text-red-600 dark:text-red-400">1. Data Duplication</div>
-                        <p className="text-xs text-[var(--text-muted)]">Redundant address & contact records stored across hostel, library, and academic databases.</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
+                        <div className="text-sm font-bold text-red-600 dark:text-red-400">1. Data Duplication</div>
+                        <p className="text-xs text-[var(--text-muted)] leading-relaxed">Redundant address & contact records stored across hostel, library, and academic databases.</p>
                       </div>
-
-                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-1">
-                        <div className="text-xs font-bold text-red-600 dark:text-red-400">2. Data Inconsistency</div>
-                        <p className="text-xs text-[var(--text-muted)]">Mismatched student profiles when details update in one portal but fail to propagate to others.</p>
+                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
+                        <div className="text-sm font-bold text-red-600 dark:text-red-400">2. Data Inconsistency</div>
+                        <p className="text-xs text-[var(--text-muted)] leading-relaxed">Mismatched student profiles when details update in one portal but fail to propagate to others.</p>
                       </div>
-
-                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-1">
-                        <div className="text-xs font-bold text-red-600 dark:text-red-400">3. Resource Tracking Errors</div>
-                        <p className="text-xs text-[var(--text-muted)]">Manual, error-prone tracking of bed availability, room statuses, and library book copies.</p>
+                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
+                        <div className="text-sm font-bold text-red-600 dark:text-red-400">3. Resource Tracking Errors</div>
+                        <p className="text-xs text-[var(--text-muted)] leading-relaxed">Manual, error-prone tracking of bed availability, room statuses, and library book copies.</p>
                       </div>
-
-                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-1">
-                        <div className="text-xs font-bold text-red-600 dark:text-red-400">4. Transaction Hazards</div>
-                        <p className="text-xs text-[var(--text-muted)]">Concurrent HTTP requests during room allotment rushes result in double-booking beds.</p>
+                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
+                        <div className="text-sm font-bold text-red-600 dark:text-red-400">4. Transaction Hazards</div>
+                        <p className="text-xs text-[var(--text-muted)] leading-relaxed">Concurrent HTTP requests during room allotment rushes result in double-booking beds.</p>
                       </div>
-
-                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-1">
-                        <div className="text-xs font-bold text-red-600 dark:text-red-400">5. Security & Audit Gaps</div>
-                        <p className="text-xs text-[var(--text-muted)]">Unscoped administrative permissions allow modifications without traceable actor logs.</p>
+                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
+                        <div className="text-sm font-bold text-red-600 dark:text-red-400">5. Security & Audit Gaps</div>
+                        <p className="text-xs text-[var(--text-muted)] leading-relaxed">Unscoped administrative permissions allow modifications without traceable actor logs.</p>
                       </div>
                     </div>
                   </section>
 
-                  {/* 3. SMART Objectives */}
-                  <section id="objectives" className="glass-panel p-6 lg:p-8 rounded-2xl space-y-4">
+                  {/* 3. SMART Project Objectives */}
+                  <section id="objectives" className="glass-panel p-6 lg:p-10 rounded-3xl space-y-6">
                     <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
                       <Cpu className="w-5 h-5 text-red-600 dark:text-red-400" />
                       <span>3. SMART Project Objectives</span>
                     </h2>
 
-                    <div className="space-y-3 pt-2">
-                      <div className="p-4 rounded-xl bg-red-100 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20">
-                        <div className="text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-wide">Primary Overarching Objective</div>
-                        <p className="text-xs text-[var(--text-main)] mt-1">
+                    <div className="space-y-4">
+                      <div className="p-6 rounded-2xl bg-red-50 dark:bg-red-500/10 border-l-4 border-red-600 dark:border-red-500">
+                        <div className="text-sm font-bold text-red-700 dark:text-red-400 uppercase tracking-wide">Primary Overarching Objective</div>
+                        <p className="text-sm text-slate-800 dark:text-slate-200 mt-2 leading-relaxed">
                           To design, implement, and benchmark a unified BCNF PostgreSQL operating platform for 30,000+ active students that eliminates data redundancy, guarantees ACID transaction safety during peak concurrent rushes, and records immutable audit ledgers.
                         </p>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div className="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] text-xs text-[var(--text-muted)]">
-                          <strong className="text-red-600 dark:text-red-400">Sub-Goal 1: BCNF Normalization:</strong> Decompose 35+ tables across 8 domain schemas strictly into Boyce-Codd Normal Form.
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] text-sm text-[var(--text-muted)]">
+                          <strong className="text-red-600 dark:text-red-400 block mb-1">Sub-Goal 1: BCNF Normalization</strong>
+                          Decompose 35+ tables across 8 domain schemas strictly into Boyce-Codd Normal Form.
                         </div>
-                        <div className="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] text-xs text-[var(--text-muted)]">
-                          <strong className="text-red-600 dark:text-red-400">Sub-Goal 2: Atomic Row Locks:</strong> Enforce <code className="text-red-600 dark:text-red-400 font-mono">SELECT FOR UPDATE</code> in <code className="text-red-600 dark:text-red-400 font-mono">hostel_allot()</code> procedure.
+                        <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] text-sm text-[var(--text-muted)]">
+                          <strong className="text-red-600 dark:text-red-400 block mb-1">Sub-Goal 2: Atomic Row Locks</strong>
+                          Enforce <code className="text-red-600 dark:text-red-400 font-mono text-xs">SELECT FOR UPDATE</code> in <code className="text-red-600 dark:text-red-400 font-mono text-xs">hostel_allot()</code> procedure.
                         </div>
-                        <div className="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] text-xs text-[var(--text-muted)]">
-                          <strong className="text-red-600 dark:text-red-400">Sub-Goal 3: Automated Triggers:</strong> Implement fine check triggers (&gt; Rs. 500 block) and JSON audit triggers.
+                        <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] text-sm text-[var(--text-muted)]">
+                          <strong className="text-red-600 dark:text-red-400 block mb-1">Sub-Goal 3: Automated Triggers</strong>
+                          Implement fine check triggers and JSON audit triggers.
                         </div>
-                        <div className="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] text-xs text-[var(--text-muted)]">
-                          <strong className="text-red-600 dark:text-red-400">Sub-Goal 4: Concurrency Metrics:</strong> Measure TPS throughput and p95/p99 latency via <code className="text-red-600 dark:text-red-400 font-mono">pgBench</code>.
+                        <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] text-sm text-[var(--text-muted)]">
+                          <strong className="text-red-600 dark:text-red-400 block mb-1">Sub-Goal 4: Concurrency Metrics</strong>
+                          Measure TPS throughput and p95/p99 latency via <code className="text-red-600 dark:text-red-400 font-mono text-xs">pgBench</code>.
                         </div>
                       </div>
                     </div>
                   </section>
 
                   {/* 4. Methodology & Architecture */}
-                  <section id="methodology" className="glass-panel p-6 lg:p-8 rounded-2xl space-y-4">
+                  <section id="methodology" className="glass-panel p-6 lg:p-10 rounded-3xl space-y-6">
                     <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
                       <Key className="w-5 h-5 text-red-600 dark:text-red-400" />
                       <span>4. System Architecture & Concurrency Matrix</span>
                     </h2>
 
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-xs text-left">
-                        <thead className="bg-slate-100 dark:bg-slate-900/60 text-[var(--text-main)] uppercase tracking-wider font-semibold border-b border-[var(--border-color)]">
+                    <div className="overflow-x-auto rounded-xl border border-[var(--border-color)]">
+                      <table className="w-full text-sm text-left">
+                        <thead className="bg-slate-100 dark:bg-slate-900 text-[var(--text-main)] uppercase tracking-wider font-bold">
                           <tr>
-                            <th className="p-3">Scenario</th>
-                            <th className="p-3">Isolation Level</th>
-                            <th className="p-3">Safeguard Mechanism</th>
-                            <th className="p-3">Enforced Guarantee</th>
+                            <th className="p-4">Scenario</th>
+                            <th className="p-4">Isolation Level</th>
+                            <th className="p-4">Safeguard Mechanism</th>
+                            <th className="p-4">Enforced Guarantee</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-[var(--border-color)] text-[var(--text-muted)]">
-                          <tr className="hover:bg-slate-100 dark:hover:bg-slate-900/20">
-                            <td className="p-3 font-semibold text-red-600 dark:text-red-400">Hostel Bed Allotment</td>
-                            <td className="p-3 font-mono text-red-600 dark:text-red-400">SERIALIZABLE</td>
-                            <td className="p-3 font-mono text-[var(--text-muted)]">SELECT FOR UPDATE on room row</td>
-                            <td className="p-3 text-red-600 dark:text-red-400">Zero double-booking of beds</td>
+                        <tbody className="divide-y divide-[var(--border-color)] text-[var(--text-muted)] bg-white dark:bg-slate-950/40">
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+                            <td className="p-4 font-bold text-red-600 dark:text-red-400">Hostel Bed Allotment</td>
+                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">SERIALIZABLE</td>
+                            <td className="p-4 font-mono text-xs">SELECT FOR UPDATE on room row</td>
+                            <td className="p-4 text-red-600 dark:text-red-400 font-medium">Zero double-booking of beds</td>
                           </tr>
-                          <tr className="hover:bg-slate-100 dark:hover:bg-slate-900/20">
-                            <td className="p-3 font-semibold text-red-600 dark:text-red-400">Exam Seat Registration</td>
-                            <td className="p-3 font-mono text-red-600 dark:text-red-400">READ COMMITTED</td>
-                            <td className="p-3 font-mono text-[var(--text-muted)]">pg_advisory_xact_lock(exam_id)</td>
-                            <td className="p-3 text-red-600 dark:text-red-400">Seat count never exceeds capacity</td>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+                            <td className="p-4 font-bold text-red-600 dark:text-red-400">Exam Seat Registration</td>
+                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">READ COMMITTED</td>
+                            <td className="p-4 font-mono text-xs">pg_advisory_xact_lock(exam_id)</td>
+                            <td className="p-4 text-red-600 dark:text-red-400 font-medium">Seat count never exceeds capacity</td>
                           </tr>
-                          <tr className="hover:bg-slate-100 dark:hover:bg-slate-900/20">
-                            <td className="p-3 font-semibold text-red-600 dark:text-red-400">Library Book Issue</td>
-                            <td className="p-3 font-mono text-red-600 dark:text-red-400">READ COMMITTED</td>
-                            <td className="p-3 font-mono text-[var(--text-muted)]">In-transaction decrement</td>
-                            <td className="p-3 text-red-600 dark:text-red-400">Copy count never drops below 0</td>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+                            <td className="p-4 font-bold text-red-600 dark:text-red-400">Library Book Issue</td>
+                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">READ COMMITTED</td>
+                            <td className="p-4 font-mono text-xs">In-transaction decrement</td>
+                            <td className="p-4 text-red-600 dark:text-red-400 font-medium">Copy count never drops below 0</td>
                           </tr>
-                          <tr className="hover:bg-slate-100 dark:hover:bg-slate-900/20">
-                            <td className="p-3 font-semibold text-red-600 dark:text-red-400">Grade Record Updates</td>
-                            <td className="p-3 font-mono text-red-600 dark:text-red-400">READ COMMITTED</td>
-                            <td className="p-3 font-mono text-[var(--text-muted)]">UPSERT (ON CONFLICT DO UPDATE)</td>
-                            <td className="p-3 text-red-600 dark:text-red-400">Updates existing; zero duplicate rows</td>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+                            <td className="p-4 font-bold text-red-600 dark:text-red-400">Grade Record Updates</td>
+                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">READ COMMITTED</td>
+                            <td className="p-4 font-mono text-xs">UPSERT (ON CONFLICT DO UPDATE)</td>
+                            <td className="p-4 text-red-600 dark:text-red-400 font-medium">Updates existing; zero duplicate rows</td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
                   </section>
 
-                  {/* 4.3 Unified Modeling Language (UML) Diagrams */}
+{/* 4.3 Unified Modeling Language (UML) Diagrams */}
                   <section id="uml" className="glass-panel p-6 lg:p-8 rounded-2xl space-y-6">
                     <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-4">
                       <div>
@@ -1203,113 +1218,149 @@ export default function App() {
                     </div>
                   </section>
 
-                  {/* 5. Timeline & Schedule */}
-                  <section id="timeline" className="glass-panel p-6 lg:p-8 rounded-2xl space-y-4">
+                                    {/* 5. Ethical Implications & Inclusivity */}
+                  <section id="ethics" className="glass-panel p-6 lg:p-10 rounded-3xl space-y-6">
                     <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
-                      <Calendar className="w-5 h-5 text-red-600 dark:text-red-400" />
-                      <span>5. Timeline & Milestone Breakdown</span>
+                      <Shield className="w-5 h-5 text-red-600 dark:text-red-400" />
+                      <span>5. Ethical Implications & Inclusivity</span>
                     </h2>
-
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-xs text-left">
-                        <thead className="bg-slate-100 dark:bg-slate-900/60 text-[var(--text-main)] uppercase tracking-wider font-semibold border-b border-[var(--border-color)]">
-                          <tr>
-                            <th className="p-3">Phase / Weeks</th>
-                            <th className="p-3">Technical Task Focus</th>
-                            <th className="p-3">Key Deliverable</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-[var(--border-color)] text-[var(--text-muted)]">
-                          <tr>
-                            <td className="p-3 font-bold text-red-600 dark:text-red-400">Weeks 1–3</td>
-                            <td className="p-3">Literature Review, Domain Requirements & ER Modeling</td>
-                            <td className="p-3 text-[var(--text-main)]">8-Domain ER Schematic & Proposal Approval</td>
-                          </tr>
-                          <tr>
-                            <td className="p-3 font-bold text-red-600 dark:text-red-400">Weeks 4–6</td>
-                            <td className="p-3">BCNF Normalization & PostgreSQL DDL Schema Setup</td>
-                            <td className="p-3 text-[var(--text-main)]">35+ BCNF Tables Created</td>
-                          </tr>
-                          <tr>
-                            <td className="p-3 font-bold text-red-600 dark:text-red-400">Weeks 7–8</td>
-                            <td className="p-3">PL/SQL Triggers, Stored Procedures & Row Locking</td>
-                            <td className="p-3 text-[var(--text-main)]"><code className="text-red-600 dark:text-red-400 font-mono">hostel_allot()</code>, <code className="text-red-600 dark:text-red-400 font-mono">fine_block_trigger</code></td>
-                          </tr>
-                          <tr>
-                            <td className="p-3 font-bold text-red-600 dark:text-red-400">Weeks 9–10</td>
-                            <td className="p-3">REST API Integration & Concurrency Benchmarking</td>
-                            <td className="p-3 text-[var(--text-main)]"><code className="text-red-600 dark:text-red-400 font-mono">pgBench</code> Concurrency Metrics</td>
-                          </tr>
-                          <tr>
-                            <td className="p-3 font-bold text-red-600 dark:text-red-400">Weeks 11–12</td>
-                            <td className="p-3">End-to-End System Testing & Documentation</td>
-                            <td className="p-3 text-[var(--text-main)]">Final Master Report & Staging Build</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </section>
-
-                  {/* 6. Resources & Budget */}
-                  <section id="resources" className="glass-panel p-6 lg:p-8 rounded-2xl space-y-4">
-                    <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
-                      <Clock className="w-5 h-5 text-red-600 dark:text-red-400" />
-                      <span>6. Resources & Budget</span>
-                    </h2>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-[var(--text-muted)]">
-                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
-                        <strong className="text-[var(--text-main)] font-semibold">Project Engineering Team:</strong>
-                        <ul className="list-disc list-inside space-y-1 text-[var(--text-muted)]">
-                          <li>Ankit Rath</li>
-                          <li>Manan Kapoor</li>
-                          <li>Abhinav Kumar Singh</li>
-                        </ul>
+                    <p className="text-sm text-[var(--text-muted)] leading-relaxed">
+                      A centralized OS of this magnitude wields immense power. Proper management of this data requires strict adherence to ethical principles, unbiased algorithmic execution, and deep respect for the diverse demographic of the student body.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)]">
+                        <h4 className="text-sm font-bold text-red-600 dark:text-red-400 mb-2">Algorithmic Fairness</h4>
+                        <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+                          Allocation algorithms (such as hostel room assignments) are designed to be completely blind to ethnicity, religion, or linguistic background, relying strictly on randomized academic metrics or temporal queues.
+                        </p>
                       </div>
-
-                      <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
-                        <strong className="text-[var(--text-main)] font-semibold">Infrastructure & Budget:</strong>
-                        <p className="text-[var(--text-muted)] leading-relaxed">
-                          <strong>No external funding required.</strong> All development, testing, and database execution run on existing university laboratory infrastructure and local computing resources.
+                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)]">
+                        <h4 className="text-sm font-bold text-red-600 dark:text-red-400 mb-2">Demographic Representation</h4>
+                        <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+                          Demographic data collected for statistical reporting is physically partitioned and restricted via RBAC, ensuring zero implicit bias in operational transactions.
+                        </p>
+                      </div>
+                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)]">
+                        <h4 className="text-sm font-bold text-red-600 dark:text-red-400 mb-2">Accessibility Compliance (A11y)</h4>
+                        <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+                          The Frontend is designed following WCAG 2.1 AA standards, ensuring visually impaired or differently-abled students can navigate the platform utilizing screen readers.
+                        </p>
+                      </div>
+                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)]">
+                        <h4 className="text-sm font-bold text-red-600 dark:text-red-400 mb-2">Data Privacy & GDPR</h4>
+                        <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+                          Strict data minimization. Passwords hashed using bcrypt. Upon graduation, student operational data is archived into read-only cold storage (Right to Erasure).
                         </p>
                       </div>
                     </div>
                   </section>
 
-                  {/* 7. Risks & Mitigations */}
-                  <section id="risks" className="glass-panel p-6 lg:p-8 rounded-2xl space-y-4">
+                  {/* 6. Management of Work and Resources */}
+                  <section id="management" className="glass-panel p-6 lg:p-10 rounded-3xl space-y-6">
                     <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
-                      <ShieldCheck className="w-5 h-5 text-red-600 dark:text-red-400" />
-                      <span>7. Risk Assessment & Mitigation Strategies</span>
+                      <Calendar className="w-5 h-5 text-red-600 dark:text-red-400" />
+                      <span>6. Management of Work & Tech Stack</span>
                     </h2>
-
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-xs text-left">
-                        <thead className="bg-slate-100 dark:bg-slate-900/60 text-[var(--text-main)] uppercase tracking-wider font-semibold border-b border-[var(--border-color)]">
+                    
+                    <div className="overflow-x-auto rounded-xl border border-[var(--border-color)]">
+                      <table className="w-full text-sm text-left">
+                        <thead className="bg-slate-100 dark:bg-slate-900 text-[var(--text-main)] font-bold border-b border-[var(--border-color)]">
                           <tr>
-                            <th className="p-3">Identified Risk</th>
-                            <th className="p-3">Risk Impact</th>
-                            <th className="p-3">Proposed Mitigation Strategy</th>
+                            <th className="p-4">Domain</th>
+                            <th className="p-4">Technologies</th>
+                            <th className="p-4">Purpose</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-[var(--border-color)] text-[var(--text-muted)]">
-                          <tr>
-                            <td className="p-3 font-semibold text-red-600 dark:text-red-400">High Lock Contention</td>
-                            <td className="p-3 text-red-600 dark:text-red-400">High (Transaction Retries)</td>
-                            <td className="p-3 text-[var(--text-muted)]">Implement pessimistic SELECT FOR UPDATE under READ COMMITTED with short transaction boundaries.</td>
+                        <tbody className="divide-y divide-[var(--border-color)] text-[var(--text-muted)] bg-white dark:bg-slate-950/40">
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+                            <td className="p-4 font-bold text-[var(--text-main)]">Kernel / Database</td>
+                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">PostgreSQL, BCNF</td>
+                            <td className="p-4 text-xs">ACID Transactions, Concurrency, Locking</td>
                           </tr>
-                          <tr>
-                            <td className="p-3 font-semibold text-red-600 dark:text-red-400">Data Privacy & Scope</td>
-                            <td className="p-3 text-red-600 dark:text-red-400">Medium (Unauthorized Access)</td>
-                            <td className="p-3 text-[var(--text-muted)]">Enforce strict RBAC permission scoping at API middleware layer and soft-delete historical preservation.</td>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+                            <td className="p-4 font-bold text-[var(--text-main)]">Backend APIs</td>
+                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">Tezz, JWT</td>
+                            <td className="p-4 text-xs">System Call Routing, Auth, Microservices</td>
                           </tr>
-                          <tr>
-                            <td className="p-3 font-semibold text-red-600 dark:text-red-400">Measurement Ambiguity</td>
-                            <td className="p-3 text-red-600 dark:text-red-400">Medium (Evaluation Errors)</td>
-                            <td className="p-3 text-[var(--text-muted)]">Instrument automated UTC timestamps in database AFTER triggers prior to execution.</td>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+                            <td className="p-4 font-bold text-[var(--text-main)]">Frontend Shell</td>
+                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">React, Vite, Tailwind</td>
+                            <td className="p-4 text-xs">User Interface, State Management, A11y</td>
+                          </tr>
+                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+                            <td className="p-4 font-bold text-[var(--text-main)]">Deployment</td>
+                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">GitHub Actions, Docker</td>
+                            <td className="p-4 text-xs">CI/CD Pipelines, Load Balancing</td>
                           </tr>
                         </tbody>
                       </table>
+                    </div>
+
+                    <div className="p-5 rounded-2xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20">
+                      <h4 className="text-sm font-bold text-red-700 dark:text-red-400 mb-2 uppercase tracking-wide">12-Week Sprint Milestones</h4>
+                      <div className="space-y-2 text-xs text-slate-800 dark:text-slate-200">
+                        <div><strong className="text-red-600 dark:text-red-400">Phase 1:</strong> Kernel Architecture & BCNF DDL Scripts</div>
+                        <div><strong className="text-red-600 dark:text-red-400">Phase 2:</strong> Concurrency Layer (SELECT FOR UPDATE)</div>
+                        <div><strong className="text-red-600 dark:text-red-400">Phase 3:</strong> API (Tezz) & CI/CD DevOps</div>
+                        <div><strong className="text-red-600 dark:text-red-400">Phase 4:</strong> UI, UX, Web Design, and Stampede Simulation</div>
+                      </div>
+                    </div>
+                  </section>
+
+                  {/* 7. Evaluation Metrics & Benchmarking */}
+                  <section id="evaluation" className="glass-panel p-6 lg:p-10 rounded-3xl space-y-6">
+                    <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
+                      <Activity className="w-5 h-5 text-red-600 dark:text-red-400" />
+                      <span>7. Evaluation Metrics & Benchmarking</span>
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] text-center space-y-2">
+                        <div className="text-3xl font-black text-red-600 dark:text-red-400">2,500+</div>
+                        <div className="text-sm font-bold text-[var(--text-main)]">Peak TPS (Transactions/Sec)</div>
+                        <p className="text-xs text-[var(--text-muted)] px-4">Sustained throughput during simulated "Elective Rush" without degrading APIs beyond 200ms.</p>
+                      </div>
+                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] text-center space-y-2">
+                        <div className="text-3xl font-black text-red-600 dark:text-red-400">&le; 50ms</div>
+                        <div className="text-sm font-bold text-[var(--text-main)]">p95 Latency Percentile</div>
+                        <p className="text-xs text-[var(--text-muted)] px-4">Standard queries remain ultra-fast, with p99 latency not exceeding 120ms under continuous load.</p>
+                      </div>
+                    </div>
+                  </section>
+
+                  {/* 8. Risk Management */}
+                  <section id="risks" className="glass-panel p-6 lg:p-10 rounded-3xl space-y-6">
+                    <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
+                      <ShieldAlert className="w-5 h-5 text-red-600 dark:text-red-400" />
+                      <span>8. Risk Mitigation Strategy</span>
+                    </h2>
+                    <div className="space-y-4">
+                      <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                          <strong className="text-sm text-red-600 dark:text-red-400 block">Database Deadlocks</strong>
+                          <span className="text-xs text-[var(--text-muted)]">System halts during complex multi-table updates.</span>
+                        </div>
+                        <div className="text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1.5 rounded font-medium border border-green-200 dark:border-green-800">
+                          Mitigation: Strict lock ordering in PL/SQL
+                        </div>
+                      </div>
+                      <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                          <strong className="text-sm text-red-600 dark:text-red-400 block">Data Migration Loss</strong>
+                          <span className="text-xs text-[var(--text-muted)]">Corrupting data when moving from legacy silos.</span>
+                        </div>
+                        <div className="text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1.5 rounded font-medium border border-green-200 dark:border-green-800">
+                          Mitigation: Staging envs & dual-writes
+                        </div>
+                      </div>
+                      <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                          <strong className="text-sm text-red-600 dark:text-red-400 block">Unauthorized Access</strong>
+                          <span className="text-xs text-[var(--text-muted)]">Breaches leading to exposure of student PII.</span>
+                        </div>
+                        <div className="text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1.5 rounded font-medium border border-green-200 dark:border-green-800">
+                          Mitigation: Mandatory MFA & JWT expiration
+                        </div>
+                      </div>
                     </div>
                   </section>
 
