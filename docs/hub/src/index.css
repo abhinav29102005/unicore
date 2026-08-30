@@ -11,9 +11,9 @@
   --border-color: rgba(38, 48, 68, 0.7);
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
-  --accent-primary: #6366f1;
-  --accent-cyan: #06b6d4;
-  --accent-emerald: #10b981;
+  --accent-primary: #dc2626;
+  --accent-cyan: #ef4444;
+  --accent-emerald: #b91c1c;
 }
 
 .light-theme {
@@ -23,9 +23,9 @@
   --border-color: #e2e8f0;
   --text-main: #0f172a;
   --text-muted: #475569;
-  --accent-primary: #4f46e5;
-  --accent-cyan: #0891b2;
-  --accent-emerald: #059669;
+  --accent-primary: #dc2626;
+  --accent-cyan: #ef4444;
+  --accent-emerald: #b91c1c;
 }
 
 body {
