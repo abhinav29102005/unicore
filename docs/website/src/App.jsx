@@ -1114,14 +1114,11 @@ export default function App() {
                             <span>4.3.3 UML Sequence Diagram</span>
                           </h3>
                           <p className="text-xs text-[var(--text-muted)]">Pessimistic lock acquisition and trigger execution flow.</p>
-                          <div className="p-3.5 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 text-[11px] font-mono text-red-700 dark:text-red-300 space-y-1">
-                            <div>1. Client POST /hostel/allot</div>
-                            <div>2. API Gateway begins transaction</div>
-                            <div>3. PostgreSQL SELECT FOR UPDATE (Lock)</div>
-                            <div>4. Verify bed_count & status</div>
-                            <div>5. INSERT into allocations</div>
-                            <div>6. AFTER INSERT trigger writes audit_log</div>
-                            <div>7. Commit & return HTTP 201</div>
+                          <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto">
+                            <div className="w-full flex justify-center py-2">
+                              <img src="/images/seq_light.png" alt="Sequence Diagram" className="dark:hidden max-w-full h-auto rounded-lg" />
+                              <img src="/images/seq_dark.png" alt="Sequence Diagram" className="hidden dark:block max-w-full h-auto rounded-lg" />
+                            </div>
                           </div>
                         </div>
 
@@ -1131,11 +1128,11 @@ export default function App() {
                             <span>4.3.4 UML Component Diagram</span>
                           </h3>
                           <p className="text-xs text-[var(--text-muted)]">3-Tier deployment architecture across nodes.</p>
-                          <div className="p-3.5 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 text-[11px] font-mono text-red-700 dark:text-red-300 space-y-1">
-                            <div>• Tier 1: React 18 SPA (Presentation Node)</div>
-                            <div>• Tier 2: Tezz API Microservices (App Server)</div>
-                            <div>• Tier 3: PostgreSQL 16 (8 Schemas & Triggers)</div>
-                            <div>• Communication: HTTPS JSON REST & Connection Pool</div>
+                          <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto">
+                            <div className="w-full flex justify-center py-2">
+                              <img src="/images/comp_light.png" alt="Component Diagram" className="dark:hidden max-w-full h-auto rounded-lg" />
+                              <img src="/images/comp_dark.png" alt="Component Diagram" className="hidden dark:block max-w-full h-auto rounded-lg" />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1170,16 +1167,10 @@ export default function App() {
                           Establishes external entities (Students, Faculty, Wardens, Library Staff, Admins) and boundary data flows.
                         </p>
                         <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto">
-                          <pre className="font-mono text-[11px] text-red-700 dark:text-red-300 leading-relaxed whitespace-pre">
-{`   [ Student ]  ────── Credentials / Allotment Requests ─────► ┌─────────────────────────┐
-                ◄───── Receipts / SGPA / Fine Alerts ───────   │                         │
-                                                               │    UniCore Campus       │
-   [ Warden ]   ────── Capacity Updates / Work Orders ──────► │   Operating Platform    │
-                ◄───── Occupancy Matrix & Audit Logs ───────   │    (Central Engine)     │
-                                                               │                         │
-   [ Admin ]    ────── RBAC Permissions & System Config ────► │                         │
-                ◄───── Forensic Audit Ledgers & Diagnostics ── └─────────────────────────┘`}
-                          </pre>
+                          <div className="w-full flex justify-center py-2">
+                            <img src="/images/dfd0_light.png" alt="DFD Level 0" className="dark:hidden max-w-full h-auto rounded-lg" />
+                            <img src="/images/dfd0_dark.png" alt="DFD Level 0" className="hidden dark:block max-w-full h-auto rounded-lg" />
+                          </div>
                         </div>
                       </div>
 
@@ -1188,21 +1179,10 @@ export default function App() {
                         <div className="p-5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-3">
                           <h3 className="text-sm font-bold text-red-600 dark:text-red-400">4.4.2 DFD Level 1 (System Flow)</h3>
                           <p className="text-xs text-[var(--text-muted)]">Main process pipelines and data stores.</p>
-                          <div className="space-y-2 text-xs text-[var(--text-muted)]">
-                            <div className="p-2.5 rounded bg-slate-200 dark:bg-slate-950 border border-slate-800 font-mono text-[11px] text-red-700 dark:text-red-300">
-                              P1.0 Auth & RBAC ──► Store D1: Users
-                            </div>
-                            <div className="p-2.5 rounded bg-slate-200 dark:bg-slate-950 border border-slate-800 font-mono text-[11px] text-red-700 dark:text-red-300">
-                              P2.0 Academic Engine ──► Store D2: Academics
-                            </div>
-                            <div className="p-2.5 rounded bg-slate-200 dark:bg-slate-950 border border-slate-800 font-mono text-[11px] text-red-700 dark:text-red-300">
-                              P3.0 Allotment Engine ──► Store D3: Allocations
-                            </div>
-                            <div className="p-2.5 rounded bg-slate-200 dark:bg-slate-950 border border-slate-800 font-mono text-[11px] text-red-700 dark:text-red-300">
-                              P4.0 Circulation Engine ──► Store D4: Library
-                            </div>
-                            <div className="p-2.5 rounded bg-slate-200 dark:bg-slate-950 border border-slate-800 font-mono text-[11px] text-red-700 dark:text-red-300">
-                              P5.0 Audit Engine ──► Store D5: Audit Logs
+                          <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto">
+                            <div className="w-full flex justify-center py-2">
+                              <img src="/images/dfd1_light.png" alt="DFD Level 1" className="dark:hidden max-w-full h-auto rounded-lg" />
+                              <img src="/images/dfd1_dark.png" alt="DFD Level 1" className="hidden dark:block max-w-full h-auto rounded-lg" />
                             </div>
                           </div>
                         </div>
