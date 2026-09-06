@@ -41,6 +41,10 @@ export const router = createBrowserRouter([
     element: <Sign />
   },
   {
+    path: '/docs',
+    element: <Docs />
+  },
+  {
     path: '/',
     element: <ShellLayout />,
     children: [
