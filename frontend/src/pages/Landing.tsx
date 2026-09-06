@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '../components/ui/Button';
 
@@ -12,9 +12,9 @@ export default function Landing() {
       <header className="h-20 border-b border-[var(--border-color)] bg-[var(--surface-color)] flex items-center justify-between px-6 lg:px-12">
         <div className="text-2xl font-extrabold text-[var(--color-primary)]">UNICORE</div>
         <div className="flex gap-4">
-          <Button variant="ghost" onClick={() => navigate('/docs')}>Docs</Button>
-          <Button variant="outline" onClick={() => navigate('/sign?mode=login')}>Sign In</Button>
-          <Button onClick={() => navigate('/sign?mode=register')}>Sign Up</Button>
+          <Link to="/docs"><Button variant="ghost">Docs</Button></Link>
+          <Link to="/sign?mode=login"><Button variant="outline">Sign In</Button></Link>
+          <Link to="/sign?mode=register"><Button>Sign Up</Button></Link>
         </div>
       </header>
 
@@ -33,8 +33,8 @@ export default function Landing() {
             A blazing fast, ultra-premium platform to manage everything from student enrollments to faculty administration.
           </p>
           <div className="flex items-center justify-center gap-6">
-            <Button size="lg" onClick={() => navigate('/sign?mode=register')} className="text-lg px-8">Get Started</Button>
-            <Button size="lg" variant="outline" onClick={() => navigate('/docs')} className="text-lg px-8">Read Docs</Button>
+            <Link to="/sign?mode=register"><Button size="lg" className="text-lg px-8">Get Started</Button></Link>
+            <Link to="/docs"><Button size="lg" variant="outline" className="text-lg px-8">Read Docs</Button></Link>
           </div>
         </motion.div>
       </main>

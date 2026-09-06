@@ -4,6 +4,7 @@ import { useAuthStore } from './store/authStore';
 
 import Landing from './pages/Landing';
 import Sign from './pages/auth/Sign';
+import Docs from './pages/Docs';
 import ShellLayout from './components/layout/ShellLayout';
 import AdminDashboard from './pages/admin/Dashboard';
 import FacultyDashboard from './pages/faculty/Dashboard';
