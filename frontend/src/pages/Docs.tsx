@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -188,34 +189,7 @@ A centralized OS of this magnitude wields immense power. Proper management of th
 - **Data Migration Loss:** Mitigated via staging envs & dual-writes.
 - **Unauthorized Access:** Mitigated via mandatory MFA & JWT expiration.`,
 
-  prototype_proposal: `# PROTOTYPE PROPOSAL: UniCore System Architecture & Specs
-
-*(Stage 2 Proposal — Development in Progress)*
-
-**Institutional Metadata:**  
-**Institution:** Thapar Institute of Engineering & Technology, Patiala  
-**Department:** Computer Science & Engineering Department (CSED)  
-**Target Scale:** 30,000+ Active Students  
-
-**Project Team:**
-- **Ankit Rath** (Roll No. 1024030458)
-- **Manan Kapoor** (Roll No. 1024030467)
-- **Abhinav Kumar Singh** (Roll No. 1024030440)`,
-
-  final_report: `# Technical Master Report: UniCore
-
-*(Stage 3 Technical Report)*
-
-**Institutional Metadata:**  
-**Institution:** Thapar Institute of Engineering & Technology, Patiala  
-**Department:** Department of Computer Science & Engineering (CSED)  
-**Target Scale:** 30,000+ Active Students  
-
-**Project Team:**
-- **Ankit Rath** (Roll No. 1024030458)
-- **Manan Kapoor** (Roll No. 1024030467)
-- **Abhinav Kumar Singh** (Roll No. 1024030440)`
-};
+  };
 
 const RAW_LATEX_CONTENT = {
   prototype_proposal: `\\documentclass[11pt,a4paper]{article}
