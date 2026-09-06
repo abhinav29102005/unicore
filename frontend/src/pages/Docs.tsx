@@ -396,8 +396,6 @@ The architecture integrates UML Use Case, Class, Sequence, Component, and State 
 \\end{itemize}
 
 \\end{document}`,
-  prototype_proposal: `% Stage 2 Prototype Proposal`,
-  final_report: `% Stage 3 Final Master Report`
 };
 
 // Formatted Markdown View Component
