@@ -9,9 +9,9 @@ export default function DesktopSidebar() {
 
   const navItems = [
     { label: 'Dashboard', path: `/${role}`, icon: Home },
-    { label: 'Profile', path: `/profile", icon: Users },
-    { label: 'Courses', path: `/${role}/courses", icon: BookOpen },
-    { label: 'Settings', path: `/settings", icon: Settings },
+    { label: 'Profile', path: `/profile`, icon: Users },
+    { label: 'Courses', path: `/${role}/courses`, icon: BookOpen },
+    { label: 'Settings', path: `/settings`, icon: Settings },
   ];
 
   return (
