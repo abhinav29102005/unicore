@@ -265,18 +265,18 @@ The architecture integrates UML Use Case, Class, Sequence, Component, and State 
 function FormattedMarkdownView({ docId }) {
   return (
     <div className="space-y-6">
-      <div className="p-4 rounded-xl glass-panel flex items-center justify-between">
+      <div className="p-4 rounded-xl bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <FileText className="w-5 h-5 text-red-600 dark:text-red-400" />
-          <span className="font-bold text-[var(--text-main)] text-sm font-mono">PROJECT_PROPOSAL.md</span>
-          <span className="text-[10px] px-2 py-0.5 rounded bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400 font-mono border border-red-200 dark:border-red-500/20">MARKDOWN PREVIEW</span>
+          <FileText className="w-5 h-5 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
+          <span className="font-bold text-[var(--text-color)] text-sm font-mono">PROJECT_PROPOSAL.md</span>
+          <span className="text-[10px] px-2 py-0.5 rounded bg-red-100 dark:bg-[var(--color-primary)]/10 text-[var(--color-primary)] dark:text-[var(--color-primary)] font-mono border border-[var(--color-primary)]/20 dark:border-[var(--color-primary)]/20">MARKDOWN PREVIEW</span>
         </div>
         <span className="text-xs text-[var(--text-muted)] font-mono">GitHub Markdown Standard</span>
       </div>
 
-      <div className="glass-panel p-8 rounded-3xl space-y-6 text-[var(--text-main)] leading-relaxed text-sm">
+      <div className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-8 rounded-3xl space-y-6 text-[var(--text-color)] leading-relaxed text-sm">
         <div className="border-b border-[var(--border-color)] pb-6 space-y-2">
-          <span className="text-xs font-mono text-red-600 dark:text-red-400 uppercase tracking-widest">Document Title</span>
+          <span className="text-xs font-mono text-[var(--color-primary)] dark:text-[var(--color-primary)] uppercase tracking-widest">Document Title</span>
           <h1 className="text-2xl font-extrabold font-heading">
             UniCore: High-Concurrency Transaction Layer
           </h1>
@@ -290,38 +290,38 @@ function FormattedMarkdownView({ docId }) {
         {/* Executive Summary */}
         <div className="space-y-3">
           <h2 className="text-lg font-bold flex items-center space-x-2 border-b border-[var(--border-color)] pb-2">
-            <Target className="w-4 h-4 text-red-600 dark:text-red-400" />
+            <Target className="w-4 h-4 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
             <span>1. Elevator Pitch & Executive Summary</span>
           </h2>
           <div className="space-y-2 text-xs text-[var(--text-muted)]">
-            <p><strong className="text-[var(--text-main)]">The Gap:</strong> Standalone system silos cause severe data duplication, drifting records, double-booking race conditions during peak rushes, and zero forensic auditability.</p>
-            <p><strong className="text-[var(--text-main)]">The Solution:</strong> Centralized operating platform built on PostgreSQL (8 BCNF domain schemas, 35+ tables) governed by <code className="text-red-600 dark:text-red-400 font-mono bg-slate-200 dark:bg-slate-800/40 px-1 py-0.5 rounded">SELECT FOR UPDATE</code> row locks and PL/SQL triggers.</p>
-            <p><strong className="text-[var(--text-main)]">The Impact:</strong> Guarantees 100% ACID transaction safety during concurrent rushes with target TTA $\le 2$ hours.</p>
+            <p><strong className="text-[var(--text-color)]">The Gap:</strong> Standalone system silos cause severe data duplication, drifting records, double-booking race conditions during peak rushes, and zero forensic auditability.</p>
+            <p><strong className="text-[var(--text-color)]">The Solution:</strong> Centralized operating platform built on PostgreSQL (8 BCNF domain schemas, 35+ tables) governed by <code className="text-[var(--color-primary)] dark:text-[var(--color-primary)] font-mono bg-slate-200 dark:bg-slate-800/40 px-1 py-0.5 rounded">SELECT FOR UPDATE</code> row locks and PL/SQL triggers.</p>
+            <p><strong className="text-[var(--text-color)]">The Impact:</strong> Guarantees 100% ACID transaction safety during concurrent rushes with target TTA $\le 2$ hours.</p>
           </div>
         </div>
 
         {/* Problem Statement */}
         <div className="space-y-3">
           <h2 className="text-lg font-bold flex items-center space-x-2 border-b border-[var(--border-color)] pb-2">
-            <AlertTriangle className="w-4 h-4 text-red-600 dark:text-red-400" />
+            <AlertTriangle className="w-4 h-4 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
             <span>2. Introduction & Problem Statement</span>
           </h2>
           <ul className="list-disc list-inside space-y-1.5 text-xs text-[var(--text-muted)]">
-            <li><strong className="text-[var(--text-main)]">Data Duplication:</strong> Identity and address data duplicated across hostel, library, and academic databases.</li>
-            <li><strong className="text-[var(--text-main)]">Data Inconsistency:</strong> Student details updated in one portal fail to propagate to other administrative modules.</li>
-            <li><strong className="text-[var(--text-main)]">Transaction Hazards:</strong> Race conditions double-allocate hostel beds or overbook exam hall seats during peak registration.</li>
+            <li><strong className="text-[var(--text-color)]">Data Duplication:</strong> Identity and address data duplicated across hostel, library, and academic databases.</li>
+            <li><strong className="text-[var(--text-color)]">Data Inconsistency:</strong> Student details updated in one portal fail to propagate to other administrative modules.</li>
+            <li><strong className="text-[var(--text-color)]">Transaction Hazards:</strong> Race conditions double-allocate hostel beds or overbook exam hall seats during peak registration.</li>
           </ul>
         </div>
 
         {/* Timeline Table */}
         <div className="space-y-3">
           <h2 className="text-lg font-bold flex items-center space-x-2 border-b border-[var(--border-color)] pb-2">
-            <Calendar className="w-4 h-4 text-red-600 dark:text-red-400" />
+            <Calendar className="w-4 h-4 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
             <span>5. Timeline & Phase Deliverables</span>
           </h2>
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">
-              <thead className="bg-slate-100 dark:bg-slate-900/50 text-[var(--text-main)] font-mono border-b border-[var(--border-color)]">
+              <thead className="bg-[var(--bg-color)] dark:bg-[var(--surface-color)] text-[var(--text-color)] font-mono border-b border-[var(--border-color)]">
                 <tr>
                   <th className="p-2.5">Phase</th>
                   <th className="p-2.5">Focus</th>
@@ -330,19 +330,19 @@ function FormattedMarkdownView({ docId }) {
               </thead>
               <tbody className="divide-y divide-[var(--border-color)] text-[var(--text-muted)]">
                 <tr>
-                  <td className="p-2.5 font-bold text-red-600 dark:text-red-400">Weeks 1–3</td>
+                  <td className="p-2.5 font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)]">Weeks 1–3</td>
                   <td className="p-2.5">Literature Review & ER Modeling</td>
                   <td className="p-2.5">8-Domain ER Schematic</td>
                 </tr>
                 <tr>
-                  <td className="p-2.5 font-bold text-red-600 dark:text-red-400">Weeks 4–6</td>
+                  <td className="p-2.5 font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)]">Weeks 4–6</td>
                   <td className="p-2.5">BCNF Normalization & DDL Setup</td>
                   <td className="p-2.5">35+ BCNF Tables Created</td>
                 </tr>
                 <tr>
-                  <td className="p-2.5 font-bold text-red-600 dark:text-red-400">Weeks 7–8</td>
+                  <td className="p-2.5 font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)]">Weeks 7–8</td>
                   <td className="p-2.5">PL/SQL Triggers & Locks</td>
-                  <td className="p-2.5"><code className="text-red-600 dark:text-red-400 font-mono">hostel_allot()</code> & Trigger Ledger</td>
+                  <td className="p-2.5"><code className="text-[var(--color-primary)] dark:text-[var(--color-primary)] font-mono">hostel_allot()</code> & Trigger Ledger</td>
                 </tr>
               </tbody>
             </table>
@@ -358,20 +358,20 @@ function FormattedMarkdownView({ docId }) {
 function FormattedLaTeXView({ docId }) {
   return (
     <div className="space-y-6">
-      <div className="p-4 rounded-xl glass-panel flex items-center justify-between">
+      <div className="p-4 rounded-xl bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <Code2 className="w-5 h-5 text-red-600 dark:text-red-400" />
-          <span className="font-bold text-[var(--text-main)] text-sm font-mono">project_proposal.tex</span>
-          <span className="text-[10px] px-2 py-0.5 rounded bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400 font-mono border border-red-200 dark:border-red-500/20">ACADEMIC LATEX PAPER VIEW</span>
+          <Code2 className="w-5 h-5 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
+          <span className="font-bold text-[var(--text-color)] text-sm font-mono">project_proposal.tex</span>
+          <span className="text-[10px] px-2 py-0.5 rounded bg-red-100 dark:bg-[var(--color-primary)]/10 text-[var(--color-primary)] dark:text-[var(--color-primary)] font-mono border border-[var(--color-primary)]/20 dark:border-[var(--color-primary)]/20">ACADEMIC LATEX PAPER VIEW</span>
         </div>
         <span className="text-xs text-[var(--text-muted)] font-mono">TeX Article Template</span>
       </div>
 
       {/* Academic Paper Sheet */}
-      <div className="glass-panel p-8 sm:p-12 rounded-3xl space-y-8 shadow-2xl text-[var(--text-main)]">
+      <div className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-8 sm:p-12 rounded-3xl space-y-8 shadow-2xl text-[var(--text-color)]">
         
         {/* TeX Preamble Badge */}
-        <div className="bg-slate-100 dark:bg-slate-900/60 border border-[var(--border-color)] p-3 rounded-xl font-mono text-[11px] text-[var(--text-muted)] flex items-center justify-between">
+        <div className="bg-[var(--bg-color)] dark:bg-[var(--bg-color)]/60 border border-[var(--border-color)] p-3 rounded-xl font-mono text-[11px] text-[var(--text-muted)] flex items-center justify-between">
           <span>{"\\documentclass[11pt,a4paper]{article}"}</span>
           <span>Packages: geometry, hyperref, booktabs, amsmath, listings</span>
         </div>
@@ -381,7 +381,7 @@ function FormattedLaTeXView({ docId }) {
           <h1 className="text-2xl sm:text-3xl font-extrabold font-serif tracking-tight leading-snug">
             UniCore: High-Concurrency Transaction Layer
           </h1>
-          <div className="text-sm font-medium text-red-600 dark:text-red-400 font-mono">
+          <div className="text-sm font-medium text-[var(--color-primary)] dark:text-[var(--color-primary)] font-mono">
             Ankit Rath (1024030458) &nbsp;•&nbsp; Manan Kapoor (1024030467) &nbsp;•&nbsp; Abhinav Kumar Singh (1024030440)
           </div>
           <div className="text-xs text-[var(--text-muted)] font-serif italic">
@@ -391,10 +391,10 @@ function FormattedLaTeXView({ docId }) {
         </div>
 
         {/* TeX Abstract */}
-        <div className="bg-red-50 dark:bg-red-500/5 border-l-4 border-red-500 p-5 rounded-r-xl space-y-2">
-          <h3 className="text-xs font-bold uppercase tracking-widest text-red-600 dark:text-red-400 font-mono">{"\\begin{abstract}"}</h3>
+        <div className="bg-[var(--color-primary)]/10 dark:bg-[var(--color-primary)]/5 border-l-4 border-red-500 p-5 rounded-r-xl space-y-2">
+          <h3 className="text-xs font-bold uppercase tracking-widest text-[var(--color-primary)] dark:text-[var(--color-primary)] font-mono">{"\\begin{abstract}"}</h3>
           <p className="text-xs text-[var(--text-muted)] italic leading-relaxed">
-            UniCore is a centralized campus operating platform engineered to unify student academic records, residential hostel allotment, library asset circulation, examination processing, and administrative workflows under a single system of record. Decomposed into Boyce-Codd Normal Form (BCNF) across 8 domain schemas and 35+ tables, UniCore guarantees 100% ACID transaction safety during peak concurrent rushes via explicit row-level locking (<code className="font-mono text-red-600 dark:text-red-400">SELECT FOR UPDATE</code>), automated PL/SQL triggers, and immutable JSON audit ledgers, targeting a Time-To-Acknowledgement (TTA) of $\le 2$ hours across 30,000+ active students.
+            UniCore is a centralized campus operating platform engineered to unify student academic records, residential hostel allotment, library asset circulation, examination processing, and administrative workflows under a single system of record. Decomposed into Boyce-Codd Normal Form (BCNF) across 8 domain schemas and 35+ tables, UniCore guarantees 100% ACID transaction safety during peak concurrent rushes via explicit row-level locking (<code className="font-mono text-[var(--color-primary)] dark:text-[var(--color-primary)]">SELECT FOR UPDATE</code>), automated PL/SQL triggers, and immutable JSON audit ledgers, targeting a Time-To-Acknowledgement (TTA) of $\le 2$ hours across 30,000+ active students.
           </p>
         </div>
 
@@ -404,9 +404,9 @@ function FormattedLaTeXView({ docId }) {
             1. Elevator Pitch ({"\\section{Elevator Pitch}"})
           </h2>
           <ul className="list-disc list-inside space-y-1.5 text-xs text-[var(--text-muted)]">
-            <li><strong className="text-[var(--text-main)]">The Gap:</strong> Disconnected system silos cause data duplication, drifting records, double-booking race conditions during peak rushes, and zero forensic auditability.</li>
-            <li><strong className="text-[var(--text-main)]">The Solution:</strong> Centralized operating platform (8 BCNF schemas, 35+ tables) governed by atomic row locks (<code className="font-mono text-red-600 dark:text-red-400">SELECT FOR UPDATE</code>) and PL/SQL triggers.</li>
-            <li><strong className="text-[var(--text-main)]">The Impact:</strong> Guarantees 100% ACID transaction safety with target TTA $\le 2$ hours across 30,000+ active students.</li>
+            <li><strong className="text-[var(--text-color)]">The Gap:</strong> Disconnected system silos cause data duplication, drifting records, double-booking race conditions during peak rushes, and zero forensic auditability.</li>
+            <li><strong className="text-[var(--text-color)]">The Solution:</strong> Centralized operating platform (8 BCNF schemas, 35+ tables) governed by atomic row locks (<code className="font-mono text-[var(--color-primary)] dark:text-[var(--color-primary)]">SELECT FOR UPDATE</code>) and PL/SQL triggers.</li>
+            <li><strong className="text-[var(--text-color)]">The Impact:</strong> Guarantees 100% ACID transaction safety with target TTA $\le 2$ hours across 30,000+ active students.</li>
           </ul>
         </div>
 
@@ -418,7 +418,7 @@ function FormattedLaTeXView({ docId }) {
           
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left font-serif">
-              <thead className="border-t-2 border-b-2 border-[var(--border-color)] text-red-600 dark:text-red-400 uppercase font-mono text-[11px]">
+              <thead className="border-t-2 border-b-2 border-[var(--border-color)] text-[var(--color-primary)] dark:text-[var(--color-primary)] uppercase font-mono text-[11px]">
                 <tr>
                   <th className="p-2">Scenario</th>
                   <th className="p-2">Isolation Level</th>
@@ -428,22 +428,22 @@ function FormattedLaTeXView({ docId }) {
               </thead>
               <tbody className="divide-y divide-[var(--border-color)] text-[var(--text-muted)]">
                 <tr>
-                  <td className="p-2 text-[var(--text-main)]">Hostel Bed Allotment</td>
-                  <td className="p-2 font-mono text-red-600 dark:text-red-400">SERIALIZABLE</td>
+                  <td className="p-2 text-[var(--text-color)]">Hostel Bed Allotment</td>
+                  <td className="p-2 font-mono text-[var(--color-primary)] dark:text-[var(--color-primary)]">SERIALIZABLE</td>
                   <td className="p-2 font-mono">SELECT FOR UPDATE</td>
-                  <td className="p-2 text-red-600 dark:text-red-400">Zero double-booking</td>
+                  <td className="p-2 text-[var(--color-primary)] dark:text-[var(--color-primary)]">Zero double-booking</td>
                 </tr>
                 <tr>
-                  <td className="p-2 text-[var(--text-main)]">Exam Seat Registration</td>
-                  <td className="p-2 font-mono text-red-600 dark:text-red-400">READ COMMITTED</td>
+                  <td className="p-2 text-[var(--text-color)]">Exam Seat Registration</td>
+                  <td className="p-2 font-mono text-[var(--color-primary)] dark:text-[var(--color-primary)]">READ COMMITTED</td>
                   <td className="p-2 font-mono">pg_advisory_xact_lock()</td>
-                  <td className="p-2 text-red-600 dark:text-red-400">Seat count $\le$ Capacity</td>
+                  <td className="p-2 text-[var(--color-primary)] dark:text-[var(--color-primary)]">Seat count $\le$ Capacity</td>
                 </tr>
                 <tr>
-                  <td className="p-2 text-[var(--text-main)]">Library Book Issue</td>
-                  <td className="p-2 font-mono text-red-600 dark:text-red-400">READ COMMITTED</td>
+                  <td className="p-2 text-[var(--text-color)]">Library Book Issue</td>
+                  <td className="p-2 font-mono text-[var(--color-primary)] dark:text-[var(--color-primary)]">READ COMMITTED</td>
                   <td className="p-2 font-mono">In-transaction decrement</td>
-                  <td className="p-2 text-red-600 dark:text-red-400">Available count $\ge 0$</td>
+                  <td className="p-2 text-[var(--color-primary)] dark:text-[var(--color-primary)]">Available count $\ge 0$</td>
                 </tr>
               </tbody>
             </table>
@@ -453,7 +453,7 @@ function FormattedLaTeXView({ docId }) {
         {/* TeX Code Listing Block */}
         <div className="space-y-2">
           <h3 className="text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider">{"\\begin{lstlisting}[language=SQL]"}</h3>
-          <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/60 border border-[var(--border-color)] font-mono text-xs text-red-700 dark:text-red-300 leading-relaxed overflow-x-auto">
+          <div className="p-4 rounded-xl bg-[var(--bg-color)] dark:bg-[var(--bg-color)]/60 border border-[var(--border-color)] font-mono text-xs text-[var(--color-primary-dark)] dark:text-red-300 leading-relaxed overflow-x-auto">
 {`CREATE OR REPLACE PROCEDURE hostel.hostel_allot(
     p_student_id UUID,
     p_room_id UUID,
@@ -478,15 +478,15 @@ function PDFViewer({ pdfUrl, filename }) {
   return (
     <div className="space-y-4">
       {/* Header bar */}
-      <div className="p-4 rounded-xl glass-panel flex items-center justify-between flex-wrap gap-3">
+      <div className="p-4 rounded-xl bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-lg bg-red-100 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 flex items-center justify-center text-red-600 dark:text-red-400">
+          <div className="w-8 h-8 rounded-lg bg-red-100 dark:bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/20 dark:border-[var(--color-primary)]/20 flex items-center justify-center text-[var(--color-primary)] dark:text-[var(--color-primary)]">
             <FileText className="w-4 h-4" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="font-bold text-[var(--text-main)] text-sm font-mono">{filename}</span>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400 font-mono border border-red-200 dark:border-red-500/20">
+              <span className="font-bold text-[var(--text-color)] text-sm font-mono">{filename}</span>
+              <span className="text-[10px] px-2 py-0.5 rounded bg-red-100 dark:bg-[var(--color-primary)]/10 text-[var(--color-primary)] dark:text-[var(--color-primary)] font-mono border border-[var(--color-primary)]/20 dark:border-[var(--color-primary)]/20">
                 COMPILED PDF FILE
               </span>
             </div>
@@ -499,16 +499,16 @@ function PDFViewer({ pdfUrl, filename }) {
             href={pdfUrl} 
             target="_blank" 
             rel="noreferrer"
-            className="flex items-center space-x-1.5 px-3 py-1.5 text-xs rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-medium transition-colors border border-slate-300 dark:border-slate-700"
+            className="flex items-center space-x-1.5 px-3 py-1.5 text-xs rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:bg-slate-700 text-[var(--text-color)] dark:text-slate-200 font-medium transition-colors border border-slate-300 dark:border-slate-700"
           >
-            <ExternalLink className="w-3.5 h-3.5 text-red-600 dark:text-red-400" />
+            <ExternalLink className="w-3.5 h-3.5 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
             <span>Open Fullscreen PDF</span>
           </a>
 
           <a 
             href={pdfUrl} 
             download={filename}
-            className="flex items-center space-x-1.5 px-3.5 py-1.5 text-xs rounded-lg bg-red-600 hover:bg-red-500 text-white font-semibold transition-colors shadow-md shadow-red-600/20"
+            className="flex items-center space-x-1.5 px-3.5 py-1.5 text-xs rounded-lg bg-[var(--color-primary)] hover:bg-[var(--color-primary)] text-white font-semibold transition-colors shadow-md shadow-red-600/20"
           >
             <Download className="w-3.5 h-3.5" />
             <span>Download PDF</span>
@@ -517,7 +517,7 @@ function PDFViewer({ pdfUrl, filename }) {
       </div>
 
       {/* Embedded PDF Container */}
-      <div className="glass-panel p-2 rounded-2xl overflow-hidden h-[750px] shadow-2xl relative">
+      <div className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-2 rounded-2xl overflow-hidden h-[750px] shadow-2xl relative">
         <object
           data={pdfUrl}
           type="application/pdf"
@@ -529,7 +529,7 @@ function PDFViewer({ pdfUrl, filename }) {
               href={pdfUrl} 
               target="_blank" 
               rel="noreferrer"
-              className="inline-flex items-center space-x-2 px-4 py-2 rounded-lg bg-red-600 text-white font-semibold"
+              className="inline-flex items-center space-x-2 px-4 py-2 rounded-lg bg-[var(--color-primary)] text-white font-semibold"
             >
               <span>Download & Open PDF</span>
               <ExternalLink className="w-4 h-4" />
@@ -603,7 +603,7 @@ export default function Docs() {
         
         {/* Brand Header */}
         <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-red-600 via-red-600 to-red-500 flex items-center justify-center shadow-lg shadow-red-500/20">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[var(--color-secondary)] via-red-600 to-[var(--surface-color)]0 flex items-center justify-center shadow-lg shadow-red-500/20">
             <Database className="w-4 h-4 text-white" />
           </div>
           <div>
@@ -626,7 +626,7 @@ export default function Docs() {
             <select
               value={activeDoc}
               onChange={(e) => setActiveDoc(e.target.value)}
-              className="bg-slate-100 dark:bg-slate-900/80 text-xs font-semibold px-3 py-2 rounded-xl border border-[var(--border-color)] text-[var(--text-main)] outline-none cursor-pointer focus:border-red-400 transition-colors"
+              className="bg-[var(--bg-color)] dark:bg-[var(--bg-color)]/80 text-xs font-semibold px-3 py-2 rounded-xl border border-[var(--border-color)] text-[var(--text-color)] outline-none cursor-pointer focus:border-red-400 transition-colors"
             >
               <option value="project_proposal">Project Proposal (Stage 1)</option>
               <option value="prototype_proposal">Prototype Proposal (Stage 2)</option>
@@ -635,11 +635,11 @@ export default function Docs() {
           </div>
 
           {/* Format Switcher */}
-          <div className="flex items-center bg-slate-100 dark:bg-slate-900/80 p-1 rounded-xl border border-[var(--border-color)]">
+          <div className="flex items-center bg-[var(--bg-color)] dark:bg-[var(--bg-color)]/80 p-1 rounded-xl border border-[var(--border-color)]">
             <button 
               onClick={() => setViewFormat('rendered')}
               className={`px-3 py-1 text-xs rounded-lg font-medium transition-all ${
-                viewFormat === 'rendered' ? 'bg-red-600 text-white shadow-sm' : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
+                viewFormat === 'rendered' ? 'bg-[var(--color-primary)] text-white shadow-sm' : 'text-[var(--text-muted)] hover:text-[var(--text-color)]'
               }`}
             >
               Interactive Proposal
@@ -647,7 +647,7 @@ export default function Docs() {
             <button 
               onClick={() => { setViewFormat('markdown'); setSubViewMode('formatted'); }}
               className={`px-3 py-1 text-xs rounded-lg font-medium flex items-center space-x-1 transition-all ${
-                viewFormat === 'markdown' ? 'bg-red-600 text-white shadow-sm' : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
+                viewFormat === 'markdown' ? 'bg-[var(--color-primary)] text-white shadow-sm' : 'text-[var(--text-muted)] hover:text-[var(--text-color)]'
               }`}
             >
               <FileText className="w-3 h-3" />
@@ -656,7 +656,7 @@ export default function Docs() {
             <button 
               onClick={() => { setViewFormat('latex'); setSubViewMode('pdf'); }}
               className={`px-3 py-1 text-xs rounded-lg font-medium flex items-center space-x-1 transition-all ${
-                viewFormat === 'latex' ? 'bg-red-600 text-white shadow-sm' : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
+                viewFormat === 'latex' ? 'bg-[var(--color-primary)] text-white shadow-sm' : 'text-[var(--text-muted)] hover:text-[var(--text-color)]'
               }`}
             >
               <Code2 className="w-3 h-3" />
@@ -667,17 +667,17 @@ export default function Docs() {
           {/* Theme Switcher */}
           <button 
             onClick={() => setIsDarkTheme(!isDarkTheme)}
-            className="p-2 rounded-xl glass-panel hover:bg-slate-200 dark:bg-slate-800/50 text-[var(--text-main)] transition-colors"
+            className="p-2 rounded-xl bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm hover:bg-slate-200 dark:bg-slate-800/50 text-[var(--text-color)] transition-colors"
             title="Toggle Theme (Dark / Light)"
           >
-            {isDarkTheme ? <Sun className="w-4 h-4 text-red-600 dark:text-red-400" /> : <Moon className="w-4 h-4 text-red-600" />}
+            {isDarkTheme ? <Sun className="w-4 h-4 text-[var(--color-primary)] dark:text-[var(--color-primary)]" /> : <Moon className="w-4 h-4 text-[var(--color-primary)]" />}
           </button>
 
           {/* Export PDF Button */}
           <a 
             href={currentDoc.pdfFile}
             download={currentDoc.pdfFileName}
-            className="flex items-center space-x-1 px-3 py-1.5 text-xs rounded-xl bg-red-600 hover:bg-red-500 text-white font-semibold shadow-md shadow-red-600/20 transition-all"
+            className="flex items-center space-x-1 px-3 py-1.5 text-xs rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-primary)] text-white font-semibold shadow-md shadow-red-600/20 transition-all"
             title="Download PDF Document"
           >
             <Download className="w-3.5 h-3.5" />
@@ -692,9 +692,9 @@ export default function Docs() {
         {/* Left Sidebar */}
         {viewFormat === 'rendered' && (<aside className="lg:col-span-3 no-print space-y-6 sticky top-8 self-start max-h-[calc(100vh-4rem)] overflow-y-auto hidden-scrollbar">
           {/* Metadata Card */}
-          <div className="glass-panel p-5 rounded-2xl space-y-4">
+          <div className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-5 rounded-2xl space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-500/20">
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-red-100 dark:bg-[var(--color-primary)]/10 text-[var(--color-primary)] dark:text-[var(--color-primary)] border border-[var(--color-primary)]/20 dark:border-[var(--color-primary)]/20">
                 {currentDoc.stage}
               </span>
               <span className="text-xs text-[var(--text-muted)] font-mono">
@@ -703,7 +703,7 @@ export default function Docs() {
             </div>
 
             <div>
-              <h3 className="font-bold text-[var(--text-main)] font-heading text-base leading-snug">
+              <h3 className="font-bold text-[var(--text-color)] font-heading text-base leading-snug">
                 {currentDoc.title}
               </h3>
               <p className="text-xs text-[var(--text-muted)] mt-1 leading-relaxed">
@@ -715,7 +715,7 @@ export default function Docs() {
               <span className="text-[11px] font-semibold text-[var(--text-muted)] uppercase tracking-wider">Project Engineering Team</span>
               <div className="space-y-1.5">
                 {currentDoc.authors.map((author, i) => (
-                  <div key={i} className="text-xs text-[var(--text-main)] flex items-center justify-between">
+                  <div key={i} className="text-xs text-[var(--text-color)] flex items-center justify-between">
                     <span className="font-medium">{author.name}</span>
                     <span className="font-mono text-[var(--text-muted)] text-[11px]">{author.roll}</span>
                   </div>
@@ -726,7 +726,7 @@ export default function Docs() {
 
           {/* Section Index */}
           {currentDoc.display && currentDoc.sections.length > 0 && (
-            <div className="glass-panel p-5 rounded-2xl space-y-3">
+            <div className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-5 rounded-2xl space-y-3">
               <h4 className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider flex items-center justify-between">
                 <span>Proposal Index</span>
                 <Layers className="w-3.5 h-3.5 text-[var(--text-muted)]" />
@@ -736,7 +736,7 @@ export default function Docs() {
                   <a 
                     key={idx}
                     href={`#${sec.id}`}
-                    className="flex items-center space-x-2 text-xs py-1.5 px-2.5 rounded-lg text-[var(--text-muted)] hover:text-red-600 dark:text-red-400 hover:bg-red-100 dark:bg-red-500/10 transition-all group"
+                    className="flex items-center space-x-2 text-xs py-1.5 px-2.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--color-primary)] dark:text-[var(--color-primary)] hover:bg-red-100 dark:bg-[var(--color-primary)]/10 transition-all group"
                   >
                     <span>{sec.title}</span>
                   </a>
@@ -750,25 +750,25 @@ export default function Docs() {
         <main className={`space-y-8 ${viewFormat !== 'rendered' ? 'lg:col-span-12' : 'lg:col-span-9'}`}>
           
           {!currentDoc.display ? (
-            <div className="glass-panel p-12 rounded-3xl text-center space-y-6 border-red-200 dark:border-red-500/20 bg-gradient-to-b from-slate-100 dark:from-slate-900 via-slate-100 dark:via-slate-900 to-red-100 dark:to-red-950/10">
-              <div className="w-16 h-16 rounded-2xl bg-red-100 dark:bg-red-500/10 border border-red-300 dark:border-red-500/30 text-red-600 dark:text-red-400 flex items-center justify-center mx-auto shadow-lg shadow-red-500/10">
+            <div className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-12 rounded-3xl text-center space-y-6 border-[var(--color-primary)]/20 dark:border-[var(--color-primary)]/20 bg-gradient-to-b from-slate-100 dark:from-slate-900 via-slate-100 dark:via-slate-900 to-red-100 dark:to-red-950/10">
+              <div className="w-16 h-16 rounded-2xl bg-red-100 dark:bg-[var(--color-primary)]/10 border border-red-300 dark:border-red-500/30 text-[var(--color-primary)] dark:text-[var(--color-primary)] flex items-center justify-center mx-auto shadow-lg shadow-red-500/10">
                 <Lock className="w-8 h-8" />
               </div>
               <div className="max-w-md mx-auto space-y-2">
-                <span className="text-xs font-bold px-3 py-1 rounded-full bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-red-300 dark:border-red-500/30 uppercase tracking-wide">
+                <span className="text-xs font-bold px-3 py-1 rounded-full bg-red-100 dark:bg-[var(--color-primary)]/10 text-[var(--color-primary)] dark:text-[var(--color-primary)] border border-red-300 dark:border-red-500/30 uppercase tracking-wide">
                   Upcoming Stage Milestone
                 </span>
-                <h2 className="text-2xl font-bold font-heading text-slate-900 dark:text-slate-900 dark:text-slate-100">
+                <h2 className="text-2xl font-bold font-heading text-[var(--text-color)] dark:text-[var(--text-color)] dark:text-slate-100">
                   {currentDoc.title}
                 </h2>
-                <p className="text-xs text-slate-600 dark:text-slate-600 dark:text-slate-400 leading-relaxed">
-                  This document content is locked and set to <code className="text-red-700 dark:text-red-300 font-mono bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded">display: false</code>. It will be automatically unlocked during upcoming milestone phases.
+                <p className="text-xs text-[var(--text-muted)] dark:text-[var(--text-muted)] dark:text-slate-400 leading-relaxed">
+                  This document content is locked and set to <code className="text-[var(--color-primary-dark)] dark:text-red-300 font-mono bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded">display: false</code>. It will be automatically unlocked during upcoming milestone phases.
                 </p>
               </div>
 
               <button 
                 onClick={() => setActiveDoc('project_proposal')}
-                className="inline-flex items-center space-x-2 px-5 py-2.5 text-xs rounded-xl bg-red-600 hover:bg-red-500 text-white font-semibold transition-colors shadow-lg shadow-red-600/20"
+                className="inline-flex items-center space-x-2 px-5 py-2.5 text-xs rounded-xl bg-[var(--color-primary)] hover:bg-[var(--color-primary)] text-white font-semibold transition-colors shadow-lg shadow-red-600/20"
               >
                 <span>View Active Project Proposal</span>
                 <ChevronRight className="w-4 h-4" />
@@ -780,17 +780,17 @@ export default function Docs() {
               {viewFormat !== 'rendered' ? (
                 <div className="space-y-6">
                   {/* Mode Bar */}
-                  <div className="glass-panel p-4 rounded-xl flex items-center justify-between border-red-300 dark:border-red-500/30 bg-slate-100 dark:bg-slate-900/60 flex-wrap gap-3">
+                  <div className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-4 rounded-xl flex items-center justify-between border-red-300 dark:border-red-500/30 bg-[var(--bg-color)] dark:bg-[var(--bg-color)]/60 flex-wrap gap-3">
                     <div className="flex items-center space-x-3">
-                      <div className="w-9 h-9 rounded-lg bg-red-100 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 flex items-center justify-center text-red-600 dark:text-red-400">
+                      <div className="w-9 h-9 rounded-lg bg-red-100 dark:bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/20 dark:border-[var(--color-primary)]/20 flex items-center justify-center text-[var(--color-primary)] dark:text-[var(--color-primary)]">
                         {viewFormat === 'markdown' ? <FileText className="w-5 h-5" /> : <Code2 className="w-5 h-5" />}
                       </div>
                       <div>
                         <div className="flex items-center space-x-2">
-                          <h4 className="text-sm font-bold text-[var(--text-main)] font-mono">
+                          <h4 className="text-sm font-bold text-[var(--text-color)] font-mono">
                             {activeFileName}
                           </h4>
-                          <span className="text-[10px] px-2 py-0.5 rounded bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-300 font-mono">
+                          <span className="text-[10px] px-2 py-0.5 rounded bg-red-100 dark:bg-[var(--color-primary)]/20 text-[var(--color-primary-dark)] dark:text-red-300 font-mono">
                             {viewFormat === 'markdown' ? 'MARKDOWN FILE' : 'LATEX FILE'}
                           </span>
                         </div>
@@ -811,7 +811,7 @@ export default function Docs() {
                           <button 
                             onClick={() => setSubViewMode('pdf')}
                             className={`px-3 py-1 text-xs rounded-md font-semibold transition-all flex items-center space-x-1.5 ${
-                              subViewMode === 'pdf' ? 'bg-red-600 text-white shadow-sm' : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
+                              subViewMode === 'pdf' ? 'bg-[var(--color-primary)] text-white shadow-sm' : 'text-[var(--text-muted)] hover:text-[var(--text-color)]'
                             }`}
                           >
                             <FileText className="w-3.5 h-3.5" />
@@ -821,7 +821,7 @@ export default function Docs() {
                         <button 
                           onClick={() => setSubViewMode('formatted')}
                           className={`px-3 py-1 text-xs rounded-md font-semibold transition-all flex items-center space-x-1.5 ${
-                            subViewMode === 'formatted' ? 'bg-red-600 text-white shadow-sm' : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
+                            subViewMode === 'formatted' ? 'bg-[var(--color-primary)] text-white shadow-sm' : 'text-[var(--text-muted)] hover:text-[var(--text-color)]'
                           }`}
                         >
                           <Eye className="w-3.5 h-3.5" />
@@ -830,7 +830,7 @@ export default function Docs() {
                         <button 
                           onClick={() => setSubViewMode('raw')}
                           className={`px-3 py-1 text-xs rounded-md font-semibold transition-all flex items-center space-x-1.5 ${
-                            subViewMode === 'raw' ? 'bg-red-600 text-white shadow-sm' : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
+                            subViewMode === 'raw' ? 'bg-[var(--color-primary)] text-white shadow-sm' : 'text-[var(--text-muted)] hover:text-[var(--text-color)]'
                           }`}
                         >
                           <FileCode className="w-3.5 h-3.5" />
@@ -840,20 +840,20 @@ export default function Docs() {
 
                       <button 
                         onClick={() => handleDownloadFile(activeContentText, activeFileName)}
-                        className="flex items-center space-x-1.5 px-3 py-1.5 text-xs rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-medium transition-colors border border-slate-300 dark:border-slate-700"
+                        className="flex items-center space-x-1.5 px-3 py-1.5 text-xs rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:bg-slate-700 text-[var(--text-color)] dark:text-slate-200 font-medium transition-colors border border-slate-300 dark:border-slate-700"
                         title="Download raw file"
                       >
-                        <Download className="w-3.5 h-3.5 text-red-600 dark:text-red-400" />
+                        <Download className="w-3.5 h-3.5 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
                         <span className="hidden sm:inline">Download</span>
                       </button>
 
                       <button 
                         onClick={() => handleCopyCode(activeContentText, viewFormat)}
-                        className="flex items-center space-x-1.5 px-3.5 py-1.5 text-xs rounded-lg bg-red-600 hover:bg-red-500 text-white font-semibold transition-colors shadow-md shadow-red-600/20"
+                        className="flex items-center space-x-1.5 px-3.5 py-1.5 text-xs rounded-lg bg-[var(--color-primary)] hover:bg-[var(--color-primary)] text-white font-semibold transition-colors shadow-md shadow-red-600/20"
                       >
                         {copiedFormat === viewFormat ? (
                           <>
-                            <Check className="w-3.5 h-3.5 text-red-700 dark:text-red-300" />
+                            <Check className="w-3.5 h-3.5 text-[var(--color-primary-dark)] dark:text-red-300" />
                             <span>Copied!</span>
                           </>
                         ) : (
@@ -876,8 +876,8 @@ export default function Docs() {
                       <FormattedLaTeXView docId={activeDoc} />
                     )
                   ) : (
-                    <div className="glass-panel p-6 rounded-2xl overflow-x-auto bg-slate-200 dark:bg-slate-950 border-slate-800">
-                      <pre className={`font-mono ${fontSize} leading-relaxed text-slate-800 dark:text-slate-200 ${wordWrap ? 'whitespace-pre-wrap' : 'whitespace-pre'}`}>
+                    <div className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-6 rounded-2xl overflow-x-auto bg-slate-200 dark:bg-slate-950 border-slate-800">
+                      <pre className={`font-mono ${fontSize} leading-relaxed text-[var(--text-color)] dark:text-slate-200 ${wordWrap ? 'whitespace-pre-wrap' : 'whitespace-pre'}`}>
                         {activeContentText}
                       </pre>
                     </div>
@@ -888,13 +888,13 @@ export default function Docs() {
                 <div className="space-y-8">
                   
                   {/* Hero Header */}
-                  <div className="glass-panel p-8 rounded-3xl relative overflow-hidden border-red-200 dark:border-red-500/20">
+                  <div className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-8 rounded-3xl relative overflow-hidden border-[var(--color-primary)]/20 dark:border-[var(--color-primary)]/20">
                     <div className="space-y-4">
-                      <div className="flex items-center space-x-2 text-xs font-semibold text-red-600 dark:text-red-400 tracking-wide uppercase">
-                        <ShieldCheck className="w-4 h-4 text-red-600 dark:text-red-400" />
+                      <div className="flex items-center space-x-2 text-xs font-semibold text-[var(--color-primary)] dark:text-[var(--color-primary)] tracking-wide uppercase">
+                        <ShieldCheck className="w-4 h-4 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
                         <span>Thapar Institute of Engineering & Technology | CSED</span>
                       </div>
-                      <h1 className="text-3xl lg:text-4xl font-extrabold text-[var(--text-main)] font-heading tracking-tight leading-tight">
+                      <h1 className="text-3xl lg:text-4xl font-extrabold text-[var(--text-color)] font-heading tracking-tight leading-tight">
                         UniCore: High-Concurrency Transaction Layer
                       </h1>
                       <p className="text-[var(--text-muted)] text-sm leading-relaxed max-w-3xl">
@@ -906,32 +906,32 @@ export default function Docs() {
                                     
 
                   {/* 1. Elevator Pitch */}
-                  <section id="pitch" className="glass-panel p-6 lg:p-10 rounded-3xl space-y-8 bg-gradient-to-br from-red-50 dark:from-red-950/20 to-slate-50 dark:to-slate-900 border-red-200 dark:border-red-500/20">
+                  <section id="pitch" className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-6 lg:p-10 rounded-3xl space-y-8 bg-gradient-to-br from-red-50 dark:from-red-950/20 to-slate-50 dark:to-slate-900 border-[var(--color-primary)]/20 dark:border-[var(--color-primary)]/20">
                     <div>
-                      <h2 className="text-2xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-3">
-                        <Flame className="w-6 h-6 text-red-600 dark:text-red-400" />
+                      <h2 className="text-2xl font-bold font-heading text-[var(--text-color)] flex items-center space-x-3">
+                        <Flame className="w-6 h-6 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
                         <span>1. The UniCore Elevator Pitch</span>
                       </h2>
-                      <div className="w-20 h-1 bg-red-600 dark:bg-red-500 rounded-full mt-3"></div>
+                      <div className="w-20 h-1 bg-[var(--color-primary)] dark:bg-[var(--color-primary)] rounded-full mt-3"></div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      <div className="p-6 rounded-2xl bg-white dark:bg-slate-900/60 shadow-lg border border-[var(--border-color)] space-y-3 transform hover:-translate-y-1 transition-all duration-300">
-                        <div className="text-sm font-bold text-red-600 dark:text-red-400 uppercase tracking-wider">The Operational Gap</div>
+                      <div className="p-6 rounded-2xl bg-white dark:bg-[var(--bg-color)]/60 shadow-lg border border-[var(--border-color)] space-y-3 transform hover:-translate-y-1 transition-all duration-300">
+                        <div className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)] uppercase tracking-wider">The Operational Gap</div>
                         <p className="text-sm text-[var(--text-muted)] leading-relaxed">
                           Disconnected departmental silos cause severe data duplication, room double-booking race conditions during peak rushes, and zero forensic auditability.
                         </p>
                       </div>
 
-                      <div className="p-6 rounded-2xl bg-white dark:bg-slate-900/60 shadow-lg border border-[var(--border-color)] space-y-3 transform hover:-translate-y-1 transition-all duration-300">
-                        <div className="text-sm font-bold text-red-600 dark:text-red-400 uppercase tracking-wider">The Software Solution</div>
+                      <div className="p-6 rounded-2xl bg-white dark:bg-[var(--bg-color)]/60 shadow-lg border border-[var(--border-color)] space-y-3 transform hover:-translate-y-1 transition-all duration-300">
+                        <div className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)] uppercase tracking-wider">The Software Solution</div>
                         <p className="text-sm text-[var(--text-muted)] leading-relaxed">
-                          A centralized operating platform (8 BCNF schemas, 35+ tables) governed by <code className="text-red-600 dark:text-red-400 font-mono text-xs">SELECT FOR UPDATE</code> row locks, PL/SQL triggers, and JSON audit ledgers.
+                          A centralized operating platform (8 BCNF schemas, 35+ tables) governed by <code className="text-[var(--color-primary)] dark:text-[var(--color-primary)] font-mono text-xs">SELECT FOR UPDATE</code> row locks, PL/SQL triggers, and JSON audit ledgers.
                         </p>
                       </div>
 
-                      <div className="p-6 rounded-2xl bg-white dark:bg-slate-900/60 shadow-lg border border-[var(--border-color)] space-y-3 transform hover:-translate-y-1 transition-all duration-300">
-                        <div className="text-sm font-bold text-red-600 dark:text-red-400 uppercase tracking-wider">The Measurable Impact</div>
+                      <div className="p-6 rounded-2xl bg-white dark:bg-[var(--bg-color)]/60 shadow-lg border border-[var(--border-color)] space-y-3 transform hover:-translate-y-1 transition-all duration-300">
+                        <div className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)] uppercase tracking-wider">The Measurable Impact</div>
                         <p className="text-sm text-[var(--text-muted)] leading-relaxed">
                           Eliminates administrative overhead, guarantees 100% ACID transaction safety during rushes, and achieves a target Time-To-Acknowledgement (TTA) ≤ 2 hours across 30,000+ students.
                         </p>
@@ -940,10 +940,10 @@ export default function Docs() {
                   </section>
 
                   {/* 2. Introduction & Problem Statement */}
-                  <section id="intro" className="glass-panel p-6 lg:p-10 rounded-3xl space-y-6">
+                  <section id="intro" className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-6 lg:p-10 rounded-3xl space-y-6">
                     <div>
-                      <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
-                        <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400" />
+                      <h2 className="text-xl font-bold font-heading text-[var(--text-color)] flex items-center space-x-2">
+                        <AlertTriangle className="w-5 h-5 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
                         <span>2. Introduction & Problem Statement</span>
                       </h2>
                       <p className="text-sm text-[var(--text-muted)] mt-2 max-w-3xl leading-relaxed">
@@ -952,75 +952,75 @@ export default function Docs() {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
-                        <div className="text-sm font-bold text-red-600 dark:text-red-400">1. Data Duplication</div>
+                      <div className="p-5 rounded-2xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] space-y-2">
+                        <div className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)]">1. Data Duplication</div>
                         <p className="text-xs text-[var(--text-muted)] leading-relaxed">Redundant address & contact records stored across hostel, library, and academic databases.</p>
                       </div>
-                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
-                        <div className="text-sm font-bold text-red-600 dark:text-red-400">2. Data Inconsistency</div>
+                      <div className="p-5 rounded-2xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] space-y-2">
+                        <div className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)]">2. Data Inconsistency</div>
                         <p className="text-xs text-[var(--text-muted)] leading-relaxed">Mismatched student profiles when details update in one portal but fail to propagate to others.</p>
                       </div>
-                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
-                        <div className="text-sm font-bold text-red-600 dark:text-red-400">3. Resource Tracking Errors</div>
+                      <div className="p-5 rounded-2xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] space-y-2">
+                        <div className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)]">3. Resource Tracking Errors</div>
                         <p className="text-xs text-[var(--text-muted)] leading-relaxed">Manual, error-prone tracking of bed availability, room statuses, and library book copies.</p>
                       </div>
-                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
-                        <div className="text-sm font-bold text-red-600 dark:text-red-400">4. Transaction Hazards</div>
+                      <div className="p-5 rounded-2xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] space-y-2">
+                        <div className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)]">4. Transaction Hazards</div>
                         <p className="text-xs text-[var(--text-muted)] leading-relaxed">Concurrent HTTP requests during room allotment rushes result in double-booking beds.</p>
                       </div>
-                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-2">
-                        <div className="text-sm font-bold text-red-600 dark:text-red-400">5. Security & Audit Gaps</div>
+                      <div className="p-5 rounded-2xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] space-y-2">
+                        <div className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)]">5. Security & Audit Gaps</div>
                         <p className="text-xs text-[var(--text-muted)] leading-relaxed">Unscoped administrative permissions allow modifications without traceable actor logs.</p>
                       </div>
                     </div>
                   </section>
 
                   {/* 3. SMART Project Objectives */}
-                  <section id="objectives" className="glass-panel p-6 lg:p-10 rounded-3xl space-y-6">
-                    <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
-                      <Cpu className="w-5 h-5 text-red-600 dark:text-red-400" />
+                  <section id="objectives" className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-6 lg:p-10 rounded-3xl space-y-6">
+                    <h2 className="text-xl font-bold font-heading text-[var(--text-color)] flex items-center space-x-2">
+                      <Cpu className="w-5 h-5 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
                       <span>3. SMART Project Objectives</span>
                     </h2>
 
                     <div className="space-y-4">
-                      <div className="p-6 rounded-2xl bg-red-50 dark:bg-red-500/10 border-l-4 border-red-600 dark:border-red-500">
-                        <div className="text-sm font-bold text-red-700 dark:text-red-400 uppercase tracking-wide">Primary Overarching Objective</div>
-                        <p className="text-sm text-slate-800 dark:text-slate-200 mt-2 leading-relaxed">
+                      <div className="p-6 rounded-2xl bg-[var(--color-primary)]/10 dark:bg-[var(--color-primary)]/10 border-l-4 border-red-600 dark:border-red-500">
+                        <div className="text-sm font-bold text-[var(--color-primary-dark)] dark:text-[var(--color-primary)] uppercase tracking-wide">Primary Overarching Objective</div>
+                        <p className="text-sm text-[var(--text-color)] dark:text-slate-200 mt-2 leading-relaxed">
                           To design, implement, and benchmark a unified BCNF PostgreSQL operating platform for 30,000+ active students that eliminates data redundancy, guarantees ACID transaction safety during peak concurrent rushes, and records immutable audit ledgers.
                         </p>
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] text-sm text-[var(--text-muted)]">
-                          <strong className="text-red-600 dark:text-red-400 block mb-1">Sub-Goal 1: BCNF Normalization</strong>
+                        <div className="p-4 rounded-xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] text-sm text-[var(--text-muted)]">
+                          <strong className="text-[var(--color-primary)] dark:text-[var(--color-primary)] block mb-1">Sub-Goal 1: BCNF Normalization</strong>
                           Decompose 35+ tables across 8 domain schemas strictly into Boyce-Codd Normal Form.
                         </div>
-                        <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] text-sm text-[var(--text-muted)]">
-                          <strong className="text-red-600 dark:text-red-400 block mb-1">Sub-Goal 2: Atomic Row Locks</strong>
-                          Enforce <code className="text-red-600 dark:text-red-400 font-mono text-xs">SELECT FOR UPDATE</code> in <code className="text-red-600 dark:text-red-400 font-mono text-xs">hostel_allot()</code> procedure.
+                        <div className="p-4 rounded-xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] text-sm text-[var(--text-muted)]">
+                          <strong className="text-[var(--color-primary)] dark:text-[var(--color-primary)] block mb-1">Sub-Goal 2: Atomic Row Locks</strong>
+                          Enforce <code className="text-[var(--color-primary)] dark:text-[var(--color-primary)] font-mono text-xs">SELECT FOR UPDATE</code> in <code className="text-[var(--color-primary)] dark:text-[var(--color-primary)] font-mono text-xs">hostel_allot()</code> procedure.
                         </div>
-                        <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] text-sm text-[var(--text-muted)]">
-                          <strong className="text-red-600 dark:text-red-400 block mb-1">Sub-Goal 3: Automated Triggers</strong>
+                        <div className="p-4 rounded-xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] text-sm text-[var(--text-muted)]">
+                          <strong className="text-[var(--color-primary)] dark:text-[var(--color-primary)] block mb-1">Sub-Goal 3: Automated Triggers</strong>
                           Implement fine check triggers and JSON audit triggers.
                         </div>
-                        <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] text-sm text-[var(--text-muted)]">
-                          <strong className="text-red-600 dark:text-red-400 block mb-1">Sub-Goal 4: Concurrency Metrics</strong>
-                          Measure TPS throughput and p95/p99 latency via <code className="text-red-600 dark:text-red-400 font-mono text-xs">pgBench</code>.
+                        <div className="p-4 rounded-xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] text-sm text-[var(--text-muted)]">
+                          <strong className="text-[var(--color-primary)] dark:text-[var(--color-primary)] block mb-1">Sub-Goal 4: Concurrency Metrics</strong>
+                          Measure TPS throughput and p95/p99 latency via <code className="text-[var(--color-primary)] dark:text-[var(--color-primary)] font-mono text-xs">pgBench</code>.
                         </div>
                       </div>
                     </div>
                   </section>
 
                   {/* 4. Methodology & Architecture */}
-                  <section id="methodology" className="glass-panel p-6 lg:p-10 rounded-3xl space-y-6">
-                    <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
-                      <Key className="w-5 h-5 text-red-600 dark:text-red-400" />
+                  <section id="methodology" className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-6 lg:p-10 rounded-3xl space-y-6">
+                    <h2 className="text-xl font-bold font-heading text-[var(--text-color)] flex items-center space-x-2">
+                      <Key className="w-5 h-5 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
                       <span>4. System Architecture & Concurrency Matrix</span>
                     </h2>
 
                     <div className="overflow-x-auto rounded-xl border border-[var(--border-color)]">
                       <table className="w-full text-sm text-left">
-                        <thead className="bg-slate-100 dark:bg-slate-900 text-[var(--text-main)] uppercase tracking-wider font-bold">
+                        <thead className="bg-[var(--bg-color)] dark:bg-[var(--bg-color)] text-[var(--text-color)] uppercase tracking-wider font-bold">
                           <tr>
                             <th className="p-4">Scenario</th>
                             <th className="p-4">Isolation Level</th>
@@ -1029,29 +1029,29 @@ export default function Docs() {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-[var(--border-color)] text-[var(--text-muted)] bg-white dark:bg-slate-950/40">
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
-                            <td className="p-4 font-bold text-red-600 dark:text-red-400">Hostel Bed Allotment</td>
-                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">SERIALIZABLE</td>
+                          <tr className="hover:bg-[var(--surface-color)] dark:hover:bg-[var(--surface-color)] transition-colors">
+                            <td className="p-4 font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)]">Hostel Bed Allotment</td>
+                            <td className="p-4 font-mono text-xs text-[var(--color-primary)] dark:text-[var(--color-primary)]">SERIALIZABLE</td>
                             <td className="p-4 font-mono text-xs">SELECT FOR UPDATE on room row</td>
-                            <td className="p-4 text-red-600 dark:text-red-400 font-medium">Zero double-booking of beds</td>
+                            <td className="p-4 text-[var(--color-primary)] dark:text-[var(--color-primary)] font-medium">Zero double-booking of beds</td>
                           </tr>
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
-                            <td className="p-4 font-bold text-red-600 dark:text-red-400">Exam Seat Registration</td>
-                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">READ COMMITTED</td>
+                          <tr className="hover:bg-[var(--surface-color)] dark:hover:bg-[var(--surface-color)] transition-colors">
+                            <td className="p-4 font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)]">Exam Seat Registration</td>
+                            <td className="p-4 font-mono text-xs text-[var(--color-primary)] dark:text-[var(--color-primary)]">READ COMMITTED</td>
                             <td className="p-4 font-mono text-xs">pg_advisory_xact_lock(exam_id)</td>
-                            <td className="p-4 text-red-600 dark:text-red-400 font-medium">Seat count never exceeds capacity</td>
+                            <td className="p-4 text-[var(--color-primary)] dark:text-[var(--color-primary)] font-medium">Seat count never exceeds capacity</td>
                           </tr>
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
-                            <td className="p-4 font-bold text-red-600 dark:text-red-400">Library Book Issue</td>
-                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">READ COMMITTED</td>
+                          <tr className="hover:bg-[var(--surface-color)] dark:hover:bg-[var(--surface-color)] transition-colors">
+                            <td className="p-4 font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)]">Library Book Issue</td>
+                            <td className="p-4 font-mono text-xs text-[var(--color-primary)] dark:text-[var(--color-primary)]">READ COMMITTED</td>
                             <td className="p-4 font-mono text-xs">In-transaction decrement</td>
-                            <td className="p-4 text-red-600 dark:text-red-400 font-medium">Copy count never drops below 0</td>
+                            <td className="p-4 text-[var(--color-primary)] dark:text-[var(--color-primary)] font-medium">Copy count never drops below 0</td>
                           </tr>
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
-                            <td className="p-4 font-bold text-red-600 dark:text-red-400">Grade Record Updates</td>
-                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">READ COMMITTED</td>
+                          <tr className="hover:bg-[var(--surface-color)] dark:hover:bg-[var(--surface-color)] transition-colors">
+                            <td className="p-4 font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)]">Grade Record Updates</td>
+                            <td className="p-4 font-mono text-xs text-[var(--color-primary)] dark:text-[var(--color-primary)]">READ COMMITTED</td>
                             <td className="p-4 font-mono text-xs">UPSERT (ON CONFLICT DO UPDATE)</td>
-                            <td className="p-4 text-red-600 dark:text-red-400 font-medium">Updates existing; zero duplicate rows</td>
+                            <td className="p-4 text-[var(--color-primary)] dark:text-[var(--color-primary)] font-medium">Updates existing; zero duplicate rows</td>
                           </tr>
                         </tbody>
                       </table>
@@ -1059,27 +1059,27 @@ export default function Docs() {
                   </section>
 
 {/* 4.3 Unified Modeling Language (UML) Diagrams */}
-                  <section id="uml" className="glass-panel p-6 lg:p-8 rounded-2xl space-y-6">
+                  <section id="uml" className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-6 lg:p-8 rounded-2xl space-y-6">
                     <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-4">
                       <div>
-                        <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
-                          <GitBranch className="w-5 h-5 text-red-600 dark:text-red-400" />
+                        <h2 className="text-xl font-bold font-heading text-[var(--text-color)] flex items-center space-x-2">
+                          <GitBranch className="w-5 h-5 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
                           <span>4.3 Unified Modeling Language (UML) Diagrams</span>
                         </h2>
                         <p className="text-xs text-[var(--text-muted)] mt-1">
                           Comprehensive object-oriented and structural models of the UniCore platform.
                         </p>
                       </div>
-                      <span className="text-xs px-2.5 py-1 rounded bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-500/20 font-mono">
+                      <span className="text-xs px-2.5 py-1 rounded bg-red-100 dark:bg-[var(--color-primary)]/10 text-[var(--color-primary)] dark:text-[var(--color-primary)] border border-[var(--color-primary)]/20 dark:border-[var(--color-primary)]/20 font-mono">
                         UML 2.5 Standard
                       </span>
                     </div>
 
                     <div className="space-y-6">
                       {/* Use Case */}
-                      <div className="p-5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-3">
+                      <div className="p-5 rounded-xl bg-[var(--bg-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] space-y-3">
                         <div className="flex items-center justify-between">
-                          <h3 className="text-sm font-bold text-red-600 dark:text-red-400 flex items-center space-x-2">
+                          <h3 className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)] flex items-center space-x-2">
                             <Box className="w-4 h-4" />
                             <span>4.3.1 UML Use Case Diagram</span>
                           </h3>
@@ -1089,7 +1089,7 @@ export default function Docs() {
                           Models interactions between primary external actors (Student, Academic Staff, Warden, Library Officer, Admin) and operational use cases.
                         </p>
                         <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto">
-                          <pre className="font-mono text-[11px] text-red-700 dark:text-red-300 leading-relaxed whitespace-pre">
+                          <pre className="font-mono text-[11px] text-[var(--color-primary-dark)] dark:text-red-300 leading-relaxed whitespace-pre">
 {`┌─────────────────────────────────────────────────────────────────────────────┐
 │                        UniCore System Boundary                              │
 │                                                                             │
@@ -1120,9 +1120,9 @@ export default function Docs() {
                       </div>
 
                       {/* Class Diagram */}
-                      <div className="p-5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-3">
+                      <div className="p-5 rounded-xl bg-[var(--bg-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] space-y-3">
                         <div className="flex items-center justify-between">
-                          <h3 className="text-sm font-bold text-red-600 dark:text-red-400 flex items-center space-x-2">
+                          <h3 className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)] flex items-center space-x-2">
                             <Layers className="w-4 h-4" />
                             <span>4.3.2 UML Class & Data Architecture Diagram</span>
                           </h3>
@@ -1133,7 +1133,7 @@ export default function Docs() {
 
                           <button 
                             onClick={() => setExpandedImage({light: './images/class_diagram_light.png', dark: './images/class_diagram_dark.png'})} 
-                            className="absolute top-3 right-3 p-2 bg-slate-800/60 hover:bg-red-600 rounded-lg opacity-0 group-hover:opacity-100 transition-all z-10"
+                            className="absolute top-3 right-3 p-2 bg-slate-800/60 hover:bg-[var(--color-primary)] rounded-lg opacity-0 group-hover:opacity-100 transition-all z-10"
                             title="Expand Image"
                           >
                             <Maximize2 className="w-4 h-4 text-white" />
@@ -1146,8 +1146,8 @@ export default function Docs() {
 
                       {/* Sequence & Component Grid */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div className="p-5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-3">
-                          <h3 className="text-sm font-bold text-red-600 dark:text-red-400 flex items-center space-x-2">
+                        <div className="p-5 rounded-xl bg-[var(--bg-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] space-y-3">
+                          <h3 className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)] flex items-center space-x-2">
                             <Activity className="w-4 h-4" />
                             <span>4.3.3 UML Sequence Diagram</span>
                           </h3>
@@ -1157,7 +1157,7 @@ export default function Docs() {
 
                           <button 
                             onClick={() => setExpandedImage({light: './images/seq_light.png', dark: './images/seq_dark.png'})} 
-                            className="absolute top-3 right-3 p-2 bg-slate-800/60 hover:bg-red-600 rounded-lg opacity-0 group-hover:opacity-100 transition-all z-10"
+                            className="absolute top-3 right-3 p-2 bg-slate-800/60 hover:bg-[var(--color-primary)] rounded-lg opacity-0 group-hover:opacity-100 transition-all z-10"
                             title="Expand Image"
                           >
                             <Maximize2 className="w-4 h-4 text-white" />
@@ -1168,8 +1168,8 @@ export default function Docs() {
                           </div>
                         </div>
 
-                        <div className="p-5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-3">
-                          <h3 className="text-sm font-bold text-red-600 dark:text-red-400 flex items-center space-x-2">
+                        <div className="p-5 rounded-xl bg-[var(--bg-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] space-y-3">
+                          <h3 className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)] flex items-center space-x-2">
                             <Network className="w-4 h-4" />
                             <span>4.3.4 UML Component Diagram</span>
                           </h3>
@@ -1179,7 +1179,7 @@ export default function Docs() {
 
                           <button 
                             onClick={() => setExpandedImage({light: './images/comp_light.png', dark: './images/comp_dark.png'})} 
-                            className="absolute top-3 right-3 p-2 bg-slate-800/60 hover:bg-red-600 rounded-lg opacity-0 group-hover:opacity-100 transition-all z-10"
+                            className="absolute top-3 right-3 p-2 bg-slate-800/60 hover:bg-[var(--color-primary)] rounded-lg opacity-0 group-hover:opacity-100 transition-all z-10"
                             title="Expand Image"
                           >
                             <Maximize2 className="w-4 h-4 text-white" />
@@ -1194,26 +1194,26 @@ export default function Docs() {
                   </section>
 
                   {/* 4.4 Data Flow Diagrams (DFDs) */}
-                  <section id="dfd" className="glass-panel p-6 lg:p-8 rounded-2xl space-y-6">
+                  <section id="dfd" className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-6 lg:p-8 rounded-2xl space-y-6">
                     <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-4">
                       <div>
-                        <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
-                          <Workflow className="w-5 h-5 text-red-600 dark:text-red-400" />
+                        <h2 className="text-xl font-bold font-heading text-[var(--text-color)] flex items-center space-x-2">
+                          <Workflow className="w-5 h-5 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
                           <span>4.4 Data Flow Diagrams (DFDs)</span>
                         </h2>
                         <p className="text-xs text-[var(--text-muted)] mt-1">
                           Functional decomposition of data inputs, processes, data stores, and outputs.
                         </p>
                       </div>
-                      <span className="text-xs px-2.5 py-1 rounded bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-500/20 font-mono">
+                      <span className="text-xs px-2.5 py-1 rounded bg-red-100 dark:bg-[var(--color-primary)]/10 text-[var(--color-primary)] dark:text-[var(--color-primary)] border border-[var(--color-primary)]/20 dark:border-[var(--color-primary)]/20 font-mono">
                         DFD Level 0, 1 & 2
                       </span>
                     </div>
 
                     <div className="space-y-6">
                       {/* DFD Level 0 Context */}
-                      <div className="p-5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-3">
-                        <h3 className="text-sm font-bold text-red-600 dark:text-red-400 flex items-center space-x-2">
+                      <div className="p-5 rounded-xl bg-[var(--bg-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] space-y-3">
+                        <h3 className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)] flex items-center space-x-2">
                           <ArrowRight className="w-4 h-4" />
                           <span>4.4.1 DFD Level 0 (Context Diagram)</span>
                         </h3>
@@ -1225,7 +1225,7 @@ export default function Docs() {
 
                           <button 
                             onClick={() => setExpandedImage({light: './images/dfd0_light.png', dark: './images/dfd0_dark.png'})} 
-                            className="absolute top-3 right-3 p-2 bg-slate-800/60 hover:bg-red-600 rounded-lg opacity-0 group-hover:opacity-100 transition-all z-10"
+                            className="absolute top-3 right-3 p-2 bg-slate-800/60 hover:bg-[var(--color-primary)] rounded-lg opacity-0 group-hover:opacity-100 transition-all z-10"
                             title="Expand Image"
                           >
                             <Maximize2 className="w-4 h-4 text-white" />
@@ -1238,15 +1238,15 @@ export default function Docs() {
 
                       {/* DFD Level 1 & 2 Grid */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div className="p-5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-3">
-                          <h3 className="text-sm font-bold text-red-600 dark:text-red-400">4.4.2 DFD Level 1 (System Flow)</h3>
+                        <div className="p-5 rounded-xl bg-[var(--bg-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] space-y-3">
+                          <h3 className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)]">4.4.2 DFD Level 1 (System Flow)</h3>
                           <p className="text-xs text-[var(--text-muted)]">Main process pipelines and data stores.</p>
                           <div className="p-4 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 overflow-x-auto relative group">
                             <div className="w-full flex justify-center py-2">
 
                           <button 
                             onClick={() => setExpandedImage({light: './images/dfd1_light.png', dark: './images/dfd1_dark.png'})} 
-                            className="absolute top-3 right-3 p-2 bg-slate-800/60 hover:bg-red-600 rounded-lg opacity-0 group-hover:opacity-100 transition-all z-10"
+                            className="absolute top-3 right-3 p-2 bg-slate-800/60 hover:bg-[var(--color-primary)] rounded-lg opacity-0 group-hover:opacity-100 transition-all z-10"
                             title="Expand Image"
                           >
                             <Maximize2 className="w-4 h-4 text-white" />
@@ -1257,10 +1257,10 @@ export default function Docs() {
                           </div>
                         </div>
 
-                        <div className="p-5 rounded-xl bg-slate-100 dark:bg-slate-900/40 border border-[var(--border-color)] space-y-3">
-                          <h3 className="text-sm font-bold text-red-600 dark:text-red-400">4.4.3 DFD Level 2 (Allotment & Audit)</h3>
+                        <div className="p-5 rounded-xl bg-[var(--bg-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] space-y-3">
+                          <h3 className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)]">4.4.3 DFD Level 2 (Allotment & Audit)</h3>
                           <p className="text-xs text-[var(--text-muted)]">Procedural sub-steps for bed allocation and audit log generation.</p>
-                          <div className="p-3.5 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 text-[11px] font-mono text-red-700 dark:text-red-300 space-y-1">
+                          <div className="p-3.5 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-800 text-[11px] font-mono text-[var(--color-primary-dark)] dark:text-red-300 space-y-1">
                             <div>3.1 Parse Request & Check Member Fines</div>
                             <div>3.2 Execute SELECT FOR UPDATE on room</div>
                             <div>3.3 Check Capacity (Current &lt; Bed Count)</div>
@@ -1274,35 +1274,35 @@ export default function Docs() {
                   </section>
 
                                     {/* 5. Ethical Implications & Inclusivity */}
-                  <section id="ethics" className="glass-panel p-6 lg:p-10 rounded-3xl space-y-6">
-                    <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
-                      <Shield className="w-5 h-5 text-red-600 dark:text-red-400" />
+                  <section id="ethics" className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-6 lg:p-10 rounded-3xl space-y-6">
+                    <h2 className="text-xl font-bold font-heading text-[var(--text-color)] flex items-center space-x-2">
+                      <Shield className="w-5 h-5 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
                       <span>5. Ethical Implications & Inclusivity</span>
                     </h2>
                     <p className="text-sm text-[var(--text-muted)] leading-relaxed">
                       A centralized OS of this magnitude wields immense power. Proper management of this data requires strict adherence to ethical principles, unbiased algorithmic execution, and deep respect for the diverse demographic of the student body.
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)]">
-                        <h4 className="text-sm font-bold text-red-600 dark:text-red-400 mb-2">Algorithmic Fairness</h4>
+                      <div className="p-5 rounded-2xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)]">
+                        <h4 className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)] mb-2">Algorithmic Fairness</h4>
                         <p className="text-xs text-[var(--text-muted)] leading-relaxed">
                           Allocation algorithms (such as hostel room assignments) are designed to be completely blind to ethnicity, religion, or linguistic background, relying strictly on randomized academic metrics or temporal queues.
                         </p>
                       </div>
-                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)]">
-                        <h4 className="text-sm font-bold text-red-600 dark:text-red-400 mb-2">Demographic Representation</h4>
+                      <div className="p-5 rounded-2xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)]">
+                        <h4 className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)] mb-2">Demographic Representation</h4>
                         <p className="text-xs text-[var(--text-muted)] leading-relaxed">
                           Demographic data collected for statistical reporting is physically partitioned and restricted via RBAC, ensuring zero implicit bias in operational transactions.
                         </p>
                       </div>
-                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)]">
-                        <h4 className="text-sm font-bold text-red-600 dark:text-red-400 mb-2">Accessibility Compliance (A11y)</h4>
+                      <div className="p-5 rounded-2xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)]">
+                        <h4 className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)] mb-2">Accessibility Compliance (A11y)</h4>
                         <p className="text-xs text-[var(--text-muted)] leading-relaxed">
                           The Frontend is designed following WCAG 2.1 AA standards, ensuring visually impaired or differently-abled students can navigate the platform utilizing screen readers.
                         </p>
                       </div>
-                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)]">
-                        <h4 className="text-sm font-bold text-red-600 dark:text-red-400 mb-2">Data Privacy & GDPR</h4>
+                      <div className="p-5 rounded-2xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)]">
+                        <h4 className="text-sm font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)] mb-2">Data Privacy & GDPR</h4>
                         <p className="text-xs text-[var(--text-muted)] leading-relaxed">
                           Strict data minimization. Passwords hashed using bcrypt. Upon graduation, student operational data is archived into read-only cold storage (Right to Erasure).
                         </p>
@@ -1311,15 +1311,15 @@ export default function Docs() {
                   </section>
 
                   {/* 6. Management of Work and Resources */}
-                  <section id="management" className="glass-panel p-6 lg:p-10 rounded-3xl space-y-6">
-                    <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
-                      <Calendar className="w-5 h-5 text-red-600 dark:text-red-400" />
+                  <section id="management" className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-6 lg:p-10 rounded-3xl space-y-6">
+                    <h2 className="text-xl font-bold font-heading text-[var(--text-color)] flex items-center space-x-2">
+                      <Calendar className="w-5 h-5 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
                       <span>6. Management of Work & Tech Stack</span>
                     </h2>
                     
                     <div className="overflow-x-auto rounded-xl border border-[var(--border-color)]">
                       <table className="w-full text-sm text-left">
-                        <thead className="bg-slate-100 dark:bg-slate-900 text-[var(--text-main)] font-bold border-b border-[var(--border-color)]">
+                        <thead className="bg-[var(--bg-color)] dark:bg-[var(--bg-color)] text-[var(--text-color)] font-bold border-b border-[var(--border-color)]">
                           <tr>
                             <th className="p-4">Domain</th>
                             <th className="p-4">Technologies</th>
@@ -1327,89 +1327,89 @@ export default function Docs() {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-[var(--border-color)] text-[var(--text-muted)] bg-white dark:bg-slate-950/40">
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
-                            <td className="p-4 font-bold text-[var(--text-main)]">Kernel / Database</td>
-                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">PostgreSQL, BCNF</td>
+                          <tr className="hover:bg-[var(--surface-color)] dark:hover:bg-[var(--surface-color)] transition-colors">
+                            <td className="p-4 font-bold text-[var(--text-color)]">Kernel / Database</td>
+                            <td className="p-4 font-mono text-xs text-[var(--color-primary)] dark:text-[var(--color-primary)]">PostgreSQL, BCNF</td>
                             <td className="p-4 text-xs">ACID Transactions, Concurrency, Locking</td>
                           </tr>
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
-                            <td className="p-4 font-bold text-[var(--text-main)]">Backend APIs</td>
-                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">Tezz, JWT</td>
+                          <tr className="hover:bg-[var(--surface-color)] dark:hover:bg-[var(--surface-color)] transition-colors">
+                            <td className="p-4 font-bold text-[var(--text-color)]">Backend APIs</td>
+                            <td className="p-4 font-mono text-xs text-[var(--color-primary)] dark:text-[var(--color-primary)]">Tezz, JWT</td>
                             <td className="p-4 text-xs">System Call Routing, Auth, Microservices</td>
                           </tr>
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
-                            <td className="p-4 font-bold text-[var(--text-main)]">Frontend Shell</td>
-                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">React, Vite, Tailwind</td>
+                          <tr className="hover:bg-[var(--surface-color)] dark:hover:bg-[var(--surface-color)] transition-colors">
+                            <td className="p-4 font-bold text-[var(--text-color)]">Frontend Shell</td>
+                            <td className="p-4 font-mono text-xs text-[var(--color-primary)] dark:text-[var(--color-primary)]">React, Vite, Tailwind</td>
                             <td className="p-4 text-xs">User Interface, State Management, A11y</td>
                           </tr>
-                          <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
-                            <td className="p-4 font-bold text-[var(--text-main)]">Deployment</td>
-                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">GitHub Actions, Docker</td>
+                          <tr className="hover:bg-[var(--surface-color)] dark:hover:bg-[var(--surface-color)] transition-colors">
+                            <td className="p-4 font-bold text-[var(--text-color)]">Deployment</td>
+                            <td className="p-4 font-mono text-xs text-[var(--color-primary)] dark:text-[var(--color-primary)]">GitHub Actions, Docker</td>
                             <td className="p-4 text-xs">CI/CD Pipelines, Load Balancing</td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
 
-                    <div className="p-5 rounded-2xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20">
-                      <h4 className="text-sm font-bold text-red-700 dark:text-red-400 mb-2 uppercase tracking-wide">12-Week Sprint Milestones</h4>
-                      <div className="space-y-2 text-xs text-slate-800 dark:text-slate-200">
-                        <div><strong className="text-red-600 dark:text-red-400">Phase 1:</strong> Kernel Architecture & BCNF DDL Scripts</div>
-                        <div><strong className="text-red-600 dark:text-red-400">Phase 2:</strong> Concurrency Layer (SELECT FOR UPDATE)</div>
-                        <div><strong className="text-red-600 dark:text-red-400">Phase 3:</strong> API (Tezz) & CI/CD DevOps</div>
-                        <div><strong className="text-red-600 dark:text-red-400">Phase 4:</strong> UI, UX, Web Design, and Stampede Simulation</div>
+                    <div className="p-5 rounded-2xl bg-[var(--color-primary)]/10 dark:bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/20 dark:border-[var(--color-primary)]/20">
+                      <h4 className="text-sm font-bold text-[var(--color-primary-dark)] dark:text-[var(--color-primary)] mb-2 uppercase tracking-wide">12-Week Sprint Milestones</h4>
+                      <div className="space-y-2 text-xs text-[var(--text-color)] dark:text-slate-200">
+                        <div><strong className="text-[var(--color-primary)] dark:text-[var(--color-primary)]">Phase 1:</strong> Kernel Architecture & BCNF DDL Scripts</div>
+                        <div><strong className="text-[var(--color-primary)] dark:text-[var(--color-primary)]">Phase 2:</strong> Concurrency Layer (SELECT FOR UPDATE)</div>
+                        <div><strong className="text-[var(--color-primary)] dark:text-[var(--color-primary)]">Phase 3:</strong> API (Tezz) & CI/CD DevOps</div>
+                        <div><strong className="text-[var(--color-primary)] dark:text-[var(--color-primary)]">Phase 4:</strong> UI, UX, Web Design, and Stampede Simulation</div>
                       </div>
                     </div>
                   </section>
 
                   {/* 7. Evaluation Metrics & Benchmarking */}
-                  <section id="evaluation" className="glass-panel p-6 lg:p-10 rounded-3xl space-y-6">
-                    <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
-                      <Activity className="w-5 h-5 text-red-600 dark:text-red-400" />
+                  <section id="evaluation" className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-6 lg:p-10 rounded-3xl space-y-6">
+                    <h2 className="text-xl font-bold font-heading text-[var(--text-color)] flex items-center space-x-2">
+                      <Activity className="w-5 h-5 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
                       <span>7. Evaluation Metrics & Benchmarking</span>
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] text-center space-y-2">
-                        <div className="text-3xl font-black text-red-600 dark:text-red-400">2,500+</div>
-                        <div className="text-sm font-bold text-[var(--text-main)]">Peak TPS (Transactions/Sec)</div>
+                      <div className="p-5 rounded-2xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] text-center space-y-2">
+                        <div className="text-3xl font-black text-[var(--color-primary)] dark:text-[var(--color-primary)]">2,500+</div>
+                        <div className="text-sm font-bold text-[var(--text-color)]">Peak TPS (Transactions/Sec)</div>
                         <p className="text-xs text-[var(--text-muted)] px-4">Sustained throughput during simulated "Elective Rush" without degrading APIs beyond 200ms.</p>
                       </div>
-                      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] text-center space-y-2">
-                        <div className="text-3xl font-black text-red-600 dark:text-red-400">&le; 50ms</div>
-                        <div className="text-sm font-bold text-[var(--text-main)]">p95 Latency Percentile</div>
+                      <div className="p-5 rounded-2xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] text-center space-y-2">
+                        <div className="text-3xl font-black text-[var(--color-primary)] dark:text-[var(--color-primary)]">&le; 50ms</div>
+                        <div className="text-sm font-bold text-[var(--text-color)]">p95 Latency Percentile</div>
                         <p className="text-xs text-[var(--text-muted)] px-4">Standard queries remain ultra-fast, with p99 latency not exceeding 120ms under continuous load.</p>
                       </div>
                     </div>
                   </section>
 
                   {/* 8. Risk Management */}
-                  <section id="risks" className="glass-panel p-6 lg:p-10 rounded-3xl space-y-6">
-                    <h2 className="text-xl font-bold font-heading text-[var(--text-main)] flex items-center space-x-2">
-                      <ShieldAlert className="w-5 h-5 text-red-600 dark:text-red-400" />
+                  <section id="risks" className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-6 lg:p-10 rounded-3xl space-y-6">
+                    <h2 className="text-xl font-bold font-heading text-[var(--text-color)] flex items-center space-x-2">
+                      <ShieldAlert className="w-5 h-5 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
                       <span>8. Risk Mitigation Strategy</span>
                     </h2>
                     <div className="space-y-4">
-                      <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div className="p-4 rounded-xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                          <strong className="text-sm text-red-600 dark:text-red-400 block">Database Deadlocks</strong>
+                          <strong className="text-sm text-[var(--color-primary)] dark:text-[var(--color-primary)] block">Database Deadlocks</strong>
                           <span className="text-xs text-[var(--text-muted)]">System halts during complex multi-table updates.</span>
                         </div>
                         <div className="text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1.5 rounded font-medium border border-green-200 dark:border-green-800">
                           Mitigation: Strict lock ordering in PL/SQL
                         </div>
                       </div>
-                      <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div className="p-4 rounded-xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                          <strong className="text-sm text-red-600 dark:text-red-400 block">Data Migration Loss</strong>
+                          <strong className="text-sm text-[var(--color-primary)] dark:text-[var(--color-primary)] block">Data Migration Loss</strong>
                           <span className="text-xs text-[var(--text-muted)]">Corrupting data when moving from legacy silos.</span>
                         </div>
                         <div className="text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1.5 rounded font-medium border border-green-200 dark:border-green-800">
                           Mitigation: Staging envs & dual-writes
                         </div>
                       </div>
-                      <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-[var(--border-color)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div className="p-4 rounded-xl bg-[var(--surface-color)] dark:bg-[var(--surface-color)] border border-[var(--border-color)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                          <strong className="text-sm text-red-600 dark:text-red-400 block">Unauthorized Access</strong>
+                          <strong className="text-sm text-[var(--color-primary)] dark:text-[var(--color-primary)] block">Unauthorized Access</strong>
                           <span className="text-xs text-[var(--text-muted)]">Breaches leading to exposure of student PII.</span>
                         </div>
                         <div className="text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1.5 rounded font-medium border border-green-200 dark:border-green-800">
@@ -1435,11 +1435,11 @@ export default function Docs() {
       {/* Fullscreen Image Modal */}
       {expandedImage && (
         <div 
-          className="fixed inset-0 z-[100] bg-slate-900/95 backdrop-blur-md flex items-center justify-center p-4 sm:p-8 cursor-zoom-out" 
+          className="fixed inset-0 z-[100] bg-[var(--bg-color)]/95 backdrop-blur-md flex items-center justify-center p-4 sm:p-8 cursor-zoom-out" 
           onClick={() => setExpandedImage(null)}
         >
           <button 
-            className="absolute top-6 right-6 p-3 bg-slate-800 hover:bg-red-600 rounded-xl text-white transition-colors shadow-2xl z-50 cursor-pointer" 
+            className="absolute top-6 right-6 p-3 bg-slate-800 hover:bg-[var(--color-primary)] rounded-xl text-white transition-colors shadow-2xl z-50 cursor-pointer" 
             onClick={() => setExpandedImage(null)}
             title="Close Expanded View"
           >
