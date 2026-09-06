@@ -43,8 +43,8 @@ const DOCUMENTS_DATA = {
     title: "Prototype Proposal & System Specifications",
     subtitle: "Stage 2 Milestone — Under Active Development",
     stage: "Stage 2",
-    status: "Coming Soon",
-    display: false,
+    status: "Active",
+    display: true,
     authors: [
       { name: "Ankit Rath", roll: "1024030458" },
       { name: "Manan Kapoor", roll: "1024030467" },
@@ -61,8 +61,8 @@ const DOCUMENTS_DATA = {
     title: "Final Technical Master Report (12-Section Evaluation)",
     subtitle: "Stage 3 Milestone — Scheduled Post-Prototype",
     stage: "Stage 3",
-    status: "Coming Soon",
-    display: false,
+    status: "Active",
+    display: true,
     authors: [
       { name: "Ankit Rath", roll: "1024030458" },
       { name: "Manan Kapoor", roll: "1024030467" },
@@ -77,6 +77,14 @@ const DOCUMENTS_DATA = {
 };
 
 const RAW_MARKDOWN_CONTENT = {
+  prototype_proposal: `# PROTOTYPE PROPOSAL
+
+This Markdown document is a placeholder for the Prototype Proposal.
+Please view the **LaTeX** or **Compiled PDF** versions for the full document.`,
+  final_report: `# FINAL TECHNICAL MASTER REPORT
+
+This Markdown document is a placeholder for the Final Report.
+Please view the **LaTeX** or **Compiled PDF** versions for the full document.`,
   project_proposal: `# PROJECT PROPOSAL: UniCore
 
 **Title of Proposal:**  
@@ -210,6 +218,136 @@ A centralized OS of this magnitude wields immense power. Proper management of th
 };
 
 const RAW_LATEX_CONTENT = {
+  prototype_proposal: `\\documentclass[11pt,a4paper]{article}
+\\usepackage[utf8]{inputenc}
+\\usepackage[margin=1in]{geometry}
+\\usepackage{hyperref}
+\\usepackage{booktabs}
+\\usepackage{listings}
+\\usepackage{xcolor}
+
+\\lstset{
+    basicstyle=\\ttfamily\\small,
+    keywordstyle=\\color{blue},
+    stringstyle=\\color{red},
+    commentstyle=\\color{gray},
+    breaklines=true,
+    frame=single
+}
+
+\\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan,
+    pdftitle={UniCore - Prototype Specification},
+}
+
+\\title{\\textbf{UniCore Prototype Specification}\\\\ \\Large Architecture \\& PL/SQL Implementation}
+\\author{\\textbf{Ankit Rath} (1024030458) \\quad \\textbf{Manan Kapoor} (1024030467) \\quad \\textbf{Abhinav Kumar Singh} (1024030440)\\\\
+\\small Department of Computer Science \\& Engineering\\\\
+\\small Thapar Institute of Engineering \\& Technology, Patiala}
+\\date{\\today}
+
+\\begin{document}
+
+\\maketitle
+
+\\begin{abstract}
+The UniCore Prototype is a 3-tier software platform engineered to demonstrate real-time transaction safeguards, PL/SQL trigger automation, role-based authentication, and immutable audit logging.
+\\end{abstract}
+
+\\section{Implemented PL/SQL Stored Procedures}
+\\begin{lstlisting}[language=SQL,caption=Atomic Hostel Allotment Stored Procedure]
+CREATE OR REPLACE PROCEDURE hostel.hostel_allot(
+    p_student_id UUID,
+    p_room_id UUID,
+    p_academic_year TEXT
+) AS \$\$
+DECLARE
+    v_bed_count INT;
+    v_current_alloc INT;
+BEGIN
+    SELECT bed_count INTO v_bed_count
+    FROM hostel.hostel_rooms
+    WHERE id = p_room_id FOR UPDATE;
+
+    SELECT COUNT(*) INTO v_current_alloc
+    FROM hostel.allocations
+    WHERE room_id = p_room_id AND status = 'active';
+
+    IF v_current_alloc >= v_bed_count THEN
+        RAISE EXCEPTION 'Room capacity reached.';
+    END IF;
+
+    INSERT INTO hostel.allocations (student_id, room_id, academic_year, status)
+    VALUES (p_student_id, p_room_id, p_academic_year, 'active');
+END;
+\$\$ LANGUAGE plpgsql;
+\\end{lstlisting}
+
+\\end{document}
+`,
+  final_report: `\\documentclass[11pt,a4paper]{article}
+\\usepackage[utf8]{inputenc}
+\\usepackage[margin=1in]{geometry}
+\\usepackage{hyperref}
+\\usepackage{booktabs}
+\\usepackage{enumitem}
+
+\\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan,
+    pdftitle={UniCore - Technical Master Report},
+}
+
+\\title{\\textbf{UniCore Campus Operating Platform}\\\\ \\Large Technical Project Master Report}
+\\author{\\textbf{Ankit Rath} (1024030458) \\quad \\textbf{Manan Kapoor} (1024030467) \\quad \\textbf{Abhinav Kumar Singh} (1024030440)\\\\
+\\small Department of Computer Science \\& Engineering\\\\
+\\small Thapar Institute of Engineering \\& Technology, Patiala}
+\\date{\\today}
+
+\\begin{document}
+
+\\maketitle
+
+\\begin{abstract}
+Modern universities manage student records, hostel allocation, library inventory, and examination processing through disconnected systems, leading to data redundancy, inconsistency, and security risks. This project presents the UniCore Campus Operating Platform, a centralized PostgreSQL relational platform normalized to Boyce-Codd Normal Form (BCNF) across 8 domain schemas and 35+ tables.
+\\end{abstract}
+
+\\section{Problem Statement}
+Fragmented systems create five critical operational failure modes:
+\\begin{enumerate}
+    \\item \\textbf{Data Duplication:} Redundant address entries across modules.
+    \\item \\textbf{Inconsistency:} Mismatched records during partial updates.
+    \\item \\textbf{Resource Tracking:} Manual tracking of bed capacities and book copies.
+    \\item \\textbf{Transaction Hazards:} Double-allocation of rooms during peak rushes.
+    \\item \\textbf{Security Gaps:} Unscoped permissions across modules.
+\\end{enumerate}
+
+\\section{Functional Modules \\& Domain Boundaries}
+\\begin{table}[h!]
+\\centering
+\\begin{tabular}{lll}
+\\toprule
+\\textbf{Module} & \\textbf{Core Responsibility} & \\textbf{Key Entities} \\\\
+\\midrule
+Academic & Profiles, CGPA, branching & \\texttt{faculties, departments, courses, students} \\\\
+Hostel & Automated bed allotment & \\texttt{hostels, hostel\\_rooms, allocations} \\\\
+Library & Inventory, circulation, fines & \\texttt{books, authors, members, borrow\\_records} \\\\
+Exam & Scheduling, invigilation, grades & \\texttt{exams, exam\\_schedules, exam\\_results} \\\\
+Auth & RBAC \\& sessions & \\texttt{users, roles, permissions, refresh\\_tokens} \\\\
+Audit & Forensics \\& mutation logs & \\texttt{audit\\_logs, login\\_logs, system\\_events} \\\\
+\\bottomrule
+\\end{tabular}
+\\caption{UniCore Module Boundaries}
+\\end{table}
+
+\\section{Conclusion}
+UniCore delivers a reliable, scalable, and secure solution for university administration through strict BCNF normalization, PL/SQL automation, and immutable audit logging.
+
+\\end{document}
+`,
   project_proposal: `\\documentclass[11pt,a4paper]{article}
 \\usepackage[utf8]{inputenc}
 \\usepackage[margin=1in]{geometry}
@@ -269,7 +407,7 @@ function FormattedMarkdownView({ docId }) {
       <div className="p-4 rounded-xl bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <FileText className="w-5 h-5 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
-          <span className="font-bold text-[var(--text-color)] text-sm font-mono">PROJECT_PROPOSAL.md</span>
+          <span className="font-bold text-[var(--text-color)] text-sm font-mono">{DOCUMENTS_DATA[docId].markdownFile}</span>
           <span className="text-[10px] px-2 py-0.5 rounded bg-[var(--color-primary)]/10 dark:bg-[var(--color-primary)]/10 text-[var(--color-primary)] dark:text-[var(--color-primary)] font-mono border border-[var(--color-primary)]/20 dark:border-[var(--color-primary)]/20">MARKDOWN PREVIEW</span>
         </div>
         <span className="text-xs text-[var(--text-muted)] font-mono">GitHub Markdown Standard</span>
@@ -279,7 +417,7 @@ function FormattedMarkdownView({ docId }) {
         <div className="border-b border-[var(--border-color)] pb-6 space-y-2">
           <span className="text-xs font-mono text-[var(--color-primary)] dark:text-[var(--color-primary)] uppercase tracking-widest">Document Title</span>
           <h1 className="text-2xl font-extrabold font-heading">
-            UniCore: High-Concurrency Transaction Layer
+            {DOCUMENTS_DATA[docId].title}
           </h1>
           <div className="flex flex-wrap gap-4 text-xs text-[var(--text-muted)] pt-2 font-mono">
             <div><strong>Institution:</strong> Thapar Institute of Engineering & Technology, Patiala</div>
@@ -362,7 +500,7 @@ function FormattedLaTeXView({ docId }) {
       <div className="p-4 rounded-xl bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <Code2 className="w-5 h-5 text-[var(--color-primary)] dark:text-[var(--color-primary)]" />
-          <span className="font-bold text-[var(--text-color)] text-sm font-mono">project_proposal.tex</span>
+          <span className="font-bold text-[var(--text-color)] text-sm font-mono">{DOCUMENTS_DATA[docId].latexFile}</span>
           <span className="text-[10px] px-2 py-0.5 rounded bg-[var(--color-primary)]/10 dark:bg-[var(--color-primary)]/10 text-[var(--color-primary)] dark:text-[var(--color-primary)] font-mono border border-[var(--color-primary)]/20 dark:border-[var(--color-primary)]/20">ACADEMIC LATEX PAPER VIEW</span>
         </div>
         <span className="text-xs text-[var(--text-muted)] font-mono">TeX Article Template</span>
@@ -380,7 +518,7 @@ function FormattedLaTeXView({ docId }) {
         {/* Paper Title & Authors Block */}
         <div className="text-center space-y-3 border-b border-[var(--border-color)] pb-8">
           <h1 className="text-2xl sm:text-3xl font-extrabold font-serif tracking-tight leading-snug">
-            UniCore: High-Concurrency Transaction Layer
+            {DOCUMENTS_DATA[docId].title}
           </h1>
           <div className="text-sm font-medium text-[var(--color-primary)] dark:text-[var(--color-primary)] font-mono">
             Ankit Rath (1024030458) &nbsp;•&nbsp; Manan Kapoor (1024030467) &nbsp;•&nbsp; Abhinav Kumar Singh (1024030440)
@@ -765,6 +903,15 @@ export default function Docs() {
           ) : (
             <>
               {/* MARKDOWN OR LATEX VIEW MODES */}
+              {viewFormat === 'rendered' && activeDoc !== 'project_proposal' ? (
+                <div className="space-y-6">
+                  <div className="bg-[var(--bg-color)] border border-[var(--border-color)] shadow-sm p-4 rounded-xl">
+                    <h3 className="text-lg font-bold text-[var(--text-color)] mb-2">Interactive View Not Yet Available</h3>
+                    <p className="text-sm text-[var(--text-muted)] mb-4">The interactive HTML view for this document is still being compiled. In the meantime, you can read the compiled PDF below.</p>
+                  </div>
+                  <PDFViewer pdfUrl={currentDoc.pdfFile} filename={currentDoc.pdfFileName} />
+                </div>
+              ) : ''}
               {viewFormat !== 'rendered' ? (
                 <div className="space-y-6">
                   {/* Mode Bar */}
