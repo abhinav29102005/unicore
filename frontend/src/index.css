@@ -1,7 +1,41 @@
 @import "tailwindcss";
 
-@layer utilities {
-  .glass-panel {
-    @apply bg-white/70 backdrop-blur-md border border-slate-200/50 shadow-xl;
+@theme {
+  --color-primary: #10b981;
+  --color-primary-dark: #059669;
+  --color-secondary: #3b82f6;
+  
+  --color-background-light: #ffffff;
+  --color-surface-light: #f3f4f6;
+  --color-text-light: #111827;
+  --color-text-muted-light: #6b7280;
+
+  --color-background-dark: #0f172a;
+  --color-surface-dark: #1e293b;
+  --color-text-dark: #f8fafc;
+  --color-text-muted-dark: #94a3b8;
+}
+
+@layer base {
+  :root {
+    --bg-color: var(--color-background-light);
+    --surface-color: var(--color-surface-light);
+    --text-color: var(--color-text-light);
+    --text-muted: var(--color-text-muted-light);
+    --border-color: #e5e7eb;
+  }
+
+  .dark {
+    --bg-color: var(--color-background-dark);
+    --surface-color: var(--color-surface-dark);
+    --text-color: var(--color-text-dark);
+    --text-muted: var(--color-text-muted-dark);
+    --border-color: #334155;
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
