@@ -11,3 +11,10 @@ This directory contains the BCNF-normalized relational database schemas, DDL scr
 6. `exam` — Schedules, capacities, invigilation, grading policies.
 7. `admin` — Staff, leaves, maintenance work orders.
 8. `core` — Geographic hierarchy and global configuration settings.
+
+## Test / Dummy Data
+For development and UI testing purposes, dummy data can be inserted using the scripts provided. This allows developers to test the frontend dashboards without needing access to the production databases.
+
+- **`dummy_data.sql`**: Contains sample inserts for the `students`, `hostels`, `enrollments`, and `library` tables.
+
+*Note: For security reasons, never store production database connection strings, libSQL/Turso URLs, or Authentication Tokens in this repository.*

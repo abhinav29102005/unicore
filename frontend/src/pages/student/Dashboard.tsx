@@ -33,7 +33,7 @@ export default function StudentDashboard() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch('https://unicore-backend.bigboyaks-account.workers.dev/api/student/1024030440/dashboard')
+    fetch('http://localhost:3000/api/student/1024030440/dashboard')
       .then((res) => {
         if (!res.ok) throw new Error('Failed to load data');
         return res.json();
