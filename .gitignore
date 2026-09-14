@@ -12,7 +12,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Reference Documents for PC processing only (Hidden from Git repo)
-*.pdf
+
 !docs/website/public/pdfs/*.pdf
 *.docx
 *.txt
