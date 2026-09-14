@@ -1,0 +1,8 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "unicore-backend",
+  "account_id": "7070be82c3d9bfcd7962678850e9f7e3",
+  "main": "src/worker.ts",
+  "compatibility_date": "2025-02-14",
+  "compatibility_flags": ["nodejs_compat"]
+}
