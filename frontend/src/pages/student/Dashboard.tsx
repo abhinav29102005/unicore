@@ -85,7 +85,7 @@ export default function StudentDashboard() {
           <div className="text-right">
             <div className="text-sm text-indigo-300 uppercase tracking-widest font-semibold mb-1">Current CGPA</div>
             <div className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-200 to-emerald-400">
-              {data.student.gpa.toFixed(2)}
+              {data.student.gpa ? Number(data.student.gpa).toFixed(2) : "N/A"}
             </div>
           </div>
         </div>
