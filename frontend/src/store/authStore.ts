@@ -9,6 +9,7 @@ export interface UserProfile {
   role: UserRole;
   email: string;
   avatar?: string;
+  rollNo?: string;
 }
 
 interface AuthState {
