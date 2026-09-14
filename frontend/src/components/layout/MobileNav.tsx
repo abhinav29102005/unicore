@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { Home, Users, BookOpen, Settings, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Logo from '../common/Logo';
 
 export default function MobileNav({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const { user } = useAuthStore();
@@ -34,7 +35,7 @@ export default function MobileNav({ isOpen, onClose }: { isOpen: boolean; onClos
             className="fixed inset-y-0 left-0 w-64 bg-[var(--surface-color)] shadow-xl z-50 lg:hidden flex flex-col"
           >
             <div className="p-4 flex items-center justify-between border-b border-[var(--border-color)]">
-              <h2 className="text-xl font-bold text-[var(--color-primary)]">UNICORE</h2>
+              <Logo size="sm" />
               <button onClick={onClose} className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-slate-700">
                 <X size={20} />
               </button>

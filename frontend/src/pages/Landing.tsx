@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '../components/ui/Button';
+import Logo from '../components/common/Logo';
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ export default function Landing() {
     <div className="min-h-screen bg-[var(--bg-color)] flex flex-col">
       {/* Navbar */}
       <header className="h-20 border-b border-[var(--border-color)] bg-[var(--surface-color)] flex items-center justify-between px-6 lg:px-12">
-        <div className="text-2xl font-extrabold text-[var(--color-primary)]">UNICORE</div>
+        <Link to="/" className="flex items-center"><Logo size="lg" /></Link>
         <div className="flex gap-4">
           <Link to="/docs"><Button variant="ghost">Docs</Button></Link>
           <Link to="/sign?mode=login"><Button variant="outline">Sign In</Button></Link>

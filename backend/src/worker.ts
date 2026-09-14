@@ -104,7 +104,7 @@ export default {
 
       // ── Auth: Profile ──
       if (path.startsWith('/api/auth/profile/') && request.method === 'GET') {
-        const userId = path.split('/api/auth/profile/')[1];
+        const userId = path.split('/api/auth/profile/')[1] || '';
         const res = await db.execute({
           sql: `
             SELECT u.id, u.email, u.first_name, u.last_name, u.status, u.last_login_at, r.name as role

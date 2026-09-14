@@ -1,7 +1,8 @@
 import React from 'react';
 import { useAuthStore } from '../../store/authStore';
 import { Menu, Moon, Sun, User as UserIcon } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import Logo from '../common/Logo';
 
 export default function TopBar({ toggleMobileNav }: { toggleMobileNav: () => void }) {
   const { user, logout } = useAuthStore();
@@ -24,7 +25,7 @@ export default function TopBar({ toggleMobileNav }: { toggleMobileNav: () => voi
         <button onClick={toggleMobileNav} className="lg:hidden p-2 rounded-md hover:bg-gray-200 dark:hover:bg-slate-700">
           <Menu size={24} />
         </button>
-        <h1 className="text-xl font-bold text-[var(--color-primary)] hidden lg:block">UNICORE</h1>
+        <Link to="/" className="hidden lg:flex items-center"><Logo size="sm" /></Link>
       </div>
       <div className="flex items-center gap-4">
         <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700">

@@ -35,3 +35,8 @@ How to Draft Academic Project Proposals.docx
 .idea/
 *.suo
 *.user
+
+# Wrangler & Build outputs
+.wrangler/
+backend/dist/
+*.tsbuildinfo

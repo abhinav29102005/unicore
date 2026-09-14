@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import Logo from '../../components/common/Logo';
 import { useAuthStore } from '../../store/authStore';
 import { motion } from 'framer-motion';
 import { Button } from '../../components/ui/Button';
@@ -93,11 +94,14 @@ export default function Sign() {
         className="max-w-xl w-full"
       >
         <Card className="overflow-hidden shadow-2xl border border-[var(--border-color)] bg-[var(--surface-color)]/80 backdrop-blur-xl">
-          <div className="p-8 pb-6 border-b border-[var(--border-color)] text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-xs font-semibold mb-3">
+          <div className="p-8 pb-6 border-b border-[var(--border-color)] text-center flex flex-col items-center">
+            <Link to="/" className="mb-4 inline-block hover:opacity-90 transition-opacity">
+              <Logo size="lg" />
+            </Link>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-xs font-semibold mb-2">
               <Sparkles size={14} /> UniCore Campus Portal
             </div>
-            <h1 className="text-3xl font-extrabold text-[var(--color-primary)] tracking-tight">Sign In to UniCore</h1>
+            <h1 className="text-2xl font-extrabold text-[var(--text-color)] tracking-tight">Sign In to UniCore</h1>
             <p className="text-[var(--text-muted)] text-sm mt-1">Select your account profile to continue instantly</p>
           </div>
 

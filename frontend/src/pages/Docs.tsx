@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Logo from '../components/common/Logo';
 import { 
   Database, ShieldCheck, FileText, Code2, Search, 
   Sun, Moon, Printer, Copy, Check, Layers, Cpu, 
@@ -713,7 +714,7 @@ export default function Docs() {
       
       {/* Global Navbar */}
       <header className="h-20 border-b border-[var(--border-color)] bg-[var(--surface-color)] flex items-center justify-between px-6 lg:px-12 sticky top-0 z-50">
-        <div className="text-2xl font-extrabold text-[var(--color-primary)]">UNICORE</div>
+        <Link to="/" className="flex items-center"><Logo size="lg" /></Link>
         <div className="flex gap-4 items-center">
           <Link to="/"><button className="text-sm font-medium hover:text-[var(--color-primary)] transition-colors text-[var(--text-color)]">Home</button></Link>
           <Link to="/sign?mode=login"><button className="text-sm font-medium hover:text-[var(--color-primary)] transition-colors text-[var(--text-color)]">Sign In</button></Link>
