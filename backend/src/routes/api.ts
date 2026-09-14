@@ -1,9 +1,30 @@
 import { Router } from 'express';
-import { getStudentDashboard, insertDummyData } from '../controllers/studentController';
+import { getStudentDashboard, getStudentAttendance, getStudentResults } from '../controllers/studentController';
+import { login, getProfile } from '../controllers/authController';
+import { getStats, getUsers, getDepartments } from '../controllers/adminController';
+import { getFacultyDashboard } from '../controllers/facultyController';
+import { seedDatabase } from '../controllers/seedController';
 
 const router = Router();
 
+// ── Auth ──
+router.post('/auth/login', login);
+router.get('/auth/profile/:id', getProfile);
+
+// ── Admin ──
+router.get('/admin/stats', getStats);
+router.get('/admin/users', getUsers);
+router.get('/admin/departments', getDepartments);
+
+// ── Faculty ──
+router.get('/faculty/:id/dashboard', getFacultyDashboard);
+
+// ── Student ──
 router.get('/student/:student_no/dashboard', getStudentDashboard);
-router.post('/seed', insertDummyData);
+router.get('/student/:student_no/attendance', getStudentAttendance);
+router.get('/student/:student_no/results', getStudentResults);
+
+// ── Seed (development only) ──
+router.post('/seed', seedDatabase);
 
 export default router;

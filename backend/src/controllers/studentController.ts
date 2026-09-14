@@ -5,10 +5,13 @@ export const getStudentDashboard = async (req: Request, res: Response) => {
   const { student_no } = req.params;
   try {
     const studentQuery = `
-      SELECT s.id, s.student_no as roll, u.first_name || ' ' || u.last_name as name, d.name as department, s.admission_year, s.current_semester as year 
+      SELECT s.id, s.student_no as roll, u.first_name || ' ' || u.last_name as name,
+             d.name as department, d.code as dept_code, s.admission_year,
+             s.current_semester as year, p.name as program, u.id as user_id
       FROM academic.students s
       JOIN auth.users u ON s.user_id = u.id
       JOIN academic.departments d ON s.department_id = d.id
+      JOIN academic.programs p ON s.program_id = p.id
       WHERE s.student_no = $1
     `;
     const studentRes = await pool.query(studentQuery, [student_no]);
@@ -17,123 +20,168 @@ export const getStudentDashboard = async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'Student not found' });
     }
 
-    const studentId = studentRes.rows[0].id;
-    const userId = (await pool.query('SELECT user_id FROM academic.students WHERE id = $1', [studentId])).rows[0].user_id;
+    const student = studentRes.rows[0];
+    const studentId = student.id;
+    const userId = student.user_id;
 
-    // Fetch Hostel
-    const hostelQuery = `
-      SELECT h.name as block, r.room_no as room, a.status 
+    // Calculate GPA from final_results
+    const gpaRes = await pool.query(`
+      SELECT
+        COALESCE(
+          ROUND(
+            SUM(gs.gpa_points * c.credits)::numeric / NULLIF(SUM(c.credits), 0),
+            2
+          ), 0
+        ) as gpa
+      FROM exam.final_results fr
+      JOIN exam.grade_scale gs ON gs.letter = fr.grade_code
+      JOIN academic.course_offerings co ON fr.course_offering_id = co.id
+      JOIN academic.courses c ON co.course_id = c.id
+      WHERE fr.student_id = $1
+    `, [studentId]);
+
+    // Hostel
+    const hostelRes = await pool.query(`
+      SELECT h.name as block, r.room_no as room, a.status
       FROM hostel.allocations a
       JOIN hostel.beds b ON a.bed_id = b.id
       JOIN hostel.rooms r ON b.room_id = r.id
       JOIN hostel.blocks bl ON r.block_id = bl.id
       JOIN hostel.hostels h ON bl.hostel_id = h.id
       WHERE a.student_id = $1 AND a.status = 'active'
-    `;
-    const hostelRes = await pool.query(hostelQuery, [studentId]);
+    `, [studentId]);
 
-    // Fetch Enrollments
-    const enrollQuery = `
-      SELECT c.title as course_name, 
-             COALESCE(fr.grade_code, 'Pending') as grade
+    // Enrollments with grades
+    const enrollRes = await pool.query(`
+      SELECT c.course_code, c.title as course_name, c.credits,
+             COALESCE(fr.grade_code, 'Pending') as grade,
+             fr.total_marks
       FROM academic.enrollments e
       JOIN academic.course_offerings co ON e.course_offering_id = co.id
       JOIN academic.courses c ON co.course_id = c.id
       LEFT JOIN exam.final_results fr ON fr.course_offering_id = co.id AND fr.student_id = e.student_id
       WHERE e.student_id = $1
-    `;
-    const enrollRes = await pool.query(enrollQuery, [studentId]);
+      ORDER BY c.course_code
+    `, [studentId]);
 
-    // Fetch Library
-    const libraryQuery = `
-      SELECT b.title as book_title, i.due_at as due_date
+    // Library issues
+    const libraryRes = await pool.query(`
+      SELECT b.title as book_title, i.due_at as due_date, i.issued_at
       FROM library.issues i
       JOIN library.book_copies bc ON i.copy_id = bc.id
       JOIN library.books b ON bc.book_id = b.id
       WHERE i.member_user_id = $1 AND i.returned_at IS NULL
-    `;
-    const libraryRes = await pool.query(libraryQuery, [userId]);
+    `, [userId]);
+
+    // Attendance summary
+    const attendanceRes = await pool.query(`
+      SELECT c.title as course_name, c.course_code,
+        count(*) FILTER (WHERE a.status = 'present') as present,
+        count(*) FILTER (WHERE a.status = 'absent') as absent,
+        count(*) FILTER (WHERE a.status = 'late') as late,
+        count(*) FILTER (WHERE a.status = 'excused') as excused,
+        count(*) as total
+      FROM academic.attendance a
+      JOIN academic.course_offerings co ON a.course_offering_id = co.id
+      JOIN academic.courses c ON co.course_id = c.id
+      WHERE a.student_id = $1
+      GROUP BY c.title, c.course_code
+      ORDER BY c.course_code
+    `, [studentId]);
+
+    // Library fines
+    const finesRes = await pool.query(`
+      SELECT amount, reason, status, created_at
+      FROM library.fines
+      WHERE member_user_id = $1
+      ORDER BY created_at DESC
+    `, [userId]);
 
     res.json({
-      student: studentRes.rows[0],
+      student: {
+        ...student,
+        gpa: parseFloat(gpaRes.rows[0].gpa),
+      },
       hostel: hostelRes.rows.length > 0 ? hostelRes.rows[0] : null,
       enrollments: enrollRes.rows,
-      library: libraryRes.rows
+      library: libraryRes.rows,
+      attendance: attendanceRes.rows,
+      fines: finesRes.rows,
     });
   } catch (err) {
-    console.error(err);
+    console.error('Student dashboard error:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
 
-export const insertDummyData = async (req: Request, res: Response) => {
-  const client = await pool.connect();
+export const getStudentAttendance = async (req: Request, res: Response) => {
+  const { student_no } = req.params;
   try {
-    await client.query('BEGIN');
-    
-    // Insert user & student
-    const userRes = await client.query(`
-      INSERT INTO auth.users (email, first_name, last_name, password_hash)
-      VALUES ('abhinav@example.com', 'Abhinav Kumar', 'Singh', 'hashed')
-      RETURNING id
-    `);
-    const userId = userRes.rows[0].id;
-
-    const deptRes = await client.query(`
-      INSERT INTO academic.departments (code, name) VALUES ('CSE', 'Computer Science')
-      RETURNING id
-    `);
-    const deptId = deptRes.rows[0].id;
-
-    const progRes = await client.query(`
-      INSERT INTO academic.programs (department_id, code, name, degree_type, duration_semesters)
-      VALUES ($1, 'BTECH-CSE', 'B.Tech in CSE', 'BTech', 8)
-      RETURNING id
-    `, [deptId]);
-    const progId = progRes.rows[0].id;
-
-    const studentRes = await client.query(`
-      INSERT INTO academic.students (user_id, student_no, department_id, program_id, admission_year, current_semester)
-      VALUES ($1, '1024030440', $2, $3, 2024, 3)
-      RETURNING id
-    `, [userId, deptId, progId]);
+    const studentRes = await pool.query(`SELECT id FROM academic.students WHERE student_no = $1`, [student_no]);
+    if (studentRes.rows.length === 0) return res.status(404).json({ error: 'Student not found' });
     const studentId = studentRes.rows[0].id;
 
-    // Courses
-    const course1 = await client.query(`INSERT INTO academic.courses (course_code, title, credits, department_id) VALUES ('CS301', 'Distributed Systems', 4, $1) RETURNING id`, [deptId]);
-    const course2 = await client.query(`INSERT INTO academic.courses (course_code, title, credits, department_id) VALUES ('CS302', 'Cloud Computing', 3, $1) RETURNING id`, [deptId]);
-    
-    const sem = await client.query(`INSERT INTO academic.semesters (code, name, academic_year, start_date, end_date) VALUES ('FALL2024', 'Fall 2024', 2024, '2024-08-01', '2024-12-15') RETURNING id`);
-    
-    const off1 = await client.query(`INSERT INTO academic.course_offerings (course_id, semester_id, capacity) VALUES ($1, $2, 100) RETURNING id`, [course1.rows[0].id, sem.rows[0].id]);
-    const off2 = await client.query(`INSERT INTO academic.course_offerings (course_id, semester_id, capacity) VALUES ($1, $2, 100) RETURNING id`, [course2.rows[0].id, sem.rows[0].id]);
+    const result = await pool.query(`
+      SELECT c.course_code, c.title as course_name,
+        count(*) FILTER (WHERE a.status = 'present') as present,
+        count(*) FILTER (WHERE a.status = 'absent') as absent,
+        count(*) FILTER (WHERE a.status = 'late') as late,
+        count(*) FILTER (WHERE a.status = 'excused') as excused,
+        count(*) as total,
+        ROUND(count(*) FILTER (WHERE a.status IN ('present', 'late'))::numeric / NULLIF(count(*), 0) * 100, 1) as percentage
+      FROM academic.attendance a
+      JOIN academic.course_offerings co ON a.course_offering_id = co.id
+      JOIN academic.courses c ON co.course_id = c.id
+      WHERE a.student_id = $1
+      GROUP BY c.course_code, c.title
+      ORDER BY c.course_code
+    `, [studentId]);
 
-    await client.query(`INSERT INTO academic.enrollments (student_id, course_offering_id) VALUES ($1, $2)`, [studentId, off1.rows[0].id]);
-    await client.query(`INSERT INTO academic.enrollments (student_id, course_offering_id) VALUES ($1, $2)`, [studentId, off2.rows[0].id]);
-
-    // Hostel
-    const hostel = await client.query(`INSERT INTO hostel.hostels (name, code, gender_type) VALUES ('Block M', 'BM', 'male') RETURNING id`);
-    const block = await client.query(`INSERT INTO hostel.blocks (hostel_id, name, floor_count) VALUES ($1, 'Main', 5) RETURNING id`, [hostel.rows[0].id]);
-    const room = await client.query(`INSERT INTO hostel.rooms (block_id, room_no, floor_no, capacity) VALUES ($1, '405', 4, 1) RETURNING id`, [block.rows[0].id]);
-    const bed = await client.query(`INSERT INTO hostel.beds (room_id, bed_label) VALUES ($1, 'A') RETURNING id`, [room.rows[0].id]);
-    
-    await client.query(`INSERT INTO hostel.allocations (student_id, bed_id) VALUES ($1, $2)`, [studentId, bed.rows[0].id]);
-
-    // Library
-    const book = await client.query(`INSERT INTO library.books (isbn, title) VALUES ('9781449373320', 'Designing Data-Intensive Applications') RETURNING id`);
-    const copy = await client.query(`INSERT INTO library.book_copies (book_id, barcode) VALUES ($1, 'DDIA-01') RETURNING id`, [book.rows[0].id]);
-    
-    // User issued by (sys admin)
-    const admin = await client.query(`INSERT INTO auth.users (email, first_name, last_name, password_hash) VALUES ('admin@example.com', 'Admin', 'User', 'hashed') RETURNING id`);
-    await client.query(`INSERT INTO library.issues (copy_id, member_user_id, issued_by, due_at) VALUES ($1, $2, $3, '2026-09-30 00:00:00')`, [copy.rows[0].id, userId, admin.rows[0].id]);
-
-    await client.query('COMMIT');
-    res.json({ message: 'Dummy data inserted successfully' });
+    res.json({ attendance: result.rows });
   } catch (err) {
-    await client.query('ROLLBACK');
-    console.error(err);
-    res.status(500).json({ error: 'Failed to insert dummy data' });
-  } finally {
-    client.release();
+    console.error('Attendance error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const getStudentResults = async (req: Request, res: Response) => {
+  const { student_no } = req.params;
+  try {
+    const studentRes = await pool.query(`SELECT id FROM academic.students WHERE student_no = $1`, [student_no]);
+    if (studentRes.rows.length === 0) return res.status(404).json({ error: 'Student not found' });
+    const studentId = studentRes.rows[0].id;
+
+    const resultsRes = await pool.query(`
+      SELECT c.course_code, c.title as course_name, c.credits,
+             fr.total_marks, fr.grade_code as grade,
+             gs.gpa_points
+      FROM exam.final_results fr
+      JOIN academic.course_offerings co ON fr.course_offering_id = co.id
+      JOIN academic.courses c ON co.course_id = c.id
+      JOIN exam.grade_scale gs ON gs.letter = fr.grade_code
+      WHERE fr.student_id = $1
+      ORDER BY c.course_code
+    `, [studentId]);
+
+    // Calculate CGPA
+    let totalWeighted = 0;
+    let totalCredits = 0;
+    for (const r of resultsRes.rows) {
+      totalWeighted += parseFloat(r.gpa_points) * parseInt(r.credits);
+      totalCredits += parseInt(r.credits);
+    }
+    const cgpa = totalCredits > 0 ? Math.round((totalWeighted / totalCredits) * 100) / 100 : 0;
+
+    res.json({
+      results: resultsRes.rows,
+      summary: {
+        totalCredits,
+        cgpa,
+        totalCourses: resultsRes.rows.length,
+      },
+    });
+  } catch (err) {
+    console.error('Results error:', err);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
