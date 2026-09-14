@@ -1,5 +1,7 @@
 import { useAuthStore } from '../store/authStore';
 
+const BASE_URL = import.meta.env.VITE_API_URL || '/api';
+
 // Simple fetch wrapper that injects auth token
 export const api = async (endpoint: string, options: RequestInit = {}) => {
   const { token, logout } = useAuthStore.getState();
@@ -11,7 +13,11 @@ export const api = async (endpoint: string, options: RequestInit = {}) => {
   
   headers.set('Content-Type', 'application/json');
 
-  const response = await fetch(`/api${endpoint}`, {
+  const url = endpoint.startsWith('http')
+    ? endpoint
+    : `${BASE_URL.replace(/\/$/, '')}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+
+  const response = await fetch(url, {
     ...options,
     headers,
   });
@@ -24,7 +30,7 @@ export const api = async (endpoint: string, options: RequestInit = {}) => {
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || 'API request failed');
+    throw new Error(errorData.message || errorData.error || 'API request failed');
   }
 
   return response.json();

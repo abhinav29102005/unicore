@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { getStudentDashboard, getStudentAttendance, getStudentResults } from '../controllers/studentController';
-import { login, getProfile } from '../controllers/authController';
-import { getStats, getUsers, getDepartments } from '../controllers/adminController';
-import { getFacultyDashboard } from '../controllers/facultyController';
-import { seedDatabase } from '../controllers/seedController';
+import { getStudentDashboard, getStudentAttendance, getStudentResults } from '../controllers/studentController.js';
+import { login, getProfile } from '../controllers/authController.js';
+import { getStats, getUsers, getDepartments } from '../controllers/adminController.js';
+import { getFacultyDashboard } from '../controllers/facultyController.js';
+import { seedDatabase } from '../controllers/seedController.js';
 
 const router = Router();
 

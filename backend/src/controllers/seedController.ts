@@ -1,44 +1,66 @@
-import { Request, Response } from 'express';
-import pool from '../config/db';
+import type { Request, Response } from 'express';
+import pool, { client as rawClient } from '../config/db.js';
 
-export const seedDatabase = async (_req: Request, res: Response) => {
-  const client = await pool.connect();
+export const seedDatabase = async (_req: Request, res: Response): Promise<void> => {
   try {
-    await client.query('BEGIN');
+    // ── 1. Batch Clean Up All Existing Data ──
+    await rawClient.batch([
+      'DELETE FROM library_fines',
+      'DELETE FROM library_issues',
+      'DELETE FROM library_book_copies',
+      'DELETE FROM library_books',
+      'DELETE FROM hostel_outpasses',
+      'DELETE FROM hostel_complaints',
+      'DELETE FROM hostel_allocations',
+      'DELETE FROM hostel_beds',
+      'DELETE FROM hostel_rooms',
+      'DELETE FROM hostel_blocks',
+      'DELETE FROM hostel_hostels',
+      'DELETE FROM exam_final_results',
+      'DELETE FROM exam_marks',
+      'DELETE FROM exam_exams',
+      'DELETE FROM exam_exam_types',
+      'DELETE FROM exam_grade_scale',
+      'DELETE FROM academic_attendance',
+      'DELETE FROM academic_enrollments',
+      'DELETE FROM academic_course_offerings',
+      'DELETE FROM academic_courses',
+      'DELETE FROM academic_semesters',
+      'DELETE FROM academic_students',
+      'DELETE FROM academic_faculty',
+      'DELETE FROM academic_programs',
+      'DELETE FROM academic_departments',
+      'DELETE FROM auth_user_roles',
+      'DELETE FROM auth_roles',
+      'DELETE FROM auth_users',
+    ], 'write');
 
-    // ── Truncate all data (cascade) for idempotency ──
-    await client.query(`TRUNCATE auth.users CASCADE`);
-    await client.query(`TRUNCATE academic.departments CASCADE`);
-    await client.query(`TRUNCATE exam.grade_scale CASCADE`);
-    await client.query(`TRUNCATE exam.exam_types CASCADE`);
-    await client.query(`TRUNCATE hostel.hostels CASCADE`);
-    await client.query(`TRUNCATE library.books CASCADE`);
-    await client.query(`TRUNCATE auth.roles CASCADE`);
-
-    // ── Auth: Roles ──
-    await client.query(`
-      INSERT INTO auth.roles (code, name, description, is_system) VALUES
-        ('ADMIN', 'admin', 'System administrator', true),
-        ('FACULTY', 'faculty', 'Teaching faculty', true),
-        ('STUDENT', 'student', 'Enrolled student', true),
-        ('STAFF', 'staff', 'University staff', true)
+    // ── 2. Auth: Roles ──
+    const rolesRes = await pool.query(`
+      INSERT INTO auth_roles (code, name, description, is_system) VALUES
+        ('ADMIN', 'admin', 'System administrator', 1),
+        ('FACULTY', 'faculty', 'Teaching faculty', 1),
+        ('STUDENT', 'student', 'Enrolled student', 1),
+        ('STAFF', 'staff', 'University staff', 1)
+      RETURNING id, code
     `);
+    const roleMap: Record<string, string> = {};
+    for (const r of rolesRes.rows) roleMap[r.code] = r.id;
 
-    // ── Auth: Users ──
-    const pwHash = '$2b$10$abcdefghijklmnopqrstuuABCDEFGHIJKLMNOPQRSTUVWXYZ012345';
-
-    const usersRes = await client.query(`
-      INSERT INTO auth.users (email, first_name, last_name, password_hash, status) VALUES
+    // ── 3. Auth: Users ──
+    const pwHash = '$2b$10$dummyHashForPrototypeEnvironmentOnly';
+    const usersRes = await pool.query(`
+      INSERT INTO auth_users (email, first_name, last_name, password_hash, status) VALUES
         ('admin@unicore.edu', 'System', 'Admin', $1, 'active'),
-        ('abhinav@unicore.edu', 'Abhinav Kumar', 'Singh', $1, 'active'),
+        ('abhinav@unicore.edu', 'Abhinav', 'Kumar', $1, 'active'),
         ('priya@unicore.edu', 'Priya', 'Sharma', $1, 'active'),
         ('rahul@unicore.edu', 'Rahul', 'Verma', $1, 'active'),
         ('sneha@unicore.edu', 'Sneha', 'Patel', $1, 'active'),
         ('amit@unicore.edu', 'Amit', 'Gupta', $1, 'active'),
-        ('neha@unicore.edu', 'Neha', 'Reddy', $1, 'active'),
-        ('vikram@unicore.edu', 'Vikram', 'Joshi', $1, 'active'),
-        ('ananya@unicore.edu', 'Ananya', 'Iyer', $1, 'active'),
-        ('rohan@unicore.edu', 'Rohan', 'Deshmukh', $1, 'active'),
+        ('neha@unicore.edu', 'Neha', 'Joshi', $1, 'active'),
+        ('vikram@unicore.edu', 'Vikram', 'Malhotra', $1, 'active'),
+        ('ananya@unicore.edu', 'Ananya', 'Deshmukh', $1, 'active'),
+        ('rohan@unicore.edu', 'Rohan', 'Mehta', $1, 'active'),
         ('kavita@unicore.edu', 'Kavita', 'Nair', $1, 'active'),
         ('dr.kumar@unicore.edu', 'Dr. Rajesh', 'Kumar', $1, 'active'),
         ('dr.singh@unicore.edu', 'Dr. Meena', 'Singh', $1, 'active'),
@@ -53,27 +75,32 @@ export const seedDatabase = async (_req: Request, res: Response) => {
     const userMap: Record<string, string> = {};
     for (const row of usersRes.rows) userMap[row.email] = row.id;
 
-    // ── Auth: Assign roles ──
-    const adminRoleId = (await client.query(`SELECT id FROM auth.roles WHERE code = 'ADMIN'`)).rows[0].id;
-    const facultyRoleId = (await client.query(`SELECT id FROM auth.roles WHERE code = 'FACULTY'`)).rows[0].id;
-    const studentRoleId = (await client.query(`SELECT id FROM auth.roles WHERE code = 'STUDENT'`)).rows[0].id;
-    const staffRoleId = (await client.query(`SELECT id FROM auth.roles WHERE code = 'STAFF'`)).rows[0].id;
+    // ── 4. Auth: Assign Roles ──
+    const userRoleInserts = [
+      `('${userMap['admin@unicore.edu']}', '${roleMap['ADMIN']}')`,
+      `('${userMap['staff1@unicore.edu']}', '${roleMap['STAFF']}')`,
+      `('${userMap['staff2@unicore.edu']}', '${roleMap['STAFF']}')`,
+      `('${userMap['dr.kumar@unicore.edu']}', '${roleMap['FACULTY']}')`,
+      `('${userMap['dr.singh@unicore.edu']}', '${roleMap['FACULTY']}')`,
+      `('${userMap['dr.sharma@unicore.edu']}', '${roleMap['FACULTY']}')`,
+      `('${userMap['dr.patel@unicore.edu']}', '${roleMap['FACULTY']}')`,
+      `('${userMap['dr.reddy@unicore.edu']}', '${roleMap['FACULTY']}')`,
+      `('${userMap['abhinav@unicore.edu']}', '${roleMap['STUDENT']}')`,
+      `('${userMap['priya@unicore.edu']}', '${roleMap['STUDENT']}')`,
+      `('${userMap['rahul@unicore.edu']}', '${roleMap['STUDENT']}')`,
+      `('${userMap['sneha@unicore.edu']}', '${roleMap['STUDENT']}')`,
+      `('${userMap['amit@unicore.edu']}', '${roleMap['STUDENT']}')`,
+      `('${userMap['neha@unicore.edu']}', '${roleMap['STUDENT']}')`,
+      `('${userMap['vikram@unicore.edu']}', '${roleMap['STUDENT']}')`,
+      `('${userMap['ananya@unicore.edu']}', '${roleMap['STUDENT']}')`,
+      `('${userMap['rohan@unicore.edu']}', '${roleMap['STUDENT']}')`,
+      `('${userMap['kavita@unicore.edu']}', '${roleMap['STUDENT']}')`,
+    ];
+    await pool.query(`INSERT INTO auth_user_roles (user_id, role_id) VALUES ${userRoleInserts.join(', ')}`);
 
-    await client.query(`INSERT INTO auth.user_roles (user_id, role_id) VALUES ($1, $2)`, [userMap['admin@unicore.edu'], adminRoleId]);
-    await client.query(`INSERT INTO auth.user_roles (user_id, role_id) VALUES ($1, $2)`, [userMap['staff1@unicore.edu'], staffRoleId]);
-    await client.query(`INSERT INTO auth.user_roles (user_id, role_id) VALUES ($1, $2)`, [userMap['staff2@unicore.edu'], staffRoleId]);
-
-    for (const email of ['dr.kumar@unicore.edu', 'dr.singh@unicore.edu', 'dr.sharma@unicore.edu', 'dr.patel@unicore.edu', 'dr.reddy@unicore.edu']) {
-      await client.query(`INSERT INTO auth.user_roles (user_id, role_id) VALUES ($1, $2)`, [userMap[email], facultyRoleId]);
-    }
-
-    for (const email of ['abhinav@unicore.edu', 'priya@unicore.edu', 'rahul@unicore.edu', 'sneha@unicore.edu', 'amit@unicore.edu', 'neha@unicore.edu', 'vikram@unicore.edu', 'ananya@unicore.edu', 'rohan@unicore.edu', 'kavita@unicore.edu']) {
-      await client.query(`INSERT INTO auth.user_roles (user_id, role_id) VALUES ($1, $2)`, [userMap[email], studentRoleId]);
-    }
-
-    // ── Academic: Departments ──
-    const deptsRes = await client.query(`
-      INSERT INTO academic.departments (code, name) VALUES
+    // ── 5. Academic: Departments & Programs ──
+    const deptsRes = await pool.query(`
+      INSERT INTO academic_departments (code, name) VALUES
         ('CSE', 'Computer Science & Engineering'),
         ('ECE', 'Electronics & Communication'),
         ('ME', 'Mechanical Engineering'),
@@ -84,240 +111,243 @@ export const seedDatabase = async (_req: Request, res: Response) => {
     const deptMap: Record<string, string> = {};
     for (const row of deptsRes.rows) deptMap[row.code] = row.id;
 
-    // ── Academic: Programs ──
-    const progsRes = await client.query(`
-      INSERT INTO academic.programs (department_id, code, name, degree_type, duration_semesters) VALUES
-        ($1, 'BTECH-CSE', 'B.Tech Computer Science', 'BTech', 8),
-        ($2, 'BTECH-ECE', 'B.Tech Electronics', 'BTech', 8),
-        ($3, 'BTECH-ME', 'B.Tech Mechanical', 'BTech', 8),
-        ($4, 'BTECH-CE', 'B.Tech Civil', 'BTech', 8),
-        ($5, 'BTECH-EE', 'B.Tech Electrical', 'BTech', 8)
+    const progsRes = await pool.query(`
+      INSERT INTO academic_programs (department_id, code, name, degree_type, duration_semesters) VALUES
+        ('${deptMap['CSE']}', 'BTECH-CSE', 'B.Tech Computer Science', 'BTech', 8),
+        ('${deptMap['ECE']}', 'BTECH-ECE', 'B.Tech Electronics', 'BTech', 8),
+        ('${deptMap['ME']}', 'BTECH-ME', 'B.Tech Mechanical', 'BTech', 8),
+        ('${deptMap['CE']}', 'BTECH-CE', 'B.Tech Civil', 'BTech', 8),
+        ('${deptMap['EE']}', 'BTECH-EE', 'B.Tech Electrical', 'BTech', 8)
       RETURNING id, code
-    `, [deptMap['CSE'], deptMap['ECE'], deptMap['ME'], deptMap['CE'], deptMap['EE']]);
+    `);
     const progMap: Record<string, string> = {};
     for (const row of progsRes.rows) progMap[row.code] = row.id;
 
-    // ── Academic: Faculty ──
-    const facultyData = [
-      { email: 'dr.kumar@unicore.edu', empNo: 'FAC001', dept: 'CSE', designation: 'Professor' },
-      { email: 'dr.singh@unicore.edu', empNo: 'FAC002', dept: 'ECE', designation: 'Associate Professor' },
-      { email: 'dr.sharma@unicore.edu', empNo: 'FAC003', dept: 'ME', designation: 'Professor' },
-      { email: 'dr.patel@unicore.edu', empNo: 'FAC004', dept: 'CE', designation: 'Assistant Professor' },
-      { email: 'dr.reddy@unicore.edu', empNo: 'FAC005', dept: 'EE', designation: 'Professor' },
-    ];
+    // ── 6. Academic: Faculty ──
+    const facultyRes = await pool.query(`
+      INSERT INTO academic_faculty (user_id, employee_no, department_id, designation) VALUES
+        ('${userMap['dr.kumar@unicore.edu']}', 'FAC001', '${deptMap['CSE']}', 'Professor'),
+        ('${userMap['dr.singh@unicore.edu']}', 'FAC002', '${deptMap['ECE']}', 'Associate Professor'),
+        ('${userMap['dr.sharma@unicore.edu']}', 'FAC003', '${deptMap['ME']}', 'Professor'),
+        ('${userMap['dr.patel@unicore.edu']}', 'FAC004', '${deptMap['CE']}', 'Assistant Professor'),
+        ('${userMap['dr.reddy@unicore.edu']}', 'FAC005', '${deptMap['EE']}', 'Professor')
+      RETURNING id, employee_no
+    `);
     const facultyIds: Record<string, string> = {};
-    for (const f of facultyData) {
-      const r = await client.query(
-        `INSERT INTO academic.faculty (user_id, employee_no, department_id, designation) VALUES ($1, $2, $3, $4) RETURNING id`,
-        [userMap[f.email], f.empNo, deptMap[f.dept], f.designation]
-      );
-      facultyIds[f.empNo] = r.rows[0].id;
-    }
+    for (const row of facultyRes.rows) facultyIds[row.employee_no] = row.id;
 
-    // ── Academic: Students ──
-    const studentData = [
-      { email: 'abhinav@unicore.edu', roll: '1024030440', dept: 'CSE', prog: 'BTECH-CSE', year: 2024, sem: 3 },
-      { email: 'priya@unicore.edu', roll: '1024030441', dept: 'CSE', prog: 'BTECH-CSE', year: 2024, sem: 3 },
-      { email: 'rahul@unicore.edu', roll: '1024030442', dept: 'ECE', prog: 'BTECH-ECE', year: 2024, sem: 3 },
-      { email: 'sneha@unicore.edu', roll: '1024030443', dept: 'ME', prog: 'BTECH-ME', year: 2023, sem: 5 },
-      { email: 'amit@unicore.edu', roll: '1024030444', dept: 'CE', prog: 'BTECH-CE', year: 2023, sem: 5 },
-      { email: 'neha@unicore.edu', roll: '1024030445', dept: 'EE', prog: 'BTECH-EE', year: 2022, sem: 7 },
-      { email: 'vikram@unicore.edu', roll: '1024030446', dept: 'CSE', prog: 'BTECH-CSE', year: 2022, sem: 7 },
-      { email: 'ananya@unicore.edu', roll: '1024030447', dept: 'ECE', prog: 'BTECH-ECE', year: 2023, sem: 5 },
-      { email: 'rohan@unicore.edu', roll: '1024030448', dept: 'ME', prog: 'BTECH-ME', year: 2024, sem: 3 },
-      { email: 'kavita@unicore.edu', roll: '1024030449', dept: 'CE', prog: 'BTECH-CE', year: 2022, sem: 7 },
-    ];
+    // ── 7. Academic: Students ──
+    const studentsRes = await pool.query(`
+      INSERT INTO academic_students (user_id, student_no, department_id, program_id, admission_year, current_semester) VALUES
+        ('${userMap['abhinav@unicore.edu']}', '1024030440', '${deptMap['CSE']}', '${progMap['BTECH-CSE']}', 2024, 3),
+        ('${userMap['priya@unicore.edu']}', '1024030441', '${deptMap['CSE']}', '${progMap['BTECH-CSE']}', 2024, 3),
+        ('${userMap['rahul@unicore.edu']}', '1024030442', '${deptMap['ECE']}', '${progMap['BTECH-ECE']}', 2024, 3),
+        ('${userMap['sneha@unicore.edu']}', '1024030443', '${deptMap['ME']}', '${progMap['BTECH-ME']}', 2023, 5),
+        ('${userMap['amit@unicore.edu']}', '1024030444', '${deptMap['CE']}', '${progMap['BTECH-CE']}', 2023, 5),
+        ('${userMap['neha@unicore.edu']}', '1024030445', '${deptMap['EE']}', '${progMap['BTECH-EE']}', 2022, 7),
+        ('${userMap['vikram@unicore.edu']}', '1024030446', '${deptMap['CSE']}', '${progMap['BTECH-CSE']}', 2022, 7),
+        ('${userMap['ananya@unicore.edu']}', '1024030447', '${deptMap['ECE']}', '${progMap['BTECH-ECE']}', 2023, 5),
+        ('${userMap['rohan@unicore.edu']}', '1024030448', '${deptMap['ME']}', '${progMap['BTECH-ME']}', 2024, 3),
+        ('${userMap['kavita@unicore.edu']}', '1024030449', '${deptMap['CE']}', '${progMap['BTECH-CE']}', 2022, 7)
+      RETURNING id, student_no
+    `);
     const studentIds: Record<string, string> = {};
-    for (const s of studentData) {
-      const r = await client.query(
-        `INSERT INTO academic.students (user_id, student_no, department_id, program_id, admission_year, current_semester) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
-        [userMap[s.email], s.roll, deptMap[s.dept], progMap[s.prog], s.year, s.sem]
-      );
-      studentIds[s.roll] = r.rows[0].id;
-    }
+    for (const row of studentsRes.rows) studentIds[row.student_no] = row.id;
 
-    // ── Academic: Semesters ──
-    const semsRes = await client.query(`
-      INSERT INTO academic.semesters (code, name, academic_year, start_date, end_date) VALUES
-        ('FALL2025', 'Fall 2025', 2025, '2025-08-01', '2025-12-15'),
-        ('SPRING2026', 'Spring 2026', 2026, '2026-01-15', '2026-05-30')
+    // ── 8. Academic: Semesters, Courses, Offerings ──
+    const semsRes = await pool.query(`
+      INSERT INTO academic_semesters (code, name, academic_year, start_date, end_date, is_current) VALUES
+        ('FALL2025', 'Fall 2025', 2025, '2025-08-01', '2025-12-15', 1),
+        ('SPRING2026', 'Spring 2026', 2026, '2026-01-15', '2026-05-30', 0)
       RETURNING id, code
     `);
     const semMap: Record<string, string> = {};
     for (const row of semsRes.rows) semMap[row.code] = row.id;
 
-    // ── Academic: Courses ──
-    const coursesRes = await client.query(`
-      INSERT INTO academic.courses (course_code, title, credits, department_id) VALUES
-        ('CS301', 'Distributed Systems', 4, $1),
-        ('CS302', 'Cloud Computing', 3, $1),
-        ('CS303', 'Database Management Systems', 4, $1),
-        ('CS304', 'Machine Learning', 4, $1),
-        ('EC301', 'Signal Processing', 3, $2),
-        ('EC302', 'VLSI Design', 4, $2),
-        ('ME301', 'Thermodynamics', 3, $3),
-        ('ME302', 'Fluid Mechanics', 4, $3),
-        ('CE301', 'Structural Analysis', 4, $4),
-        ('EE301', 'Power Systems', 3, $5)
+    const coursesRes = await pool.query(`
+      INSERT INTO academic_courses (course_code, title, credits, department_id) VALUES
+        ('CS301', 'Distributed Systems', 4, '${deptMap['CSE']}'),
+        ('CS302', 'Cloud Computing', 3, '${deptMap['CSE']}'),
+        ('CS303', 'Database Management Systems', 4, '${deptMap['CSE']}'),
+        ('CS304', 'Machine Learning', 4, '${deptMap['CSE']}'),
+        ('EC301', 'Signal Processing', 3, '${deptMap['ECE']}'),
+        ('EC302', 'VLSI Design', 4, '${deptMap['ECE']}'),
+        ('ME301', 'Thermodynamics', 3, '${deptMap['ME']}'),
+        ('ME302', 'Fluid Mechanics', 4, '${deptMap['ME']}'),
+        ('CE301', 'Structural Analysis', 4, '${deptMap['CE']}'),
+        ('EE301', 'Power Systems', 3, '${deptMap['EE']}')
       RETURNING id, course_code
-    `, [deptMap['CSE'], deptMap['ECE'], deptMap['ME'], deptMap['CE'], deptMap['EE']]);
+    `);
     const courseMap: Record<string, string> = {};
     for (const row of coursesRes.rows) courseMap[row.course_code] = row.id;
 
-    // ── Academic: Course Offerings ──
+    const offeringInserts = Object.keys(courseMap).map(
+      (code) => `('${courseMap[code]}', '${semMap['FALL2025']}', 60, '${code}')`
+    );
+    const offeringsRes = await pool.query(`
+      INSERT INTO academic_course_offerings (course_id, semester_id, capacity, section_code) VALUES
+        ${offeringInserts.join(', ')}
+      RETURNING id, section_code
+    `);
     const offeringMap: Record<string, string> = {};
-    for (const code of Object.keys(courseMap)) {
-      const r = await client.query(
-        `INSERT INTO academic.course_offerings (course_id, semester_id, capacity) VALUES ($1, $2, $3) RETURNING id`,
-        [courseMap[code], semMap['FALL2025'], 60]
-      );
-      offeringMap[code] = r.rows[0].id;
-    }
+    for (const row of offeringsRes.rows) offeringMap[row.section_code] = row.id;
 
-    // ── Academic: Enrollments ──
-    const enrollments = [
+    // ── 9. Academic: Enrollments ──
+    const enrollmentList = [
       { roll: '1024030440', courses: ['CS301', 'CS302', 'CS303', 'CS304'] },
-      { roll: '1024030441', courses: ['CS301', 'CS303', 'CS304'] },
-      { roll: '1024030442', courses: ['EC301', 'EC302'] },
-      { roll: '1024030443', courses: ['ME301', 'ME302'] },
-      { roll: '1024030444', courses: ['CE301'] },
-      { roll: '1024030445', courses: ['EE301'] },
-      { roll: '1024030446', courses: ['CS301', 'CS302'] },
+      { roll: '1024030441', courses: ['CS301', 'CS302', 'CS303', 'CS304'] },
+      { roll: '1024030442', courses: ['EC301', 'EC302', 'CS301'] },
+      { roll: '1024030443', courses: ['ME301', 'ME302', 'CS302'] },
+      { roll: '1024030444', courses: ['CE301', 'CS303'] },
+      { roll: '1024030445', courses: ['EE301', 'EC301'] },
+      { roll: '1024030446', courses: ['CS301', 'CS302', 'CS303', 'CS304'] },
       { roll: '1024030447', courses: ['EC301', 'EC302'] },
       { roll: '1024030448', courses: ['ME301', 'ME302'] },
-      { roll: '1024030449', courses: ['CE301'] },
+      { roll: '1024030449', courses: ['CE301', 'CS301'] },
     ];
-    for (const e of enrollments) {
+
+    const enrollmentRows: string[] = [];
+    for (const e of enrollmentList) {
       for (const c of e.courses) {
-        await client.query(`INSERT INTO academic.enrollments (student_id, course_offering_id) VALUES ($1, $2)`, [studentIds[e.roll], offeringMap[c]]);
+        enrollmentRows.push(`('${studentIds[e.roll]}', '${offeringMap[c]}')`);
       }
     }
+    await pool.query(`INSERT INTO academic_enrollments (student_id, course_offering_id) VALUES ${enrollmentRows.join(', ')}`);
 
-    // ── Academic: Attendance (20 days per enrollment - Batch) ──
-    const statuses = ['present', 'present', 'present', 'present', 'present', 'present', 'present', 'absent', 'late', 'excused'];
-    const attVals: string[] = [];
-    const attParams: any[] = [];
-    let attIdx = 1;
-    for (const e of enrollments) {
+    // ── 10. Academic: Attendance ──
+    const dates = ['2025-09-01', '2025-09-03', '2025-09-05', '2025-09-08', '2025-09-10'];
+    const attendanceInserts: string[] = [];
+    for (const e of enrollmentList) {
+      const sid = studentIds[e.roll];
       for (const c of e.courses) {
-        for (let day = 1; day <= 20; day++) {
-          const d = '2025-09-' + String(day).padStart(2, '0');
-          const status = statuses[Math.floor(Math.random() * statuses.length)];
-          attVals.push(`($${attIdx}, $${attIdx+1}, $${attIdx+2}, $${attIdx+3})`);
-          attParams.push(studentIds[e.roll], offeringMap[c], d, status);
-          attIdx += 4;
+        const coid = offeringMap[c];
+        for (const dt of dates) {
+          const rand = Math.random();
+          const status = rand > 0.2 ? 'present' : rand > 0.1 ? 'late' : 'absent';
+          attendanceInserts.push(`('${sid}', '${coid}', '${dt}', '${status}')`);
         }
       }
     }
-    if (attVals.length > 0) {
-      const chunkSize = 2000; 
-      for (let i = 0; i < attVals.length; i += chunkSize) {
-        const chunkVals = attVals.slice(i, i + chunkSize);
-        const chunkParams = attParams.slice(i * 4, (i + chunkSize) * 4);
-        
-        const reindexedVals = chunkVals.map((_, index) => `($${index*4+1}, $${index*4+2}, $${index*4+3}, $${index*4+4})`);
-        
-        await client.query(
-          `INSERT INTO academic.attendance (student_id, course_offering_id, date, status) VALUES ${reindexedVals.join(',')}`, 
-          chunkParams
-        );
-      }
-    }
+    await pool.query(`INSERT INTO academic_attendance (student_id, course_offering_id, date, status) VALUES ${attendanceInserts.join(', ')}`);
 
-    // ── Exam: Grade Scale ──
-    await client.query(`
-      INSERT INTO exam.grade_scale (grade_code, grade_points, min_marks, max_marks, effective_from) VALUES
-        ('A+', 10.0, 90, 100, '2020-01-01'), ('A', 9.0, 80, 89, '2020-01-02'), ('B+', 8.0, 70, 79, '2020-01-03'),
-        ('B', 7.0, 60, 69, '2020-01-04'), ('C+', 6.0, 50, 59, '2020-01-05'), ('C', 5.0, 40, 49, '2020-01-06'), ('F', 0.0, 0, 39, '2020-01-07');
+    // ── 11. Exam: Grade Scale & Types ──
+    await pool.query(`
+      INSERT INTO exam_grade_scale (grade_code, grade_points, min_marks, max_marks, effective_from) VALUES
+        ('A+', 10.0, 90, 100, '2020-01-01'),
+        ('A', 9.0, 80, 89, '2020-01-02'),
+        ('B+', 8.0, 70, 79, '2020-01-03'),
+        ('B', 7.0, 60, 69, '2020-01-04'),
+        ('C+', 6.0, 50, 59, '2020-01-05'),
+        ('C', 5.0, 40, 49, '2020-01-06'),
+        ('F', 0.0, 0, 39, '2020-01-07')
+    `);
 
-    // ── Exam: Exam Types ──
-    const examTypesRes = await client.query(`
-      INSERT INTO exam.exam_types (name, code) VALUES ('Mid Semester', 'MID'), ('End Semester', 'END') RETURNING id, code
+    const examTypesRes = await pool.query(`
+      INSERT INTO exam_exam_types (name, code) VALUES ('Mid Semester', 'MID'), ('End Semester', 'END') RETURNING id, code
     `);
     const examTypeMap: Record<string, string> = {};
     for (const row of examTypesRes.rows) examTypeMap[row.code] = row.id;
 
-    // ── Exam: Exams + Marks + Final Results (batch) ──
-    const marksValues: string[] = [];
-    const marksParams: any[] = [];
-    let mIdx = 1;
-    const frValues: string[] = [];
-    const frParams: any[] = [];
-    let frIdx = 1;
+    // ── 12. Exam: Exams, Marks, Results ──
+    const examInserts = Object.keys(offeringMap).map(
+      (code) => `('${offeringMap[code]}', '${examTypeMap['MID']}', 'Mid Term - ${code}', 100, 30.0, '2025-10-15', '${code}')`
+    );
+    const examsRes = await pool.query(`
+      INSERT INTO exam_exams (course_offering_id, exam_type_id, name, max_marks, weightage_percent, scheduled_at, room_no) VALUES
+        ${examInserts.join(', ')}
+      RETURNING id, room_no
+    `);
+    const examMap: Record<string, string> = {};
+    for (const row of examsRes.rows) examMap[row.room_no] = row.id;
 
-    for (const courseCode of Object.keys(offeringMap)) {
-      const midExam = await client.query(
-        `INSERT INTO exam.exams (course_offering_id, exam_type_id, max_marks, scheduled_date) VALUES ($1, $2, 100, '2025-10-15') RETURNING id`,
-        [offeringMap[courseCode], examTypeMap['MID']]
-      );
-      const examId = midExam.rows[0].id;
-
-      for (const e of enrollments) {
-        if (!e.courses.includes(courseCode)) continue;
-        const marks = 55 + Math.floor(Math.random() * 40);
-        marksValues.push(`($${mIdx}, $${mIdx+1}, $${mIdx+2}, $${mIdx+3})`);
-        marksParams.push(studentIds[e.roll], examId, marks, userMap['dr.kumar@unicore.edu']);
-        mIdx += 4;
-
+    const marksInserts: string[] = [];
+    const resultsInserts: string[] = [];
+    for (const e of enrollmentList) {
+      for (const c of e.courses) {
+        const marks = 60 + Math.floor(Math.random() * 35);
         const grade = marks >= 90 ? 'A+' : marks >= 80 ? 'A' : marks >= 70 ? 'B+' : marks >= 60 ? 'B' : marks >= 50 ? 'C+' : marks >= 40 ? 'C' : 'F';
-        frValues.push(`($${frIdx}, $${frIdx+1}, $${frIdx+2}, $${frIdx+3})`);
-        frParams.push(studentIds[e.roll], offeringMap[courseCode], marks, grade);
-        frIdx += 4;
+        const gp = marks >= 90 ? 10.0 : marks >= 80 ? 9.0 : marks >= 70 ? 8.0 : marks >= 60 ? 7.0 : marks >= 50 ? 6.0 : marks >= 40 ? 5.0 : 0.0;
+        marksInserts.push(`('${examMap[c]}', '${studentIds[e.roll]}', ${marks}, '${userMap['dr.kumar@unicore.edu']}')`);
+        resultsInserts.push(`('${studentIds[e.roll]}', '${offeringMap[c]}', ${marks}, '${grade}', ${gp})`);
       }
     }
-    if (marksValues.length > 0) {
-      await client.query(`INSERT INTO exam.marks (student_id, exam_id, marks_obtained, graded_by) VALUES ${marksValues.join(', ')}`, marksParams);
-    }
-    if (frValues.length > 0) {
-      await client.query(`INSERT INTO exam.final_results (student_id, course_offering_id, total_marks, grade_code) VALUES ${frValues.join(', ')} ON CONFLICT DO NOTHING`, frParams);
-    }
+    await pool.query(`INSERT INTO exam_marks (exam_id, student_id, marks_obtained, graded_by) VALUES ${marksInserts.join(', ')}`);
+    await pool.query(`INSERT INTO exam_final_results (student_id, course_offering_id, total_marks, grade_code, grade_points) VALUES ${resultsInserts.join(', ')}`);
 
-    // ── Hostel ──
-    const hostelRes = await client.query(`
-      INSERT INTO hostel.hostels (name, code, gender_type) VALUES
-        ('Tagore Hall', 'TH', 'male'), ('Raman Hall', 'RH', 'female')
+    // ── 13. Hostel ──
+    const hostelRes = await pool.query(`
+      INSERT INTO hostel_hostels (name, code, gender_type) VALUES
+        ('Tagore Hall', 'TH', 'male'),
+        ('Raman Hall', 'RH', 'female')
       RETURNING id, code
     `);
     const hostelMap: Record<string, string> = {};
     for (const row of hostelRes.rows) hostelMap[row.code] = row.id;
 
-    const block1 = (await client.query(`INSERT INTO hostel.blocks (hostel_id, name, floor_count) VALUES ($1, 'Block A', 5) RETURNING id`, [hostelMap['TH']])).rows[0].id;
-    const block2 = (await client.query(`INSERT INTO hostel.blocks (hostel_id, name, floor_count) VALUES ($1, 'Block B', 4) RETURNING id`, [hostelMap['RH']])).rows[0].id;
+    const blocksRes = await pool.query(`
+      INSERT INTO hostel_blocks (hostel_id, name, floor_count) VALUES
+        ('${hostelMap['TH']}', 'Block A', 5),
+        ('${hostelMap['RH']}', 'Block B', 4)
+      RETURNING id, name
+    `);
+    const blockMap: Record<string, string> = {};
+    for (const row of blocksRes.rows) blockMap[row.name] = row.id;
 
-    const roomBedMap: Record<string, string> = {};
-    const roomNumbers = ['101', '102', '201', '202', '301', '302', '401', '402', '501', '502'];
-    for (let i = 0; i < roomNumbers.length; i++) {
-      const blockId = i < 5 ? block1 : block2;
-      const floor = Math.floor(parseInt(roomNumbers[i]) / 100);
-      const roomRes = await client.query(`INSERT INTO hostel.rooms (block_id, room_no, floor_no, capacity) VALUES ($1, $2, $3, 2) RETURNING id`, [blockId, roomNumbers[i], floor]);
-      const bedRes = await client.query(`INSERT INTO hostel.beds (room_id, bed_label) VALUES ($1, 'A') RETURNING id`, [roomRes.rows[0].id]);
-      roomBedMap[roomNumbers[i]] = bedRes.rows[0].id;
-    }
+    const roomInserts = [
+      `('${blockMap['Block A']}', '101', 1, 2)`,
+      `('${blockMap['Block A']}', '102', 1, 2)`,
+      `('${blockMap['Block A']}', '201', 2, 2)`,
+      `('${blockMap['Block A']}', '202', 2, 2)`,
+      `('${blockMap['Block A']}', '301', 3, 2)`,
+      `('${blockMap['Block B']}', '302', 3, 2)`,
+      `('${blockMap['Block B']}', '401', 4, 2)`,
+      `('${blockMap['Block B']}', '402', 4, 2)`,
+      `('${blockMap['Block B']}', '501', 5, 2)`,
+      `('${blockMap['Block B']}', '502', 5, 2)`,
+    ];
+    const roomsRes = await pool.query(`
+      INSERT INTO hostel_rooms (block_id, room_no, floor_no, capacity) VALUES
+        ${roomInserts.join(', ')}
+      RETURNING id, room_no
+    `);
+    const roomMap: Record<string, string> = {};
+    for (const row of roomsRes.rows) roomMap[row.room_no] = row.id;
 
-    for (const a of [
-      { roll: '1024030440', room: '301' }, { roll: '1024030441', room: '302' },
-      { roll: '1024030442', room: '101' }, { roll: '1024030443', room: '201' },
-      { roll: '1024030446', room: '401' }, { roll: '1024030447', room: '102' },
-      { roll: '1024030448', room: '202' },
-    ]) {
-      await client.query(`INSERT INTO hostel.allocations (student_id, bed_id) VALUES ($1, $2)`, [studentIds[a.roll], roomBedMap[a.room]]);
-    }
+    const bedInserts = Object.keys(roomMap).map((rNo) => `('${roomMap[rNo]}', 'A', '${rNo}')`);
+    const bedsRes = await pool.query(`
+      INSERT INTO hostel_beds (room_id, bed_label, qr_code_id) VALUES
+        ${bedInserts.join(', ')}
+      RETURNING id, qr_code_id
+    `);
+    const bedMap: Record<string, string> = {};
+    for (const row of bedsRes.rows) bedMap[row.qr_code_id] = row.id;
 
-    await client.query(`
-      INSERT INTO hostel.complaints (student_id, category, subject, description, status) VALUES
-        ($1, 'maintenance', 'Broken fan', 'The ceiling fan in room 301 is not working', 'open'),
-        ($2, 'cleanliness', 'Washroom issue', 'Washroom on 3rd floor needs cleaning', 'in_progress')
-    `, [studentIds['1024030440'], studentIds['1024030441']]);
+    const allocations = [
+      `('${studentIds['1024030440']}', '${bedMap['301']}')`,
+      `('${studentIds['1024030441']}', '${bedMap['302']}')`,
+      `('${studentIds['1024030442']}', '${bedMap['101']}')`,
+      `('${studentIds['1024030443']}', '${bedMap['201']}')`,
+      `('${studentIds['1024030446']}', '${bedMap['401']}')`,
+      `('${studentIds['1024030447']}', '${bedMap['102']}')`,
+      `('${studentIds['1024030448']}', '${bedMap['202']}')`,
+    ];
+    await pool.query(`INSERT INTO hostel_allocations (student_id, bed_id) VALUES ${allocations.join(', ')}`);
 
-    await client.query(`
-      INSERT INTO hostel.outpasses (student_id, leave_date, return_date, reason, status) VALUES
-        ($1, '2025-10-01', '2025-10-03', 'Family function', 'approved'),
-        ($2, '2025-10-05', '2025-10-06', 'Medical appointment', 'pending')
-    `, [studentIds['1024030440'], studentIds['1024030442']]);
+    await pool.query(`
+      INSERT INTO hostel_complaints (student_id, category, description, status, priority) VALUES
+        ('${studentIds['1024030440']}', 'Electrical', 'The ceiling fan in room 301 is not working', 'pending', 'medium'),
+        ('${studentIds['1024030441']}', 'Cleaning', 'Washroom on 3rd floor needs cleaning', 'in_progress', 'high')
+    `);
 
-    // ── Library ──
-    const booksRes = await client.query(`
-      INSERT INTO library.books (isbn, title) VALUES
+    await pool.query(`
+      INSERT INTO hostel_outpasses (student_id, destination, out_time, in_time, reason, status) VALUES
+        ('${studentIds['1024030440']}', 'Home', '2025-10-01 09:00:00', '2025-10-03 18:00:00', 'Family function', 'approved'),
+        ('${studentIds['1024030442']}', 'City Clinic', '2025-10-05 10:00:00', '2025-10-05 16:00:00', 'Medical appointment', 'pending')
+    `);
+
+    // ── 14. Library ──
+    const booksRes = await pool.query(`
+      INSERT INTO library_books (isbn, title) VALUES
         ('9781449373320', 'Designing Data-Intensive Applications'),
         ('9780134685991', 'Effective Java'),
         ('9780596517748', 'JavaScript: The Good Parts'),
@@ -331,47 +361,53 @@ export const seedDatabase = async (_req: Request, res: Response) => {
     const bookMap: Record<string, string> = {};
     for (const row of booksRes.rows) bookMap[row.isbn] = row.id;
 
-    const copyIds: string[] = [];
+    const copyInserts: string[] = [];
     for (const isbn of Object.keys(bookMap)) {
-      for (let c = 1; c <= 3; c++) {
-        const r = await client.query(`INSERT INTO library.book_copies (book_id, barcode) VALUES ($1, $2) RETURNING id`, [bookMap[isbn], isbn.slice(-4) + '-' + String(c).padStart(2, '0')]);
-        copyIds.push(r.rows[0].id);
+      for (let c = 1; c <= 2; c++) {
+        copyInserts.push(`('${bookMap[isbn]}', '${isbn.slice(-4)}-${c}')`);
       }
     }
+    const copiesRes = await pool.query(`
+      INSERT INTO library_book_copies (book_id, barcode) VALUES
+        ${copyInserts.join(', ')}
+      RETURNING id
+    `);
+    const copyIds = copiesRes.rows.map((r: any) => r.id);
 
-    await client.query(`
-      INSERT INTO library.issues (copy_id, member_user_id, issued_by, due_at) VALUES
-        ($1, $2, $3, '2026-10-15'), ($4, $5, $3, '2026-10-20'), ($6, $7, $3, '2026-09-30')
-    `, [copyIds[0], userMap['abhinav@unicore.edu'], userMap['admin@unicore.edu'], copyIds[3], userMap['priya@unicore.edu'], copyIds[6], userMap['rahul@unicore.edu']]);
+    const issuesRes = await pool.query(`
+      INSERT INTO library_issues (copy_id, member_user_id, issued_by, due_at) VALUES
+        ('${copyIds[0]}', '${userMap['abhinav@unicore.edu']}', '${userMap['admin@unicore.edu']}', '2026-10-15 00:00:00'),
+        ('${copyIds[1]}', '${userMap['priya@unicore.edu']}', '${userMap['admin@unicore.edu']}', '2026-10-20 00:00:00'),
+        ('${copyIds[2]}', '${userMap['rahul@unicore.edu']}', '${userMap['admin@unicore.edu']}', '2026-09-30 00:00:00')
+      RETURNING id
+    `);
+    const issueIds = issuesRes.rows.map((r: any) => r.id);
 
-    await client.query(`
-      INSERT INTO library.fines (member_user_id, amount, reason, status) VALUES
-        ($1, 50.00, 'Late return - 5 days overdue', 'unpaid'), ($2, 25.00, 'Late return - 2 days overdue', 'paid')
-    `, [userMap['sneha@unicore.edu'], userMap['amit@unicore.edu']]);
-
-    await client.query('COMMIT');
-
-    const counts = await pool.query(`
-      SELECT
-        (SELECT count(*) FROM auth.users) as users,
-        (SELECT count(*) FROM academic.students) as students,
-        (SELECT count(*) FROM academic.faculty) as faculty,
-        (SELECT count(*) FROM academic.departments) as departments,
-        (SELECT count(*) FROM academic.courses) as courses,
-        (SELECT count(*) FROM academic.enrollments) as enrollments,
-        (SELECT count(*) FROM academic.attendance) as attendance_records,
-        (SELECT count(*) FROM exam.final_results) as results,
-        (SELECT count(*) FROM hostel.allocations) as hostel_allocations,
-        (SELECT count(*) FROM library.issues) as library_issues,
-        (SELECT count(*) FROM library.books) as books
+    await pool.query(`
+      INSERT INTO library_fines (issue_id, member_user_id, amount, reason, settled_at) VALUES
+        ('${issueIds[0]}', '${userMap['sneha@unicore.edu']}', 50.00, 'overdue', NULL),
+        ('${issueIds[1]}', '${userMap['amit@unicore.edu']}', 25.00, 'overdue', CURRENT_TIMESTAMP)
     `);
 
-    res.json({ message: 'Database seeded successfully', counts: counts.rows[0] });
+    // ── 15. Summary Counts ──
+    const counts = await pool.query(`
+      SELECT
+        (SELECT count(*) FROM auth_users) as users,
+        (SELECT count(*) FROM academic_students) as students,
+        (SELECT count(*) FROM academic_faculty) as faculty,
+        (SELECT count(*) FROM academic_departments) as departments,
+        (SELECT count(*) FROM academic_courses) as courses,
+        (SELECT count(*) FROM academic_enrollments) as enrollments,
+        (SELECT count(*) FROM academic_attendance) as attendance_records,
+        (SELECT count(*) FROM exam_final_results) as results,
+        (SELECT count(*) FROM hostel_allocations) as hostel_allocations,
+        (SELECT count(*) FROM library_issues) as library_issues,
+        (SELECT count(*) FROM library_books) as books
+    `);
+
+    res.json({ message: 'Database seeded successfully', counts: counts.rows[0] || {} });
   } catch (err) {
-    await client.query('ROLLBACK');
     console.error('Seed error:', err);
     res.status(500).json({ error: 'Seed failed', details: (err as Error).message });
-  } finally {
-    client.release();
   }
 };
