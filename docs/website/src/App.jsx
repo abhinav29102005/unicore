@@ -7,6 +7,23 @@ import {
   Eye, FileCode, Maximize2, X, ExternalLink, RefreshCw, Flame, Shield, ShieldAlert
 } from 'lucide-react';
 
+const REPO_URL = "https://github.com/abhinav29102005/unicore";
+
+const RESOURCE_LINKS = [
+  { label: "GitHub Repository", href: REPO_URL },
+  { label: "Team Journals", href: `${REPO_URL}/tree/main/journals` },
+  { label: "Diagrams (UML, DFD, ER, Activity)", href: `${REPO_URL}/tree/main/diagrams` },
+  { label: "Gantt Chart & Planning", href: `${REPO_URL}/tree/main/planning` },
+  { label: "Database Schema", href: `${REPO_URL}/tree/main/database` },
+  { label: "Live Prototype", href: "https://unicore-frontend.pages.dev/unicore" }
+];
+
+const JOURNAL_FILES = {
+  "1024030440": "1024030440_AbhinavKumarSingh.md",
+  "1024030458": "1024030458_AnkitRath.md",
+  "1024030467": "1024030467_MananKapoor.md"
+};
+
 const DOCUMENTS_DATA = {
   project_proposal: {
     id: "project_proposal",
@@ -716,7 +733,15 @@ export default function App() {
               <div className="space-y-1.5">
                 {currentDoc.authors.map((author, i) => (
                   <div key={i} className="text-xs text-[var(--text-main)] flex items-center justify-between">
-                    <span className="font-medium">{author.name}</span>
+                    <a
+                      href={`${REPO_URL}/blob/main/journals/${JOURNAL_FILES[author.roll]}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium hover:text-red-600 dark:hover:text-red-400 underline-offset-2 hover:underline"
+                      title={`${author.name}'s journal`}
+                    >
+                      {author.name}
+                    </a>
                     <span className="font-mono text-[var(--text-muted)] text-[11px]">{author.roll}</span>
                   </div>
                 ))}
@@ -744,6 +769,27 @@ export default function App() {
               </nav>
             </div>
           )}
+
+          {/* Project Resources */}
+          <div className="glass-panel p-5 rounded-2xl space-y-3">
+            <h4 className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider flex items-center justify-between">
+              <span>Project Resources</span>
+              <ExternalLink className="w-3.5 h-3.5 text-[var(--text-muted)]" />
+            </h4>
+            <nav className="space-y-1">
+              {RESOURCE_LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 text-xs py-1.5 px-2.5 rounded-lg text-[var(--text-muted)] hover:text-red-600 dark:hover:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/10 transition-all"
+                >
+                  <span>{link.label}</span>
+                </a>
+              ))}
+            </nav>
+          </div>
         </aside>)}
 
         {/* Right Main Content */}
@@ -1429,6 +1475,13 @@ export default function App() {
       {/* Footer */}
       <footer className="no-print border-t border-[var(--border-color)] mt-16 py-8 text-center text-xs text-[var(--text-muted)] space-y-2">
         <p>UniCore — Thapar Institute of Engineering & Technology, Patiala</p>
+        <p className="flex flex-wrap justify-center gap-x-4 gap-y-1">
+          {RESOURCE_LINKS.map((link) => (
+            <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className="hover:text-red-600 dark:hover:text-red-400 hover:underline">
+              {link.label}
+            </a>
+          ))}
+        </p>
         <p className="font-mono text-[11px] text-[var(--text-muted)] opacity-70">Built with React, Vite, Tailwind CSS, & GitHub Pages</p>
       </footer>
 
