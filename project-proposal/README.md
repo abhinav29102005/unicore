@@ -7,4 +7,4 @@
 | Figures used in the PDF | [latex/code/](./latex/code/) |
 | Interactive version | [Docs website → Project Proposal](https://abhinav29102005.github.io/unicore/docs/) |
 
-To rebuild the PDF: `cd proposal/latex && pdflatex research_proposal.tex`
+To rebuild the PDF: `cd project-proposal/latex && pdflatex research_proposal.tex`

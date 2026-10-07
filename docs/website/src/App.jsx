@@ -12,16 +12,16 @@ const REPO_URL = "https://github.com/abhinav29102005/unicore";
 const RESOURCE_LINKS = [
   { label: "GitHub Repository", href: REPO_URL },
   { label: "Team Journals", href: `${REPO_URL}/tree/main/journals` },
-  { label: "Diagrams (UML, DFD, ER, Activity)", href: `${REPO_URL}/tree/main/diagrams` },
-  { label: "Gantt Chart & Planning", href: `${REPO_URL}/tree/main/planning` },
+  { label: "Diagrams (UML, DFD, ER, Activity)", href: `${REPO_URL}/tree/main/docs/diagrams` },
+  { label: "Gantt Chart & Planning", href: `${REPO_URL}/tree/main/docs/planning` },
   { label: "Database Schema", href: `${REPO_URL}/tree/main/database` },
   { label: "Live Prototype", href: "https://unicore-frontend.pages.dev/unicore" }
 ];
 
 const JOURNAL_FILES = {
-  "1024030440": "1024030440_AbhinavKumarSingh.md",
-  "1024030458": "1024030458_AnkitRath.md",
-  "1024030467": "1024030467_MananKapoor.md"
+  "1024030440": "1024030440-abhinav/journal.md",
+  "1024030458": "1024030458-ankit/journal.md",
+  "1024030467": "1024030467-manan/journal.md"
 };
 
 const DOCUMENTS_DATA = {

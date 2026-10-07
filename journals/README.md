@@ -4,6 +4,6 @@ One journal per team member. Each journal has a weekly entry covering what the t
 
 | Member | Roll No. | Journal |
 |--------|----------|---------|
-| Abhinav Kumar Singh | 1024030440 | [1024030440_AbhinavKumarSingh.md](./1024030440_AbhinavKumarSingh.md) |
-| Ankit Rath | 1024030458 | [1024030458_AnkitRath.md](./1024030458_AnkitRath.md) |
-| Manan Kapoor | 1024030467 | [1024030467_MananKapoor.md](./1024030467_MananKapoor.md) |
+| Abhinav Kumar Singh | 1024030440 | [1024030440-abhinav/journal.md](./1024030440-abhinav/journal.md) |
+| Ankit Rath | 1024030458 | [1024030458-ankit/journal.md](./1024030458-ankit/journal.md) |
+| Manan Kapoor | 1024030467 | [1024030467-manan/journal.md](./1024030467-manan/journal.md) |

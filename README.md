@@ -12,9 +12,9 @@
 
 | Name | Roll No. | Journal |
 |------|----------|---------|
-| Abhinav Kumar Singh | 1024030440 | [journal](./journals/1024030440_AbhinavKumarSingh.md) |
-| Ankit Rath | 1024030458 | [journal](./journals/1024030458_AnkitRath.md) |
-| Manan Kapoor | 1024030467 | [journal](./journals/1024030467_MananKapoor.md) |
+| Abhinav Kumar Singh | 1024030440 | [journal](./journals/1024030440-abhinav/journal.md) |
+| Ankit Rath | 1024030458 | [journal](./journals/1024030458-ankit/journal.md) |
+| Manan Kapoor | 1024030467 | [journal](./journals/1024030467-manan/journal.md) |
 
 ### Who worked on what
 
@@ -22,14 +22,14 @@
 |------|:-------:|:-----:|:-----:|
 | Ideation & elevator pitch | | ✅ | ✅ |
 | Proposal writing (objectives, SDLC, ethics, risks) | | ✅ | ✅ |
-| [`diagrams/`](./diagrams/) — UML, DFD, activity, ER | | | ✅ |
+| [`docs/diagrams/`](./docs/diagrams/) — UML, DFD, activity, ER | | | ✅ |
 | [`database/`](./database/) — schema design & BCNF review | ✅ | ✅ | |
 | [`backend/`](./backend/) — REST API | ✅ | ✅ | ✅ |
 | [`frontend/`](./frontend/) — web app & dashboards | ✅ | | |
 | [`docs/website/`](./docs/website/) & CI/CD ([`deploy.yml`](./.github/workflows/deploy.yml)) | ✅ | | |
 | Deployment (GitHub Pages, Cloudflare Pages & Workers) | ✅ | | |
 | Software engineering principles & code review | | ✅ | |
-| [`planning/`](./planning/) — Gantt, RACI, risk matrix | ✅ | ✅ | ✅ |
+| [`docs/planning/`](./docs/planning/) — Gantt, RACI, risk matrix | ✅ | ✅ | ✅ |
 
 Weekly details are in each member's journal.
 
@@ -39,11 +39,11 @@ Weekly details are in each member's journal.
 
 | Deliverable | PDF | Source |
 |-------------|-----|--------|
-| **Stage 1 — Project Proposal** | [PDF](./proposal/UniCore_Project_Proposal.pdf) | [`proposal/`](./proposal/) |
-| **Stage 2 — Prototype Proposal** | [PDF](./prototype/UniCore_Prototype_Proposal.pdf) | [`prototype/`](./prototype/) |
-| **Stage 3 — Final Report** | [PDF](./final-report/UniCore_Final_Report.pdf) | [`final-report/`](./final-report/) |
-| **Diagrams** (use case, class, sequence, component, DFD, activity, ER) | [ER PDF](./diagrams/er/unicore_er_diagram.pdf) · [UML + DFD PDF](./diagrams/uml/uml_and_dfd.pdf) | [`diagrams/`](./diagrams/) |
-| **Gantt chart, milestones, RACI, risks** | [XLSX](./planning/UniCore_Project_Gantt_Chart.xlsx) | [`planning/`](./planning/) |
+| **Stage 1 — Project Proposal** | [PDF](./project-proposal/UniCore_Project_Proposal.pdf) | [`project-proposal/`](./project-proposal/) |
+| **Stage 2 — Prototype Proposal** | [PDF](./project-report-prototype-stage/UniCore_Prototype_Proposal.pdf) | [`project-report-prototype-stage/`](./project-report-prototype-stage/) |
+| **Stage 3 — Final Report** | [PDF](./project-report-final/UniCore_Final_Report.pdf) | [`project-report-final/`](./project-report-final/) |
+| **Diagrams** (use case, class, sequence, component, DFD, activity, ER) | [ER PDF](./docs/diagrams/er/unicore_er_diagram.pdf) · [UML + DFD PDF](./docs/diagrams/uml/uml_and_dfd.pdf) | [`docs/diagrams/`](./docs/diagrams/) |
+| **Gantt chart, milestones, RACI, risks** | [XLSX](./docs/planning/UniCore_Project_Gantt_Chart.xlsx) | [`docs/planning/`](./docs/planning/) |
 | **Individual journals** | — | [`journals/`](./journals/) |
 | **Database schema** (8 schemas, BCNF) | — | [`database/`](./database/) |
 
@@ -54,12 +54,14 @@ Weekly details are in each member's journal.
 **📄 Project documents** — everything to review is here
 
 ```
-proposal/          Stage 1: project proposal (PDF + LaTeX source)
-prototype/         Stage 2: prototype proposal (PDF + Markdown + LaTeX source)
-final-report/      Stage 3: final report (PDF + Markdown + LaTeX source)
-diagrams/          UML, DFD, activity and ER diagrams (shown in its README)
-planning/          Gantt chart, milestones, RACI and risk matrix
-journals/          One weekly journal per team member
+project-proposal/                 Stage 1: project proposal (PDF + LaTeX source)
+project-report-prototype-stage/   Stage 2: prototype report (PDF + Markdown + LaTeX source)
+project-report-final/             Stage 3: final report (PDF + Markdown + LaTeX source)
+journals/                         One weekly journal per team member (<roll>-<name>/journal.md)
+docs/
+├── diagrams/                     UML, DFD, activity and ER diagrams (shown in its README)
+├── planning/                     Gantt chart, milestones, RACI and risk matrix
+└── website/                      Source of the docs website
 ```
 
 **💻 Source code**
@@ -68,7 +70,6 @@ journals/          One weekly journal per team member
 frontend/          Web app (React + Vite): landing, sign-in, role dashboards
 backend/           REST API (TypeScript, Express + Cloudflare Worker)
 database/          PostgreSQL schema, migrations V001–V019, dummy data
-docs/website/      Source of the docs website (interactive proposal/report viewer)
 ```
 
 **⚙️ Config** — `.github/workflows/deploy.yml` (GitHub Pages deploy), `docker-compose.yml` (local PostgreSQL), `package.json` (npm workspaces)

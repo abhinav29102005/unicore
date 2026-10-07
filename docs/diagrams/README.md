@@ -13,30 +13,30 @@ All UML, data-flow, ER and activity diagrams for UniCore.
 | ER (full, generated from the SQL schema) | [er/unicore_er_diagram.pdf](./er/unicore_er_diagram.pdf) · [interactive HTML](./er/unicore_er_diagram.html) |
 | ER (per schema) | [er/by_schema/](./er/by_schema/) · [below](#er-diagrams-per-schema) |
 
-Regenerate the full ER diagram after a schema change: `python3 diagrams/er/build_er_diagram.py`
+Regenerate the full ER diagram after a schema change: `python3 docs/diagrams/er/build_er_diagram.py`
 
 ---
 
 ## Use case diagram
-![Use case diagram](../docs/website/public/images/use_case_light.png)
+![Use case diagram](../website/public/images/use_case_light.png)
 
 ## Class diagram
-![Class diagram](../docs/website/public/images/class_diagram_light.png)
+![Class diagram](../website/public/images/class_diagram_light.png)
 
 ## Sequence diagram
-![Sequence diagram](../docs/website/public/images/seq_light.png)
+![Sequence diagram](../website/public/images/seq_light.png)
 
 ## Component diagram
-![Component diagram](../docs/website/public/images/comp_light.png)
+![Component diagram](../website/public/images/comp_light.png)
 
 ## Data flow diagrams
 **Level 0 (context)**
 
-![DFD level 0](../docs/website/public/images/dfd0_light.png)
+![DFD level 0](../website/public/images/dfd0_light.png)
 
 **Level 1**
 
-![DFD level 1](../docs/website/public/images/dfd1_light.png)
+![DFD level 1](../website/public/images/dfd1_light.png)
 
 ## ER diagrams per schema
 | Schema | Diagram |
