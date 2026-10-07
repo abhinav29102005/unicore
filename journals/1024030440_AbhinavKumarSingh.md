@@ -1,4 +1,4 @@
-# Journal — Ankit Rath (1024030458)
+# Journal — Abhinav Kumar Singh (1024030440)
 
 Individual contribution log for the UniCore project.
 

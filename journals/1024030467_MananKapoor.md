@@ -1,4 +1,4 @@
-# Journal — Ankit Rath (1024030458)
+# Journal — Manan Kapoor (1024030467)
 
 Individual contribution log for the UniCore project.
 

@@ -2,10 +2,10 @@
 """Build the UniCore entity-relationship diagram from the SQL schema.
 
 Reads  database/schema.sql + database/V001_to_V019.sql
-Writes docs/diagrams/unicore_er_diagram.html
+Writes diagrams/er/unicore_er_diagram.html
 
 Regenerate after a schema change, then print to PDF (A4 landscape, no margins):
-    python3 docs/diagrams/build_er_diagram.py
+    python3 diagrams/er/build_er_diagram.py
 """
 import re, json, html, os
 from collections import defaultdict
