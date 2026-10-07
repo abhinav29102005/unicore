@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the UniCore entity-relationship diagram from the SQL schema.
 
-Reads  database/schema.sql + database/V001_to_V019.sql
+Reads  code/database/schema.sql + database/V001_to_V019.sql
 Writes docs/diagrams/er/unicore_er_diagram.html
 
 Regenerate after a schema change, then print to PDF (A4 landscape, no margins):
@@ -12,7 +12,7 @@ from collections import defaultdict
 
 
 def load_schema():
-    DB = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "database")
+    DB = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "code", "database")
     schema = open(f"{DB}/schema.sql").read()
     migs   = open(f"{DB}/V001_to_V019.sql").read()
 

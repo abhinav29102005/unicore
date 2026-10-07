@@ -23,9 +23,9 @@
 | Ideation & elevator pitch | | ✅ | ✅ |
 | Proposal writing (objectives, SDLC, ethics, risks) | | ✅ | ✅ |
 | [`docs/diagrams/`](./docs/diagrams/) — UML, DFD, activity, ER | | | ✅ |
-| [`database/`](./database/) — schema design & BCNF review | ✅ | ✅ | |
-| [`backend/`](./backend/) — REST API | ✅ | ✅ | ✅ |
-| [`frontend/`](./frontend/) — web app & dashboards | ✅ | | |
+| [`code/database/`](./code/database/) — schema design & BCNF review | ✅ | ✅ | |
+| [`code/backend/`](./code/backend/) — REST API | ✅ | ✅ | ✅ |
+| [`code/frontend/`](./code/frontend/) — web app & dashboards | ✅ | | |
 | [`docs/website/`](./docs/website/) & CI/CD ([`deploy.yml`](./.github/workflows/deploy.yml)) | ✅ | | |
 | Deployment (GitHub Pages, Cloudflare Pages & Workers) | ✅ | | |
 | Software engineering principles & code review | | ✅ | |
@@ -45,7 +45,7 @@ Weekly details are in each member's journal.
 | **Diagrams** (use case, class, sequence, component, DFD, activity, ER) | [ER PDF](./docs/diagrams/er/unicore_er_diagram.pdf) · [UML + DFD PDF](./docs/diagrams/uml/uml_and_dfd.pdf) | [`docs/diagrams/`](./docs/diagrams/) |
 | **Gantt chart, milestones, RACI, risks** | [XLSX](./docs/planning/UniCore_Project_Gantt_Chart.xlsx) | [`docs/planning/`](./docs/planning/) |
 | **Individual journals** | — | [`journals/`](./journals/) |
-| **Database schema** (8 schemas, BCNF) | — | [`database/`](./database/) |
+| **Database schema** (8 schemas, BCNF) | — | [`code/database/`](./code/database/) |
 
 ---
 
@@ -64,15 +64,17 @@ docs/
 └── website/                      Source of the docs website
 ```
 
-**💻 Source code**
+**💻 Source code** — everything runnable is in [`code/`](./code/)
 
 ```
-frontend/          Web app (React + Vite): landing, sign-in, role dashboards
-backend/           REST API (TypeScript, Express + Cloudflare Worker)
-database/          PostgreSQL schema, migrations V001–V019, dummy data
+code/
+├── frontend/                     Web app (React + Vite): landing, sign-in, role dashboards
+├── backend/                      REST API (TypeScript, Express + Cloudflare Worker)
+├── database/                     PostgreSQL schema, migrations V001–V019, dummy data
+└── docker-compose.yml            Local PostgreSQL
 ```
 
-**⚙️ Config** — `.github/workflows/deploy.yml` (GitHub Pages deploy), `docker-compose.yml` (local PostgreSQL), `package.json` (npm workspaces)
+**⚙️ Config** — `.github/workflows/deploy.yml` (GitHub Pages deploy), `package.json` (npm workspaces)
 
 ---
 
@@ -91,7 +93,7 @@ database/          PostgreSQL schema, migrations V001–V019, dummy data
 
 3. **Run the web app:**
    ```bash
-   cd frontend
+   cd code/frontend
    npm run dev
    ```
 
@@ -99,7 +101,7 @@ database/          PostgreSQL schema, migrations V001–V019, dummy data
 
 ## 📜 Key Design Specifications (from the proposal)
 
-> These are the design targets set in the proposal. The current prototype implements the schemas in [`database/`](./database/); triggers and locking are planned for the final release.
+> These are the design targets set in the proposal. The current prototype implements the schemas in [`code/database/`](./code/database/); triggers and locking are planned for the final release.
 
 - **Normalization:** Decomposed across 8 domain schemas and 35+ tables strictly into **Boyce-Codd Normal Form (BCNF)**.
 - **Concurrency Locks:** Row-level `SELECT FOR UPDATE` and `pg_advisory_xact_lock()` preventing double-booking of rooms and exam seats.

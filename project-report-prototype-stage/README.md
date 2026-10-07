@@ -6,5 +6,5 @@
 | Markdown version | [PROTOTYPE_PROPOSAL.md](./PROTOTYPE_PROPOSAL.md) |
 | LaTeX source | [prototype_proposal.tex](./prototype_proposal.tex) |
 | Interactive version | [Docs website → Prototype Proposal](https://abhinav29102005.github.io/unicore/docs/) |
-| Prototype code | [`frontend/`](../frontend/), [`backend/`](../backend/), [`database/`](../database/) |
+| Prototype code | [`code/frontend/`](../code/frontend/), [`code/backend/`](../code/backend/), [`code/database/`](../code/database/) |
 | Live prototype | https://unicore-frontend.pages.dev |

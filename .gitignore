@@ -38,5 +38,5 @@ How to Draft Academic Project Proposals.docx
 
 # Wrangler & Build outputs
 .wrangler/
-backend/dist/
+code/backend/dist/
 *.tsbuildinfo

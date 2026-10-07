@@ -32,7 +32,7 @@ jobs:
 
       - name: Install & Build Root Frontend
         run: |
-          cd frontend
+          cd code/frontend
           npm install
           # GitHub Pages serves the site under /unicore/ (Cloudflare Pages keeps the default '/')
           npm run build -- --base=/unicore/
@@ -47,13 +47,13 @@ jobs:
 
       - name: Merge Documentation into Root Build
         run: |
-          mkdir -p frontend/dist/docs
-          cp -r docs/website/dist/* frontend/dist/docs/
+          mkdir -p code/frontend/dist/docs
+          cp -r docs/website/dist/* code/frontend/dist/docs/
 
       - name: Upload GitHub Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './frontend/dist'
+          path: './code/frontend/dist'
 
   deploy:
     runs-on: ubuntu-latest

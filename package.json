@@ -5,8 +5,8 @@
   "description": "UniCore: Centralized Campus Operating Platform Mono-repo",
   "workspaces": [
     "docs/website",
-    "frontend",
-    "backend"
+    "code/frontend",
+    "code/backend"
   ],
   "scripts": {
     "dev:docs": "npm run dev --prefix docs/website",

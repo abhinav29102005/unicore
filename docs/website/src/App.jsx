@@ -14,7 +14,7 @@ const RESOURCE_LINKS = [
   { label: "Team Journals", href: `${REPO_URL}/tree/main/journals` },
   { label: "Diagrams (UML, DFD, ER, Activity)", href: `${REPO_URL}/tree/main/docs/diagrams` },
   { label: "Gantt Chart & Planning", href: `${REPO_URL}/tree/main/docs/planning` },
-  { label: "Database Schema", href: `${REPO_URL}/tree/main/database` },
+  { label: "Database Schema", href: `${REPO_URL}/tree/main/code/database` },
   { label: "Live Prototype", href: "https://unicore-frontend.pages.dev/unicore" }
 ];
 
