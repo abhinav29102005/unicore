@@ -47,7 +47,7 @@ We completed the UML diagrams (use case, class, sequence, component) and the Lev
 
 We wrote the prototype proposal and set up the frontend skeleton with sign-in, routing and role-based dashboards for students, faculty, staff and admins.
 
-- Prepared the activity diagrams for the main workflows (hostel allotment, library borrowing, exam scheduling)
+- Prepared the activity diagrams for the main workflows (student services, examination and results, hostel allocation and outpass, library issue and return)
 - Reviewed the prototype proposal for consistency with the diagrams
 
 ---

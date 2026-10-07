@@ -16,6 +16,23 @@
 | Ankit Rath | 1024030458 | [journal](./journals/1024030458_AnkitRath.md) |
 | Manan Kapoor | 1024030467 | [journal](./journals/1024030467_MananKapoor.md) |
 
+### Who worked on what
+
+| Area | Abhinav | Ankit | Manan |
+|------|:-------:|:-----:|:-----:|
+| Ideation & elevator pitch | | ✅ | ✅ |
+| Proposal writing (objectives, SDLC, ethics, risks) | | ✅ | ✅ |
+| [`diagrams/`](./diagrams/) — UML, DFD, activity, ER | | | ✅ |
+| [`database/`](./database/) — schema design & BCNF review | ✅ | ✅ | |
+| [`backend/`](./backend/) — REST API | ✅ | ✅ | ✅ |
+| [`frontend/`](./frontend/) — web app & dashboards | ✅ | | |
+| [`docs/website/`](./docs/website/) & CI/CD ([`deploy.yml`](./.github/workflows/deploy.yml)) | ✅ | | |
+| Deployment (GitHub Pages, Cloudflare Pages & Workers) | ✅ | | |
+| Software engineering principles & code review | | ✅ | |
+| [`planning/`](./planning/) — Gantt, RACI, risk matrix | ✅ | ✅ | ✅ |
+
+Weekly details are in each member's journal.
+
 ---
 
 ## 📌 Deliverables — where to find everything
@@ -79,7 +96,9 @@ unicore/
 
 ---
 
-## 📜 Key Technical Highlights
+## 📜 Key Design Specifications (from the proposal)
+
+> These are the design targets set in the proposal. The current prototype implements the schemas in [`database/`](./database/); triggers and locking are planned for the final release.
 
 - **Normalization:** Decomposed across 8 domain schemas and 35+ tables strictly into **Boyce-Codd Normal Form (BCNF)**.
 - **Concurrency Locks:** Row-level `SELECT FOR UPDATE` and `pg_advisory_xact_lock()` preventing double-booking of rooms and exam seats.
