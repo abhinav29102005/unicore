@@ -40,38 +40,38 @@ Weekly details are in each member's journal.
 | Deliverable | PDF | Source |
 |-------------|-----|--------|
 | **Stage 1 — Project Proposal** | [PDF](./proposal/UniCore_Project_Proposal.pdf) | [`proposal/`](./proposal/) |
-| **Stage 2 — Prototype Proposal** | [PDF](./docs/website/public/pdfs/prototype_proposal.pdf) | [`prototype/`](./prototype/) |
-| **Stage 3 — Final Report** | [PDF](./docs/website/public/pdfs/final_report.pdf) | [`final-report/`](./final-report/) |
+| **Stage 2 — Prototype Proposal** | [PDF](./prototype/UniCore_Prototype_Proposal.pdf) | [`prototype/`](./prototype/) |
+| **Stage 3 — Final Report** | [PDF](./final-report/UniCore_Final_Report.pdf) | [`final-report/`](./final-report/) |
 | **Diagrams** (use case, class, sequence, component, DFD, activity, ER) | [ER PDF](./diagrams/er/unicore_er_diagram.pdf) · [UML + DFD PDF](./diagrams/uml/uml_and_dfd.pdf) | [`diagrams/`](./diagrams/) |
 | **Gantt chart, milestones, RACI, risks** | [XLSX](./planning/UniCore_Project_Gantt_Chart.xlsx) | [`planning/`](./planning/) |
 | **Individual journals** | — | [`journals/`](./journals/) |
-| **Database schema** (8 schemas, BCNF, triggers) | — | [`database/`](./database/) |
+| **Database schema** (8 schemas, BCNF) | — | [`database/`](./database/) |
 
 ---
 
 ## 📁 Repository Structure
 
+**📄 Project documents** — everything to review is here
+
 ```
-unicore/
-├── proposal/                    # Stage 1: project proposal (PDF + LaTeX source)
-├── prototype/                   # Stage 2: prototype proposal (Markdown + LaTeX source)
-├── final-report/                # Stage 3: final report (Markdown + LaTeX source)
-├── diagrams/                    # UML, DFD, activity and ER diagrams
-│   ├── uml/                     #   UML + DFD PDF
-│   ├── activity/                #   activity diagrams PDF
-│   └── er/                      #   ER diagrams (generated from database/ + per-schema)
-├── planning/                    # Gantt chart, milestones, RACI and risk matrix
-├── journals/                    # One journal per team member
-│
-├── frontend/                    # Web app (React + Vite): landing, sign-in, role dashboards
-├── backend/                     # REST API (TypeScript, Express + Cloudflare Worker)
-├── database/                    # PostgreSQL schema, migrations V001–V019, dummy data
-├── docs/website/                # Source of the docs website (interactive proposal/report viewer)
-│
-├── .github/workflows/deploy.yml # Builds frontend + docs website and deploys to GitHub Pages
-├── docker-compose.yml           # Local PostgreSQL
-└── package.json                 # npm workspaces (docs/website, frontend, backend)
+proposal/          Stage 1: project proposal (PDF + LaTeX source)
+prototype/         Stage 2: prototype proposal (PDF + Markdown + LaTeX source)
+final-report/      Stage 3: final report (PDF + Markdown + LaTeX source)
+diagrams/          UML, DFD, activity and ER diagrams (shown in its README)
+planning/          Gantt chart, milestones, RACI and risk matrix
+journals/          One weekly journal per team member
 ```
+
+**💻 Source code**
+
+```
+frontend/          Web app (React + Vite): landing, sign-in, role dashboards
+backend/           REST API (TypeScript, Express + Cloudflare Worker)
+database/          PostgreSQL schema, migrations V001–V019, dummy data
+docs/website/      Source of the docs website (interactive proposal/report viewer)
+```
+
+**⚙️ Config** — `.github/workflows/deploy.yml` (GitHub Pages deploy), `docker-compose.yml` (local PostgreSQL), `package.json` (npm workspaces)
 
 ---
 

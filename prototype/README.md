@@ -2,7 +2,7 @@
 
 | What | File |
 |------|------|
-| 📄 Prototype proposal (PDF) | [prototype_proposal.pdf](../docs/website/public/pdfs/prototype_proposal.pdf) |
+| 📄 Prototype proposal (PDF) | [UniCore_Prototype_Proposal.pdf](./UniCore_Prototype_Proposal.pdf) |
 | Markdown version | [PROTOTYPE_PROPOSAL.md](./PROTOTYPE_PROPOSAL.md) |
 | LaTeX source | [prototype_proposal.tex](./prototype_proposal.tex) |
 | Interactive version | [Docs website → Prototype Proposal](https://abhinav29102005.github.io/unicore/docs/) |
