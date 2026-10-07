@@ -34,7 +34,10 @@ jobs:
         run: |
           cd frontend
           npm install
-          npm run build
+          # GitHub Pages serves the site under /unicore/ (Cloudflare Pages keeps the default '/')
+          npm run build -- --base=/unicore/
+          # Serve the app for deep links like /unicore/sign instead of a 404
+          cp dist/index.html dist/404.html
 
       - name: Install & Build Web Documentation Site
         run: |
