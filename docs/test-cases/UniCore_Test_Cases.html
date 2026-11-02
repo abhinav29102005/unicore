@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>UniCore — Test Cases</title>
+<style>
+  @page { size: A4; margin: 11mm 12mm; }
+  *, *::before, *::after { box-sizing: border-box; }
+  body { font-family: "Times New Roman", Times, serif; color: #000; font-size: 11pt; margin: 0; padding: 0 2px; }
+  .page { page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+  .running { display: flex; justify-content: space-between; font-size: 12pt; margin-bottom: 10px; }
+  h1 { text-align: center; font-size: 19pt; margin: 4px 0 12px; }
+  h1 span { font-weight: normal; }
+  .box { border: 1.2px solid #000; padding: 6px 9px; margin-bottom: 10px; }
+  .meta { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1.35fr) minmax(0, 0.5fr); row-gap: 5px; column-gap: 12px; }
+  .meta b { font-weight: bold; }
+  .v { color: #1a3fd1; font-weight: bold; }
+  .full { grid-column: 1 / -1; }
+  .blank { display: inline-block; min-width: 120px; border-bottom: 1px dotted #555; }
+  .box h3 { margin: 0 0 4px; font-size: 12.5pt; }
+  .box p, .box li { margin: 2px 0; line-height: 1.3; }
+  .box ol { margin: 2px 0 0 18px; padding: 0; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 10px; table-layout: fixed; }
+  th, td { border: 1px solid #000; padding: 3px 5px; vertical-align: top; text-align: left; line-height: 1.28; }
+  th { background: #e0e0e0; }
+  col.step { width: 6%; } col.action { width: 37%; } col.exp { width: 37%; } col.pf { width: 7%; } col.cm { width: 13%; }
+  td.num { text-align: center; }
+  code { font-family: "Courier New", monospace; font-size: 9.5pt; overflow-wrap: anywhere; }
+  .note { font-size: 11pt; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<!-- ───────────────────────── Test case 1.1 ───────────────────────── -->
+<div class="page">
+  <div class="running"><span>Software Engineering (UCS503) – UniCore</span><span>Page 1 of 3</span></div>
+  <h1>Test Case 1.1 <span>(complex test)</span></h1>
+
+  <div class="box meta">
+    <div><b>Test Case #:</b> <span class="v">1.1</span></div>
+    <div><b>Test Case Name:</b> <span class="v">Student Sign-in</span></div>
+    <div><b>Page:</b> <span class="v">1 of 1</span></div>
+    <div><b>System:</b> <span class="v">UniCore</span></div>
+    <div><b>Subsystem:</b> <span class="v">Authentication</span></div>
+    <div></div>
+    <div><b>Designed by:</b> <span class="v">Manan Kapoor</span></div>
+    <div><b>Design Date:</b> <span class="v">02/11/2026</span></div>
+    <div></div>
+    <div><b>Executed by:</b> <span class="blank"></span></div>
+    <div><b>Execution Date:</b> <span class="blank"></span></div>
+    <div></div>
+    <div class="full"><b>Short Description:</b> <span class="v">Test that a student can sign in to UniCore, and that invalid credentials are rejected</span></div>
+  </div>
+
+  <div class="box">
+    <h3>Pre-conditions</h3>
+    <p>The UniCore website is reachable at <code>https://abhinav29102005.github.io/unicore/sign</code></p>
+    <p>A student account <code>abhinav@unicore.edu</code> exists with status <i>active</i> and the role <i>Student</i></p>
+    <p>The browser is not signed in to UniCore (site data cleared or a private window is used)</p>
+    <p>API base URL, written as <code>&lt;API&gt;</code> below: <code>https://unicore-backend.bigboyaks-account.workers.dev/api</code></p>
+  </div>
+
+  <table>
+    <colgroup><col class="step"><col class="action"><col class="exp"><col class="pf"><col class="cm"></colgroup>
+    <tr><th>Step</th><th>Action</th><th>Expected System Response</th><th>Pass/ Fail</th><th>Comment</th></tr>
+    <tr><td class="num">1</td><td>Open the sign-in page URL</td><td>The system displays the sign-in page with the roles Student, Faculty, Admin and Staff. <i>Student</i> is selected and the card shows “Abhinav Kumar – Active Student”</td><td></td><td></td></tr>
+    <tr><td class="num">2</td><td>Open the browser DevTools → Network tab</td><td>The Network tab is open and recording requests</td><td></td><td></td></tr>
+    <tr><td class="num">3</td><td>Click the ‘Continue as Abhinav (Student)’ button</td><td>The request <code>POST /api/auth/login</code> returns status <b>200</b> with the user “Abhinav Kumar”, role “Student” and a token.<br>The system opens the student dashboard (<code>/unicore/student</code>)</td><td></td><td></td></tr>
+    <tr><td class="num">4</td><td><b>Check post-condition 1</b></td><td></td><td></td><td></td></tr>
+    <tr><td class="num">5</td><td>Send a login request with a <b>wrong password</b>:<br><code>curl -X POST &lt;API&gt;/auth/login -H "Content-Type: application/json" -d '{"email":"abhinav@unicore.edu", "password":"wrong-password"}'</code></td><td>The system responds with status <b>401</b> and the message “Invalid credentials”. No token is returned</td><td></td><td></td></tr>
+    <tr><td class="num">6</td><td>Repeat step 5 with an email that does not exist, say <code>nobody@unicore.edu</code></td><td>The system responds with status <b>401</b> and the message “Invalid credentials”. No token is returned</td><td></td><td></td></tr>
+  </table>
+
+  <div class="box">
+    <h3>Post-conditions</h3>
+    <ol>
+      <li>The last login time of <code>abhinav@unicore.edu</code> is updated in the database. Check by opening <code>&lt;API&gt;/auth/profile/7b669c2a40a0403f785eccd291f51b6a</code>: <code>lastLogin</code> shows the time of step 3 (UTC)</li>
+    </ol>
+  </div>
+  <p class="note">Tests the happy path (steps 1–4) and failure conditions (steps 5–6).</p>
+</div>
+
+<!-- ───────────────────────── Test case 1.2 ───────────────────────── -->
+<div class="page">
+  <div class="running"><span>Software Engineering (UCS503) – UniCore</span><span>Page 2 of 3</span></div>
+  <h1>Test Case 1.2 <span>(complex test)</span></h1>
+
+  <div class="box meta">
+    <div><b>Test Case #:</b> <span class="v">1.2</span></div>
+    <div><b>Test Case Name:</b> <span class="v">Student Dashboard</span></div>
+    <div><b>Page:</b> <span class="v">1 of 1</span></div>
+    <div><b>System:</b> <span class="v">UniCore</span></div>
+    <div><b>Subsystem:</b> <span class="v">Student Portal</span></div>
+    <div></div>
+    <div><b>Designed by:</b> <span class="v">Manan Kapoor</span></div>
+    <div><b>Design Date:</b> <span class="v">02/11/2026</span></div>
+    <div></div>
+    <div><b>Executed by:</b> <span class="blank"></span></div>
+    <div><b>Execution Date:</b> <span class="blank"></span></div>
+    <div></div>
+    <div class="full"><b>Short Description:</b> <span class="v">Test that the student dashboard shows the signed-in student’s live data</span></div>
+  </div>
+
+  <div class="box">
+    <h3>Pre-conditions</h3>
+    <p>Test Case 1.1 steps 1–3 are completed: the user is signed in as student Abhinav Kumar (roll no. 1024030440)</p>
+    <p>The student has 4 course enrollments, an active hostel allocation and 1 issued library book in the database</p>
+    <p>The browser DevTools → Network tab is open</p>
+    <p>API base URL, written as <code>&lt;API&gt;</code> below: <code>https://unicore-backend.bigboyaks-account.workers.dev/api</code></p>
+  </div>
+
+  <table>
+    <colgroup><col class="step"><col class="action"><col class="exp"><col class="pf"><col class="cm"></colgroup>
+    <tr><th>Step</th><th>Action</th><th>Expected System Response</th><th>Pass/ Fail</th><th>Comment</th></tr>
+    <tr><td class="num">1</td><td>Open the student dashboard (<code>/unicore/student</code>)</td><td>The system displays “Welcome back, Abhinav” and “1024030440 | Computer Science &amp; Engineering, Year 3”</td><td></td><td></td></tr>
+    <tr><td class="num">2</td><td>In the Network tab, select the request <code>/api/student/1024030440/dashboard</code></td><td>The request returned status <b>200</b> with the student’s data (this confirms the page shows live data, not the offline fallback)</td><td></td><td></td></tr>
+    <tr><td class="num">3</td><td>Check the ‘Current CGPA’ card</td><td>The system displays CGPA <b>8.13</b></td><td></td><td></td></tr>
+    <tr><td class="num">4</td><td>Check the ‘Hostel Status’ card</td><td>The system displays “Tagore Hall - 301” with status <i>active</i></td><td></td><td></td></tr>
+    <tr><td class="num">5</td><td>Check the ‘Recent Enrollments’ section</td><td>The system lists 4 courses: CS301 Distributed Systems (B+), CS302 Cloud Computing (A+), CS303 Database Management Systems (B+), CS304 Machine Learning (B)</td><td></td><td></td></tr>
+    <tr><td class="num">6</td><td>Check the ‘Library Assets’ section</td><td>The system lists “Designing Data-Intensive Applications” with its due date</td><td></td><td></td></tr>
+    <tr><td class="num">7</td><td>Open the dashboard API for a roll number that does not exist: <code>&lt;API&gt;/student/0000000000/dashboard</code></td><td>The system responds with status <b>404</b> and the message “Student not found”</td><td></td><td></td></tr>
+    <tr><td class="num">8</td><td><b>Check post-condition 1</b></td><td></td><td></td><td></td></tr>
+  </table>
+
+  <div class="box">
+    <h3>Post-conditions</h3>
+    <ol>
+      <li>No data is changed in the database (the dashboard only reads data)</li>
+    </ol>
+  </div>
+  <p class="note">Tests the happy path (steps 1–6) and a failure condition (step 7).</p>
+</div>
+
+<!-- ───────────────────────── Test case 1.3 ───────────────────────── -->
+<div class="page">
+  <div class="running"><span>Software Engineering (UCS503) – UniCore</span><span>Page 3 of 3</span></div>
+  <h1>Test Case 1.3 <span>(complex test)</span></h1>
+
+  <div class="box meta">
+    <div><b>Test Case #:</b> <span class="v">1.3</span></div>
+    <div><b>Test Case Name:</b> <span class="v">Student Attendance</span></div>
+    <div><b>Page:</b> <span class="v">1 of 1</span></div>
+    <div><b>System:</b> <span class="v">UniCore</span></div>
+    <div><b>Subsystem:</b> <span class="v">Academic – Attendance</span></div>
+    <div></div>
+    <div><b>Designed by:</b> <span class="v">Manan Kapoor</span></div>
+    <div><b>Design Date:</b> <span class="v">02/11/2026</span></div>
+    <div></div>
+    <div><b>Executed by:</b> <span class="blank"></span></div>
+    <div><b>Execution Date:</b> <span class="blank"></span></div>
+    <div></div>
+    <div class="full"><b>Short Description:</b> <span class="v">Test that the attendance service returns correct per-course attendance and percentages</span></div>
+  </div>
+
+  <div class="box">
+    <h3>Pre-conditions</h3>
+    <p>Student 1024030440 is enrolled in CS301, CS302, CS303 and CS304</p>
+    <p>Each course has 5 attendance records for the student in the database</p>
+    <p>API base URL, written as <code>&lt;API&gt;</code> below: <code>https://unicore-backend.bigboyaks-account.workers.dev/api</code></p>
+  </div>
+
+  <table>
+    <colgroup><col class="step"><col class="action"><col class="exp"><col class="pf"><col class="cm"></colgroup>
+    <tr><th>Step</th><th>Action</th><th>Expected System Response</th><th>Pass/ Fail</th><th>Comment</th></tr>
+    <tr><td class="num">1</td><td>Open <code>&lt;API&gt;/student/1024030440/attendance</code> in the browser</td><td>The system responds with status <b>200</b> and an <code>attendance</code> list containing 4 courses</td><td></td><td></td></tr>
+    <tr><td class="num">2</td><td>Check the CS301 Distributed Systems entry</td><td>present = 3, absent = 2, total = 5, percentage = <b>60</b></td><td></td><td></td></tr>
+    <tr><td class="num">3</td><td>Check the CS302 and CS303 entries</td><td>Each shows present = 4, absent = 1, total = 5, percentage = <b>80</b></td><td></td><td></td></tr>
+    <tr><td class="num">4</td><td>Check the CS304 Machine Learning entry</td><td>present = 5, absent = 0, total = 5, percentage = <b>100</b></td><td></td><td></td></tr>
+    <tr><td class="num">5</td><td>For every course, calculate (present + late) ÷ total × 100</td><td>The result equals the <code>percentage</code> shown by the system</td><td></td><td></td></tr>
+    <tr><td class="num">6</td><td>Repeat step 1 with a roll number that does not exist, say <code>0000000000</code></td><td>The system responds with status <b>404</b> and the message “Student not found”</td><td></td><td></td></tr>
+    <tr><td class="num">7</td><td><b>Check post-condition 1</b></td><td></td><td></td><td></td></tr>
+  </table>
+
+  <div class="box">
+    <h3>Post-conditions</h3>
+    <ol>
+      <li>No data is changed in the database (attendance is only read)</li>
+    </ol>
+  </div>
+  <p class="note">Tests the happy path (steps 1–5) and a failure condition (step 6).</p>
+</div>
+
+</body>
+</html>

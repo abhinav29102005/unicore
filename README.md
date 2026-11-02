@@ -43,6 +43,7 @@ Weekly details are in each member's journal.
 | **Stage 2 — Prototype Proposal** | [PDF](./project-report-prototype-stage/UniCore_Prototype_Proposal.pdf) | [`project-report-prototype-stage/`](./project-report-prototype-stage/) |
 | **Stage 3 — Final Report** | [PDF](./project-report-final/UniCore_Final_Report.pdf) | [`project-report-final/`](./project-report-final/) |
 | **Diagrams** (use case, class, sequence, component, DFD, activity, ER, deployment) | [ER PDF](./docs/diagrams/er/unicore_er_overview.pdf) · [Deployment PDF](./docs/diagrams/deployment/unicore_deployment_diagram.pdf) · [UML + DFD PDF](./docs/diagrams/uml/uml_and_dfd.pdf) | [`docs/diagrams/`](./docs/diagrams/) |
+| **Test cases** (sign-in, student dashboard, attendance) | [PDF](./docs/test-cases/UniCore_Test_Cases.pdf) | [`docs/test-cases/`](./docs/test-cases/) |
 | **Gantt chart, milestones, RACI, risks** | [XLSX](./docs/planning/UniCore_Project_Gantt_Chart.xlsx) | [`docs/planning/`](./docs/planning/) |
 | **Individual journals** | — | [`journals/`](./journals/) |
 | **Database schema** (8 schemas, BCNF) | — | [`code/database/`](./code/database/) |
@@ -61,6 +62,7 @@ journals/                         One weekly journal per team member (<roll>-<na
 docs/
 ├── diagrams/                     UML, DFD, activity and ER diagrams (shown in its README)
 ├── planning/                     Gantt chart, milestones, RACI and risk matrix
+├── test-cases/                   Test cases in the course template (PDF + HTML source)
 └── website/                      Source of the docs website
 ```
 
