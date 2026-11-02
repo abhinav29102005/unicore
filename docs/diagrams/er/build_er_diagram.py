@@ -547,7 +547,7 @@ def overview_page():
                   "operations and library) depend on an academic core, and every module resolves identity "
                   "against the shared identity and access module at the foundation."),
          header("UniCore · University Management System", "Database Entity–Relationship Model",
-                f"{len(TBL)} tables · {len(FKS)} foreign keys · 6 modules · SQLite / Cloudflare D1")]
+                f"{len(TBL)} tables · {len(FKS)} foreign keys · 6 modules · libSQL (Turso)")]
     CW, CH, CY = 224, 148, 172
     CX = [40, 312, 584, 856]
     tops = [("exam","Examination",0,2), ("hostel","Hostel & Residence",1,2),

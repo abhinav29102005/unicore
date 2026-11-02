@@ -42,7 +42,7 @@ Weekly details are in each member's journal.
 | **Stage 1 — Project Proposal** | [PDF](./project-proposal/UniCore_Project_Proposal.pdf) | [`project-proposal/`](./project-proposal/) |
 | **Stage 2 — Prototype Proposal** | [PDF](./project-report-prototype-stage/UniCore_Prototype_Proposal.pdf) | [`project-report-prototype-stage/`](./project-report-prototype-stage/) |
 | **Stage 3 — Final Report** | [PDF](./project-report-final/UniCore_Final_Report.pdf) | [`project-report-final/`](./project-report-final/) |
-| **Diagrams** (use case, class, sequence, component, DFD, activity, ER, deployment) | [ER PDF](./docs/diagrams/er/unicore_er_diagram.pdf) · [Deployment PDF](./docs/diagrams/deployment/unicore_deployment_diagram.pdf) · [UML + DFD PDF](./docs/diagrams/uml/uml_and_dfd.pdf) | [`docs/diagrams/`](./docs/diagrams/) |
+| **Diagrams** (use case, class, sequence, component, DFD, activity, ER, deployment) | [ER PDF](./docs/diagrams/er/unicore_er_overview.pdf) · [Deployment PDF](./docs/diagrams/deployment/unicore_deployment_diagram.pdf) · [UML + DFD PDF](./docs/diagrams/uml/uml_and_dfd.pdf) | [`docs/diagrams/`](./docs/diagrams/) |
 | **Gantt chart, milestones, RACI, risks** | [XLSX](./docs/planning/UniCore_Project_Gantt_Chart.xlsx) | [`docs/planning/`](./docs/planning/) |
 | **Individual journals** | — | [`journals/`](./journals/) |
 | **Database schema** (8 schemas, BCNF) | — | [`code/database/`](./code/database/) |
