@@ -7,11 +7,12 @@ All UML, data-flow, ER, activity, sequence and deployment diagrams for UniCore.
 | Use case, class, sequence, component, DFD (Level 0 & 1) | [uml/uml_and_dfd.pdf](./uml/uml_and_dfd.pdf) · previews [below](#previews) |
 | Sequence: student login and academic dashboard | [sequence/Sequence_diagram.pdf](./sequence/Sequence_diagram.pdf) |
 | Activity: student services, exams and results, hostel and outpass, library | [activity/UniCore_Activity_Diagrams.pdf](./activity/UniCore_Activity_Diagrams.pdf) |
-| Deployment | [deployment/unicore_deployment_diagram.pdf](./deployment/unicore_deployment_diagram.pdf) |
+| Deployment: browser, GitHub Pages, Cloudflare Pages, Cloudflare Workers API, Turso database | [deployment/unicore_deployment_diagram.pdf](./deployment/unicore_deployment_diagram.pdf) · [HTML](./deployment/unicore_deployment_diagram.html) |
 | ER: full schema, generated from [`code/database/`](../../code/database/) (all 8 schemas) | [er/unicore_er_diagram.pdf](./er/unicore_er_diagram.pdf) · [interactive HTML](./er/unicore_er_diagram.html) |
 | ER: conceptual overview | [er/er_diagram.pdf](./er/er_diagram.pdf) |
 
-Regenerate the full ER diagram after a schema change: `python3 docs/diagrams/er/build_er_diagram.py`
+Regenerate the full ER diagram after a schema change: `python3 docs/diagrams/er/build_er_diagram.py`  
+Regenerate the deployment diagram after an infrastructure change: `python3 docs/diagrams/deployment/build_deployment_diagram.py`
 
 ---
 
