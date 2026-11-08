@@ -71,7 +71,7 @@ docs/
 ```
 code/
 ├── frontend/                     Web app (React + Vite): landing, sign-in, role dashboards
-├── backend/                      REST API (TypeScript, Express + Cloudflare Worker)
+├── backend/                      REST API (Java Spring Boot 3, Spring Data JPA, PostgreSQL / H2)
 ├── database/                     PostgreSQL schema, migrations V001–V019, dummy data
 └── docker-compose.yml            Local PostgreSQL
 ```
@@ -87,16 +87,31 @@ code/
    npm install
    ```
 
-2. **Run the docs website:**
+2. **Start the database (PostgreSQL):**
    ```bash
-   cd docs/website
-   npm run dev
+   cd code && docker compose up -d
    ```
 
-3. **Run the web app:**
+3. **Run the Java Spring Boot backend:**
    ```bash
-   cd code/frontend
-   npm run dev
+   npm run start:backend
+   # Or with embedded H2 (zero-setup local development):
+   npm run start:backend:h2
+   ```
+
+4. **Run the web app (React frontend):**
+   ```bash
+   npm run dev:frontend
+   ```
+
+5. **Run the docs website:**
+   ```bash
+   npm run dev:docs
+   ```
+
+6. **Run backend integration tests:**
+   ```bash
+   npm run test:backend
    ```
 
 ---

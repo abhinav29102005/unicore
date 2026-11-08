@@ -171,14 +171,14 @@ A centralized OS of this magnitude wields immense power. Proper management of th
 | Domain | Technologies | Purpose |
 | :--- | :--- | :--- |
 | **Kernel / Database** | PostgreSQL, BCNF | ACID Transactions, Concurrency, Locking |
-| **Backend APIs** | Tezz, JWT | System Call Routing, Auth, Microservices |
+| **Backend APIs** | Java Spring Boot 3, REST, JPA | System Call Routing, Auth, Microservices |
 | **Frontend Shell** | React, Vite, Tailwind | User Interface, State Management, A11y |
 | **Deployment** | GitHub Actions, Docker | CI/CD Pipelines, Load Balancing |
 
 **12-Week Sprint Milestones**
 - **Phase 1:** Kernel Architecture & BCNF DDL Scripts
 - **Phase 2:** Concurrency Layer (SELECT FOR UPDATE)
-- **Phase 3:** API (Tezz) & CI/CD DevOps
+- **Phase 3:** API (Spring Boot REST & JPA) & CI/CD DevOps
 - **Phase 4:** UI, UX, Web Design, and Stampede Simulation
 
 ---
@@ -1380,7 +1380,7 @@ export default function App() {
                           </tr>
                           <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
                             <td className="p-4 font-bold text-[var(--text-main)]">Backend APIs</td>
-                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">Tezz, JWT</td>
+                            <td className="p-4 font-mono text-xs text-red-600 dark:text-red-400">Java Spring Boot 3, REST, JPA</td>
                             <td className="p-4 text-xs">System Call Routing, Auth, Microservices</td>
                           </tr>
                           <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
@@ -1402,7 +1402,7 @@ export default function App() {
                       <div className="space-y-2 text-xs text-slate-800 dark:text-slate-200">
                         <div><strong className="text-red-600 dark:text-red-400">Phase 1:</strong> Kernel Architecture & BCNF DDL Scripts</div>
                         <div><strong className="text-red-600 dark:text-red-400">Phase 2:</strong> Concurrency Layer (SELECT FOR UPDATE)</div>
-                        <div><strong className="text-red-600 dark:text-red-400">Phase 3:</strong> API (Tezz) & CI/CD DevOps</div>
+                        <div><strong className="text-red-600 dark:text-red-400">Phase 3:</strong> API (Spring Boot REST & JPA) & CI/CD DevOps</div>
                         <div><strong className="text-red-600 dark:text-red-400">Phase 4:</strong> UI, UX, Web Design, and Stampede Simulation</div>
                       </div>
                     </div>

@@ -33,7 +33,7 @@ export default function Sign() {
           {
             id: '1024030440',
             email: 'abhinav@unicore.edu',
-            role: 'student',
+            role: 'Student',
             name: 'Abhinav Kumar',
             department: 'Computer Science and Engineering',
             year: 3,
@@ -51,7 +51,7 @@ export default function Sign() {
           {
             id: 'admin-1',
             email: 'admin@unicore.edu',
-            role: 'admin',
+            role: 'Admin',
             name: 'System Administrator',
           } as any,
           'unicore-admin-token'
@@ -65,7 +65,7 @@ export default function Sign() {
           {
             id: 'fac-1',
             email: 'faculty1@unicore.edu',
-            role: 'faculty',
+            role: 'Faculty',
             name: 'Dr. Rajesh Kumar',
             department: 'Computer Science and Engineering',
           } as any,
@@ -80,7 +80,7 @@ export default function Sign() {
           {
             id: 'staff-1',
             email: 'staff1@unicore.edu',
-            role: 'staff',
+            role: 'Staff',
             name: 'Ramesh Yadav',
             department: 'Hostel Administration',
           } as any,

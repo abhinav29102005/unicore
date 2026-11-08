@@ -1,7 +1,7 @@
 import { useAuthStore } from '../store/authStore';
 
 export const BASE_URL =
-  import.meta.env.VITE_API_URL || 'https://unicore-backend.bigboyaks-account.workers.dev/api';
+  import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
 
 // Simple fetch wrapper that injects auth token
 export const api = async (endpoint: string, options: RequestInit = {}) => {
@@ -26,7 +26,7 @@ export const api = async (endpoint: string, options: RequestInit = {}) => {
 
   if (response.status === 401) {
     logout();
-    window.location.href = '/login';
+    window.location.href = `${import.meta.env.BASE_URL || '/'}sign`;
     throw new Error('Unauthorized');
   }
 

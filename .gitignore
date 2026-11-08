@@ -40,3 +40,7 @@ How to Draft Academic Project Proposals.docx
 .wrangler/
 code/backend/dist/
 *.tsbuildinfo
+
+# Maven Build outputs
+target/
+code/backend/target/

@@ -5,13 +5,19 @@
   "description": "UniCore: Centralized Campus Operating Platform Mono-repo",
   "workspaces": [
     "docs/website",
-    "code/frontend",
-    "code/backend"
+    "code/frontend"
   ],
   "scripts": {
+    "start:backend": "cd code/backend && ./mvnw spring-boot:run",
+    "start:backend:h2": "cd code/backend && ./mvnw spring-boot:run -Dspring-boot.run.profiles=h2",
+    "build:backend": "cd code/backend && ./mvnw clean package -DskipTests",
+    "test:backend": "cd code/backend && ./mvnw test",
+    "dev:frontend": "npm run dev --prefix code/frontend",
+    "build:frontend": "npm run build --prefix code/frontend",
     "dev:docs": "npm run dev --prefix docs/website",
     "build:docs": "npm run build --prefix docs/website",
-    "dev": "npm run dev --prefix docs/website",
-    "build": "npm run build --prefix docs/website"
+    "build:all": "npm run build:frontend && npm run build:backend && npm run build:docs",
+    "dev": "npm run dev --prefix code/frontend",
+    "build": "npm run build --prefix code/frontend"
   }
 }

@@ -1,4 +1,4 @@
-# UniCore Database System of Record (PostgreSQL)
+# UniCore Database System of Record (PostgreSQL & Spring Data JPA)
 
 This directory contains the BCNF-normalized relational database schemas, DDL scripts, PL/SQL stored procedures, and automated triggers.
 
@@ -12,9 +12,21 @@ This directory contains the BCNF-normalized relational database schemas, DDL scr
 7. `admin` — Staff, leaves, maintenance work orders.
 8. `core` — Geographic hierarchy and global configuration settings.
 
-## Test / Dummy Data
-For development and UI testing purposes, dummy data can be inserted using the scripts provided. This allows developers to test the frontend dashboards without needing access to the production databases.
+## Canonical Schema DDL
+- **`V001_to_V019.sql`**: Full PostgreSQL DDL specifying all schemas, tables, constraints, foreign keys, and indexes.
+- **`schema.sql`**: Unified relational schema used for JPA entity mapping.
+- **`dummy_data.sql`**: Sample inserts for testing students, hostels, enrollments, and library tables.
 
-- **`dummy_data.sql`**: Contains sample inserts for the `students`, `hostels`, `enrollments`, and `library` tables.
+## Running Database Locally
 
-*Note: For security reasons, never store production database connection strings, libSQL/Turso URLs, or Authentication Tokens in this repository.*
+### 1. PostgreSQL (via Docker Compose)
+```bash
+cd code && docker compose up -d
+```
+Exposes PostgreSQL 15 on port `5433` (database: `unicore`, user: `postgres`, password: `password`).
+
+### 2. Spring Boot Integration
+The Java Spring Boot backend connects to this PostgreSQL instance by default. It also provides an in-memory `h2` profile for zero-dependency execution. Seeding is available via the backend API:
+```bash
+curl -X POST http://localhost:8080/api/seed
+```
