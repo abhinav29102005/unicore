@@ -1,126 +1,92 @@
 package com.unicore;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.unicore.dto.LoginRequest;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.unicore.repository.*;
+import com.unicore.service.SeedService;
+import java.util.*;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.*;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
-
-import static org.hamcrest.Matchers.*;
+import org.springframework.test.web.servlet.*;
+import org.springframework.web.context.WebApplicationContext;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@SpringBootTest(properties={"unicore.origin=https://unicore.test","unicore.bootstrap-email="})
 @ActiveProfiles("h2")
 public class UniCoreApiIntegrationTests {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @BeforeEach
-    void setup() throws Exception {
-        // Seed the test database before tests
-        mockMvc.perform(post("/api/seed"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message", is("Database seeded successfully")));
-    }
-
-    @Test
-    void testAuthLoginAndProfile() throws Exception {
-        // 1. Valid Login
-        LoginRequest loginRequest = new LoginRequest("abhinav@unicore.edu", "anyPassword");
-        String responseContent = mockMvc.perform(post("/api/auth/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginRequest)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.user.email", is("abhinav@unicore.edu")))
-                .andExpect(jsonPath("$.user.name", is("Abhinav Kumar")))
-                .andExpect(jsonPath("$.user.role", is("Student")))
-                .andExpect(jsonPath("$.token", startsWith("unicore-jwt-")))
-                .andReturn().getResponse().getContentAsString();
-
-        // Extract user ID
-        String userId = objectMapper.readTree(responseContent).path("user").path("id").asText();
-
-        // 2. Profile lookup
-        mockMvc.perform(get("/api/auth/profile/" + userId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(userId)))
-                .andExpect(jsonPath("$.email", is("abhinav@unicore.edu")))
-                .andExpect(jsonPath("$.name", is("Abhinav Kumar")))
-                .andExpect(jsonPath("$.status", is("active")));
-    }
-
-    @Test
-    void testStudentDashboard() throws Exception {
-        mockMvc.perform(get("/api/student/1024030440/dashboard"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.student.roll", is("1024030440")))
-                .andExpect(jsonPath("$.student.name", is("Abhinav Kumar")))
-                .andExpect(jsonPath("$.student.department", is("Computer Science & Engineering")))
-                .andExpect(jsonPath("$.student.gpa", greaterThanOrEqualTo(0.0)))
-                .andExpect(jsonPath("$.hostel.block", is("Tagore Hall")))
-                .andExpect(jsonPath("$.hostel.room", is("301")))
-                .andExpect(jsonPath("$.enrollments", hasSize(greaterThan(0))))
-                .andExpect(jsonPath("$.attendance", hasSize(greaterThan(0))));
-    }
-
-    @Test
-    void testStudentAttendance() throws Exception {
-        mockMvc.perform(get("/api/student/1024030440/attendance"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.attendance", hasSize(greaterThan(0))))
-                .andExpect(jsonPath("$.attendance[0].course_code", notNullValue()))
-                .andExpect(jsonPath("$.attendance[0].percentage", notNullValue()));
-    }
-
-    @Test
-    void testStudentResults() throws Exception {
-        mockMvc.perform(get("/api/student/1024030440/results"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.results", hasSize(greaterThan(0))))
-                .andExpect(jsonPath("$.summary.totalCredits", greaterThan(0)))
-                .andExpect(jsonPath("$.summary.cgpa", greaterThan(0.0)));
-    }
-
-    @Test
-    void testAdminEndpoints() throws Exception {
-        // Stats
-        mockMvc.perform(get("/api/admin/stats"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.total_students", greaterThan(0)))
-                .andExpect(jsonPath("$.total_faculty", greaterThan(0)))
-                .andExpect(jsonPath("$.total_courses", greaterThan(0)))
-                .andExpect(jsonPath("$.total_departments", greaterThan(0)));
-
-        // Users
-        mockMvc.perform(get("/api/admin/users?page=1&limit=5"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.users", hasSize(5)))
-                .andExpect(jsonPath("$.pagination.total", greaterThan(0)));
-
-        // Departments
-        mockMvc.perform(get("/api/admin/departments"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(5)));
-    }
-
-    @Test
-    void testFacultyDashboard() throws Exception {
-        mockMvc.perform(get("/api/faculty/FAC001/dashboard"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.faculty.employeeNo", is("FAC001")))
-                .andExpect(jsonPath("$.faculty.name", is("Dr. Rajesh Kumar")))
-                .andExpect(jsonPath("$.faculty.department", is("Computer Science & Engineering")))
-                .andExpect(jsonPath("$.departmentStudents", greaterThan(0)));
-    }
+ @TestConfiguration static class FastHash {@Bean @Primary PasswordEncoder testPasswords(){return new BCryptPasswordEncoder(4);}}
+ @Autowired WebApplicationContext context;@Autowired SeedService seed;@Autowired UserRepository users;@Autowired PasswordEncoder passwords;
+ MockMvc mvc;final String origin="https://unicore.test",password="Testing-password-123!";
+ @BeforeEach void setup(){mvc=org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();seed.seedAll();String hash=passwords.encode(password);for(var u:users.findAll()){u.setPasswordHash(hash);users.save(u);}}
+ MockHttpSession login(String email)throws Exception {
+  return (MockHttpSession)mvc.perform(post("/api/auth/login").secure(true).header("Origin",origin).with(csrf()).contentType(MediaType.APPLICATION_JSON).content("{\"email\":\""+email+"\",\"password\":\""+password+"\"}"))
+   .andExpect(status().isOk()).andExpect(jsonPath("$.token").doesNotExist()).andReturn().getRequest().getSession(false);
+ }
+ @Test void anonymousAndForgedBearerAreRejected()throws Exception {
+  mvc.perform(get("/api/admin/stats")).andExpect(status().isUnauthorized());
+  mvc.perform(get("/api/admin/stats").header("Authorization","Bearer unicore-admin-token")).andExpect(status().isUnauthorized());
+  mvc.perform(get("/api/student/1024030440/dashboard")).andExpect(status().isUnauthorized());
+ }
+ @Test void passwordsCsrfAndOriginAreEnforced()throws Exception {
+  String body="{\"email\":\"abhinav@unicore.edu\",\"password\":\"wrong-password\"}";
+  mvc.perform(post("/api/auth/login").header("Origin",origin).contentType(MediaType.APPLICATION_JSON).content(body)).andExpect(status().isForbidden());
+  mvc.perform(post("/api/auth/login").header("Origin","https://evil.example").with(csrf()).contentType(MediaType.APPLICATION_JSON).content(body)).andExpect(status().isForbidden());
+  mvc.perform(post("/api/auth/login").header("Origin",origin).with(csrf()).contentType(MediaType.APPLICATION_JSON).content(body)).andExpect(status().isUnauthorized());
+ }
+ @Test void studentOnlyReadsOwnRecords()throws Exception {
+  var session=login("abhinav@unicore.edu");
+  mvc.perform(get("/api/auth/me").session(session)).andExpect(status().isOk()).andExpect(jsonPath("$.user.role",is("Student"))).andExpect(jsonPath("$.user.rollNo",is("1024030440")));
+  mvc.perform(get("/api/student/1024030440/dashboard").session(session)).andExpect(status().isOk()).andExpect(jsonPath("$.enrollments",hasSize(greaterThan(0))));
+  mvc.perform(get("/api/student/1024030440/attendance").session(session)).andExpect(status().isOk()).andExpect(jsonPath("$.attendance",hasSize(greaterThan(0))));
+  mvc.perform(get("/api/student/1024030440/results").session(session)).andExpect(status().isOk()).andExpect(jsonPath("$.summary.totalCredits",greaterThan(0)));
+  mvc.perform(get("/api/student/other-student/dashboard").session(session)).andExpect(status().isForbidden());
+  mvc.perform(get("/api/admin/users").session(session)).andExpect(status().isForbidden());
+  mvc.perform(get("/api/auth/profile/another-user").session(session)).andExpect(status().isForbidden());
+  mvc.perform(post("/api/admin/accounts").session(session).header("Origin",origin).with(csrf()).contentType(MediaType.APPLICATION_JSON).content("{\"role\":\"admin\"}")).andExpect(status().isForbidden());
+ }
+ @Test void facultyAndStaffPermissions()throws Exception {
+  var faculty=login("dr.kumar@unicore.edu");
+  mvc.perform(get("/api/faculty/FAC001/dashboard").session(faculty)).andExpect(status().isOk()).andExpect(jsonPath("$.faculty.employeeNo",is("FAC001")));
+  mvc.perform(get("/api/faculty/FAC002/dashboard").session(faculty)).andExpect(status().isForbidden());
+  mvc.perform(get("/api/admin/stats").session(faculty)).andExpect(status().isForbidden());
+  var staff=login("staff1@unicore.edu");mvc.perform(get("/api/staff/dashboard").session(staff)).andExpect(status().isOk());
+  mvc.perform(get("/api/student/1024030440/dashboard").session(staff)).andExpect(status().isForbidden());
+ }
+ @Test void administratorReadsRealDataWithoutPasswordHashes()throws Exception {
+  var admin=login("admin@unicore.edu");
+  mvc.perform(get("/api/admin/stats").session(admin)).andExpect(status().isOk()).andExpect(jsonPath("$.total_students",greaterThan(0)));
+  mvc.perform(get("/api/admin/users?limit=5").session(admin)).andExpect(status().isOk()).andExpect(jsonPath("$.users",hasSize(5))).andExpect(jsonPath("$.users[0].passwordHash").doesNotExist());
+  mvc.perform(get("/api/admin/users?limit=100000").session(admin)).andExpect(status().isBadRequest());
+  mvc.perform(post("/api/seed").session(admin).header("Origin",origin).with(csrf())).andExpect(status().isForbidden());
+  mvc.perform(get("/api/admin/departments").session(admin)).andExpect(status().isOk()).andExpect(jsonPath("$",hasSize(5)));
+ }
+ @Test void disabledAccountsLoseExistingSessions()throws Exception {
+  var student=login("abhinav@unicore.edu");var admin=login("admin@unicore.edu");var id=users.findByEmailAndDeletedAtIsNull("abhinav@unicore.edu").orElseThrow().getId();
+  mvc.perform(post("/api/admin/accounts/"+id+"/disable").session(admin).header("Origin",origin).with(csrf())).andExpect(status().isOk());
+  mvc.perform(get("/api/auth/me").session(student)).andExpect(status().isUnauthorized());
+ }
+ @Test void passwordResetRevokesSessionsAndOldPassword()throws Exception {
+  var student=login("abhinav@unicore.edu");var admin=login("admin@unicore.edu");var id=users.findByEmailAndDeletedAtIsNull("abhinav@unicore.edu").orElseThrow().getId();
+  mvc.perform(post("/api/admin/accounts/"+id+"/reset-password").session(admin).header("Origin",origin).with(csrf())).andExpect(status().isOk()).andExpect(jsonPath("$.password",not(emptyString())));
+  mvc.perform(get("/api/auth/me").session(student)).andExpect(status().isUnauthorized());
+  mvc.perform(post("/api/auth/login").header("Origin",origin).with(csrf()).contentType(MediaType.APPLICATION_JSON).content("{\"email\":\"abhinav@unicore.edu\",\"password\":\""+password+"\"}")).andExpect(status().isUnauthorized());
+ }
+ @Test void logoutRequiresCsrfAndInvalidatesSession()throws Exception {
+  var session=login("abhinav@unicore.edu");mvc.perform(post("/api/auth/logout").header("Origin",origin).session(session)).andExpect(status().isForbidden());
+  mvc.perform(post("/api/auth/logout").header("Origin",origin).session(session).with(csrf())).andExpect(status().isOk());assertTrue(session.isInvalid());
+ }
+ @Test void loginHasRateLimit()throws Exception {
+  for(int i=0;i<8;i++)mvc.perform(post("/api/auth/login").header("Origin",origin).with(csrf()).contentType(MediaType.APPLICATION_JSON).content("{\"email\":\"rate-limit@unicore.test\",\"password\":\"wrong-password\"}")).andExpect(status().isUnauthorized());
+  mvc.perform(post("/api/auth/login").header("Origin",origin).with(csrf()).contentType(MediaType.APPLICATION_JSON).content("{\"email\":\"rate-limit@unicore.test\",\"password\":\"wrong-password\"}")).andExpect(status().isTooManyRequests());
+ }
 }

@@ -15,7 +15,7 @@ export default function Landing() {
         <div className="flex gap-4">
           <Link to="/docs"><Button variant="ghost">Docs</Button></Link>
           <Link to="/sign?mode=login"><Button variant="outline">Sign In</Button></Link>
-          <Link to="/sign?mode=register"><Button>Sign Up</Button></Link>
+          <Link to="/sign?mode=register"><Button>Request an account</Button></Link>
         </div>
       </header>
 
@@ -34,7 +34,7 @@ export default function Landing() {
             A blazing fast, ultra-premium platform to manage everything from student enrollments to faculty administration.
           </p>
           <div className="flex items-center justify-center gap-6">
-            <Link to="/sign?mode=register"><Button size="lg" className="text-lg px-8">Get Started</Button></Link>
+            <Link to="/sign?mode=register"><Button size="lg" className="text-lg px-8">Sign in</Button></Link>
             <Link to="/docs"><Button size="lg" variant="outline" className="text-lg px-8">Read Docs</Button></Link>
           </div>
         </motion.div>

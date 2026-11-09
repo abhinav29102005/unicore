@@ -1,3 +1,7 @@
+unicore:
+  origin: ${UNICORE_ORIGIN:https://unicore.abhinavkumarsingh.tech}
+  sample-data: false
+
 server:
   port: 8080
 
@@ -44,3 +48,43 @@ spring:
       path: /h2-console
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+  datasource:
+    url: jdbc:h2:file:${UNICORE_DATA_DIR}/unicore;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
+    username: unicore
+    password: ${UNICORE_DB_PASSWORD}
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: false
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+server:
+  address: 127.0.0.1
+  port: ${PORT:9103}
+  servlet:
+    context-path: /unicore
+    session:
+      timeout: 30m
+      tracking-modes: cookie
+      cookie:
+        name: __Host-unicore
+        path: /
+        secure: true
+        http-only: true
+        same-site: strict
+  error:
+    include-message: never
+    include-stacktrace: never
+unicore:
+  origin: ${UNICORE_ORIGIN:https://unicore.abhinavkumarsingh.tech}
+  data-dir: ${UNICORE_DATA_DIR:./data}
+  bootstrap-email: ${UNICORE_ADMIN_EMAIL:}
+  sample-data: ${UNICORE_SAMPLE_DATA:false}

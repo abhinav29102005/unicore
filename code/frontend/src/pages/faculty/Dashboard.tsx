@@ -1,25 +1,2 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-
-export default function FacultyDashboard() {
-  return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="space-y-6"
-    >
-      <h1 className="text-2xl font-bold">Faculty Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {[1, 2, 3].map((i) => (
-          <div key={i} className="bg-[var(--surface-color)] p-6 rounded-xl border border-[var(--border-color)] shadow-sm">
-            <h3 className="font-medium text-[var(--text-muted)] mb-2">Metric ${i}</h3>
-            <p className="text-3xl font-bold">{Math.floor(Math.random() * 1000)}</p>
-          </div>
-        ))}
-      </div>
-      <div className="bg-[var(--surface-color)] p-6 rounded-xl border border-[var(--border-color)] shadow-sm min-h-[300px] flex items-center justify-center">
-        <p className="text-[var(--text-muted)]">Charts and data tables will go here.</p>
-      </div>
-    </motion.div>
-  );
-}
+import {useEffect,useState} from 'react';import {api} from '../../lib/api';import {useAuthStore} from '../../store/authStore';import {Records} from '../../components/data/Records';
+export default function FacultyDashboard(){const user=useAuthStore(s=>s.user);const [data,setData]=useState<any>(null),[error,setError]=useState('');useEffect(()=>{api(`/faculty/${encodeURIComponent(user!.id)}/dashboard`).then(setData).catch(x=>setError(x.message));},[user?.id]);if(error)return <p role="alert" className="text-red-500">{error}</p>;if(!data)return <p>Loading faculty records…</p>;return <div className="space-y-6"><h1 className="text-3xl font-bold">Faculty dashboard</h1><p>{data.faculty.name} · {data.faculty.department}</p><p>Students in department: {data.departmentStudents}</p><Records title="Your course offerings" rows={data.courses}/></div>;}

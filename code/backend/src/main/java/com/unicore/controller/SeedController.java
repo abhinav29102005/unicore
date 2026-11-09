@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+@org.springframework.boot.autoconfigure.condition.ConditionalOnProperty(name="unicore.seed-endpoint",havingValue="true")
 @RestController
 @RequestMapping("/api")
 public class SeedController {

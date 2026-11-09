@@ -10,6 +10,7 @@ import AdminDashboard from './pages/admin/Dashboard';
 import FacultyDashboard from './pages/faculty/Dashboard';
 import StudentDashboard from './pages/student/Dashboard';
 import StaffDashboard from './pages/staff/Dashboard';
+import Account from './pages/Account';
 
 const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactNode; allowedRoles?: string[] }) => {
   const { isAuthenticated, user } = useAuthStore();
@@ -48,6 +49,7 @@ export const router = createBrowserRouter([
     path: '/',
     element: <ShellLayout />,
     children: [
+      ...['profile','settings','courses'].map(path=>({path,element:<ProtectedRoute><Account/></ProtectedRoute>})),
       { path: 'admin', element: <ProtectedRoute allowedRoles={['Admin']}><AdminDashboard /></ProtectedRoute> },
       { path: 'faculty', element: <ProtectedRoute allowedRoles={['Faculty']}><FacultyDashboard /></ProtectedRoute> },
       { path: 'student', element: <ProtectedRoute allowedRoles={['Student']}><StudentDashboard /></ProtectedRoute> },

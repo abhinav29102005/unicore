@@ -39,6 +39,7 @@ public class StudentController {
     }
 
     @GetMapping("/{studentNo}/dashboard")
+    @org.springframework.security.access.prepost.PreAuthorize("@scope.student(authentication,#studentNo)")
     public ResponseEntity<?> getStudentDashboard(@PathVariable("studentNo") String studentNo) {
         Map<String, Object> studentProfile = studentRepository.findStudentDashboardProfile(studentNo);
         if (studentProfile == null || studentProfile.isEmpty()) {
@@ -72,6 +73,7 @@ public class StudentController {
     }
 
     @GetMapping("/{studentNo}/attendance")
+    @org.springframework.security.access.prepost.PreAuthorize("@scope.student(authentication,#studentNo)")
     public ResponseEntity<?> getStudentAttendance(@PathVariable("studentNo") String studentNo) {
         Optional<Student> studentOpt = studentRepository.findByStudentNo(studentNo);
         if (studentOpt.isEmpty()) {
@@ -85,6 +87,7 @@ public class StudentController {
     }
 
     @GetMapping("/{studentNo}/results")
+    @org.springframework.security.access.prepost.PreAuthorize("@scope.student(authentication,#studentNo)")
     public ResponseEntity<?> getStudentResults(@PathVariable("studentNo") String studentNo) {
         Optional<Student> studentOpt = studentRepository.findByStudentNo(studentNo);
         if (studentOpt.isEmpty()) {

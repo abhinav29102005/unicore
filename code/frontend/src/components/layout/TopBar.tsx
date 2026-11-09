@@ -1,4 +1,5 @@
 import React from 'react';
+import {signOut} from '../../lib/api';
 import { useAuthStore } from '../../store/authStore';
 import { Menu, Moon, Sun, User as UserIcon } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
@@ -14,9 +15,9 @@ export default function TopBar({ toggleMobileNav }: { toggleMobileNav: () => voi
     setIsDark(!isDark);
   };
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/sign');
   };
 
   return (

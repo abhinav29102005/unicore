@@ -18,6 +18,7 @@ public class FacultyController {
     }
 
     @GetMapping("/{id}/dashboard")
+    @org.springframework.security.access.prepost.PreAuthorize("@scope.faculty(authentication,#id)")
     public ResponseEntity<?> getFacultyDashboard(@PathVariable("id") String id) {
         Map<String, Object> profile = facultyRepository.findFacultyProfile(id);
         if (profile == null || profile.isEmpty()) {
@@ -25,7 +26,7 @@ public class FacultyController {
         }
 
         String deptCode = (String) profile.get("dept_code");
-        List<Map<String, Object>> courses = facultyRepository.findCoursesByDeptCode(deptCode);
+        List<Map<String, Object>> courses = facultyRepository.findCoursesByFacultyId((String)profile.get("id"));
         Long totalStudents = facultyRepository.countStudentsByDeptCode(deptCode);
 
         Map<String, Object> facultyDetails = new HashMap<>();

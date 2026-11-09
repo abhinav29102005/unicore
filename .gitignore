@@ -44,3 +44,4 @@ code/backend/dist/
 # Maven Build outputs
 target/
 code/backend/target/
+code/backend/src/main/resources/static/

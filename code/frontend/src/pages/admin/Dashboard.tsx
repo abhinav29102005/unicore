@@ -1,111 +1,12 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
-import { DashboardChart } from '../../components/ui/DashboardChart';
-import { DataTable } from '../../components/ui/DataTable';
-import { ColumnDef } from '@tanstack/react-table';
-
-type UserSummary = {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  status: 'Active' | 'Inactive';
-};
-
-const dummyUsers: UserSummary[] = [
-  { id: '1', name: 'John Doe', email: 'john@unicore.edu', role: 'Faculty', status: 'Active' },
-  { id: '2', name: 'Jane Smith', email: 'jane@unicore.edu', role: 'Student', status: 'Active' },
-  { id: '3', name: 'Bob Johnson', email: 'bob@unicore.edu', role: 'Staff', status: 'Inactive' },
-  { id: '4', name: 'Alice Williams', email: 'alice@unicore.edu', role: 'Student', status: 'Active' },
-  { id: '5', name: 'Charlie Brown', email: 'charlie@unicore.edu', role: 'Student', status: 'Active' },
-];
-
-const columns: ColumnDef<UserSummary>[] = [
-  { accessorKey: 'name', header: 'Name' },
-  { accessorKey: 'email', header: 'Email' },
-  { accessorKey: 'role', header: 'Role' },
-  { 
-    accessorKey: 'status', 
-    header: 'Status',
-    cell: ({ row }) => (
-      <span className={row.original.status === 'Active' ? 'text-green-500 font-medium' : 'text-gray-400'}>
-        {row.original.status}
-      </span>
-    )
-  },
-];
-
-export default function AdminDashboard() {
-  return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="space-y-6"
-    >
-      <div>
-        <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-        <p className="text-[var(--text-muted)]">Overview of the university system.</p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-[var(--text-muted)]">Total Students</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">12,450</div>
-            <p className="text-xs text-green-500 mt-1">+12% from last month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-[var(--text-muted)]">Total Faculty</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">842</div>
-            <p className="text-xs text-green-500 mt-1">+3% from last month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-[var(--text-muted)]">Active Courses</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">1,204</div>
-            <p className="text-xs text-gray-500 mt-1">Same as last month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-[var(--text-muted)]">System Health</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-500">99.9%</div>
-            <p className="text-xs text-gray-500 mt-1">All systems operational</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle>Activity Overview</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <DashboardChart />
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Users</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <DataTable columns={columns} data={dummyUsers} />
-          </CardContent>
-        </Card>
-      </div>
-    </motion.div>
-  );
+import {useEffect,useState} from 'react';import {api} from '../../lib/api';import {useAuthStore} from '../../store/authStore';
+export default function AdminDashboard(){
+ const self=useAuthStore(s=>s.user);const [stats,setStats]=useState<any>(null),[users,setUsers]=useState<any[]>([]),[catalog,setCatalog]=useState<any>({departments:[],programs:[]}),[error,setError]=useState(''),[notice,setNotice]=useState(''),[credential,setCredential]=useState<any>(null),[role,setRole]=useState('student'),[dept,setDept]=useState(''),[busy,setBusy]=useState(false),[page,setPage]=useState(1),[pages,setPages]=useState(1);
+ async function load(){try{const [s,u,c]=await Promise.all([api('/admin/stats'),api(`/admin/users?page=${page}&limit=20`),api('/catalog')]);setStats(s);setUsers(u.users);setPages(u.pagination.pages);setCatalog(c);}catch(x){setError((x as Error).message);}}
+ useEffect(()=>{load();},[page]);
+ async function action(id:string,kind:string){setError('');if(!window.confirm(kind==='disable'?'Disable this account and revoke its sessions?':'Generate a new password and revoke existing sessions?'))return;try{const result=await api(`/admin/accounts/${id}/${kind}`,{method:'POST',body:'{}'});if(result.password)setCredential(result);else setNotice('Account disabled. Existing sessions are revoked.');await load();}catch(x){setError((x as Error).message);}}
+ return <div className="space-y-6"><h1 className="text-3xl font-bold">Administrator dashboard</h1>{error&&<p role="alert" className="text-red-500">{error}</p>}{notice&&<p role="status">{notice}</p>}{stats&&<div className="grid sm:grid-cols-3 gap-3">{Object.entries(stats).map(([k,v])=><div className="border rounded-lg p-4" key={k}><p className="capitalize">{k.replaceAll('_',' ')}</p><strong className="text-2xl">{String(v)}</strong></div>)}</div>}
+ <section className="border rounded-xl p-5 overflow-auto"><h2 className="text-xl font-bold">Accounts</h2><table className="w-full text-sm"><thead><tr>{['Name','Email','Role','Status','Actions'].map(k=><th className="text-left p-3" key={k}>{k}</th>)}</tr></thead><tbody>{users.map(u=><tr key={u.id}><td className="p-3">{u.name}</td><td className="p-3">{u.email}</td><td className="p-3">{u.role}</td><td className="p-3">{u.status}</td><td className="p-3 space-x-3"><button className="underline" onClick={()=>action(u.id,'reset-password')}>Reset password</button>{u.id!==self?.id&&u.status==='active'&&<button className="text-red-500 underline" onClick={()=>action(u.id,'disable')}>Disable</button>}</td></tr>)}</tbody></table><div className="flex gap-4 mt-4"><button disabled={page<=1} onClick={()=>setPage(page-1)}>Previous</button><span>Page {page} of {pages}</span><button disabled={page>=pages} onClick={()=>setPage(page+1)}>Next</button></div></section>
+ <section className="border rounded-xl p-5"><h2 className="text-xl font-bold">Create account</h2><form className="grid sm:grid-cols-2 gap-4 mt-4" onSubmit={async e=>{e.preventDefault();setBusy(true);setError('');const form=e.currentTarget;try{const result=await api('/admin/accounts',{method:'POST',body:JSON.stringify(Object.fromEntries(new FormData(form)))});setCredential(result);form.reset();setRole('student');setDept('');await load();}catch(x){setError((x as Error).message);}finally{setBusy(false);}}}>{[['firstName','First name'],['lastName','Last name'],['email','Email']].map(([name,label])=><label key={name}>{label}<input className="border rounded p-2 bg-transparent w-full" name={name} type={name==='email'?'email':'text'} required maxLength={name==='email'?254:80}/></label>)}<label>Role<select name="role" className="border rounded p-2 bg-[var(--surface-color)] w-full" value={role} onChange={e=>setRole(e.target.value)}>{['student','faculty','staff','admin'].map(v=><option key={v}>{v}</option>)}</select></label>{['student','faculty'].includes(role)&&<><label>{role==='student'?'Student number':'Employee number'}<input className="border rounded p-2 bg-transparent w-full" name="number" required pattern="[A-Za-z0-9_-]{2,40}"/></label><label>Department<select className="border rounded p-2 bg-[var(--surface-color)] w-full" name="departmentId" required value={dept} onChange={e=>setDept(e.target.value)}><option value="">Choose department</option>{catalog.departments.map((d:any)=><option key={d.id} value={d.id}>{d.name}</option>)}</select></label></>}{role==='student'&&<label>Program<select className="border rounded p-2 bg-[var(--surface-color)] w-full" name="programId" required><option value="">Choose program</option>{catalog.programs.filter((p:any)=>p.departmentId===dept).map((p:any)=><option key={p.id} value={p.id}>{p.name}</option>)}</select></label>}<button className="bg-emerald-600 text-white rounded p-3" disabled={busy}>{busy?'Creating…':'Create account'}</button></form></section>
+ {credential&&<section role="status" className="border border-emerald-500 rounded-xl p-5"><h2 className="font-bold">Save this new login privately</h2><p>Email: {credential.email}</p><p className="break-all">Temporary password: <code>{credential.password}</code></p><p>Ask this user to change it in Settings after signing in.</p><button className="underline mt-3" onClick={()=>setCredential(null)}>I have saved it · hide password</button></section>}
+ </div>;
 }

@@ -73,7 +73,8 @@ public class AdminController {
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "limit", defaultValue = "20") int limit
     ) {
-        int pageIndex = Math.max(0, page - 1);
+        if(page<1 || limit<1 || limit>100)throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.BAD_REQUEST,"Use page >= 1 and limit 1–100");
+        int pageIndex = page - 1;
         Page<User> userPage = userRepository.findByDeletedAtIsNullOrderByCreatedAtDesc(PageRequest.of(pageIndex, limit));
 
         List<Map<String, Object>> userList = new ArrayList<>();

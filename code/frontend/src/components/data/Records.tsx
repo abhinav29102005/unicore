@@ -1,0 +1,4 @@
+export function Records({rows,title}:{rows:any[];title:string}){
+ const keys=[...new Set(rows.flatMap(row=>Object.keys(row)))].filter(k=>!['id','user_id','department_id','program_id','course_offering_id','semester_id','passwordHash'].includes(k));
+ return <section className="border border-[var(--border-color)] rounded-xl p-5 overflow-auto"><h2 className="text-xl font-semibold mb-4">{title}</h2>{!rows.length?<p className="text-[var(--text-muted)]">No records yet.</p>:<table className="w-full text-sm"><thead><tr>{keys.map(k=><th className="p-3 border-b text-left capitalize" key={k}>{k.replaceAll('_',' ')}</th>)}</tr></thead><tbody>{rows.map((row,i)=><tr key={row.id||i}>{keys.map(k=><td className="p-3 border-b" key={k}>{row[k]==null?'—':typeof row[k]==='object'?JSON.stringify(row[k]):String(row[k])}</td>)}</tr>)}</tbody></table>}</section>;
+}

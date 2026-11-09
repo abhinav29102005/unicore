@@ -12,7 +12,7 @@ export default function MobileNav({ isOpen, onClose }: { isOpen: boolean; onClos
   const navItems = [
     { label: 'Dashboard', path: `/${role}`, icon: Home },
     { label: 'Profile', path: `/profile`, icon: Users },
-    { label: 'Courses', path: `/${role}/courses`, icon: BookOpen },
+    { label: 'Courses', path: `/courses`, icon: BookOpen },
     { label: 'Settings', path: `/settings`, icon: Settings },
   ];
 

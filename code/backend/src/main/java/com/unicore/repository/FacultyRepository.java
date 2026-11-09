@@ -33,10 +33,10 @@ public interface FacultyRepository extends JpaRepository<Faculty, String> {
         JOIN academic_courses c ON co.course_id = c.id
         JOIN academic_semesters sem ON co.semester_id = sem.id
         JOIN academic_departments d ON c.department_id = d.id
-        WHERE d.code = :deptCode
+        WHERE co.faculty_id = :facultyId
         ORDER BY sem.start_date DESC, c.course_code
     """, nativeQuery = true)
-    List<Map<String, Object>> findCoursesByDeptCode(@Param("deptCode") String deptCode);
+    List<Map<String, Object>> findCoursesByFacultyId(@Param("facultyId") String facultyId);
 
     @Query(value = """
         SELECT count(*) as "total_students"
