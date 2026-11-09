@@ -1,5 +1,5 @@
 unicore:
-  origin: ${UNICORE_ORIGIN:https://unicore.abhinavkumarsingh.tech}
+  origin: ${UNICORE_ORIGIN:https://sites.abhinavkumarsingh.tech,https://unicore-frontend.pages.dev}
   sample-data: false
 
 server:
@@ -84,7 +84,7 @@ server:
     include-message: never
     include-stacktrace: never
 unicore:
-  origin: ${UNICORE_ORIGIN:https://unicore.abhinavkumarsingh.tech}
+  origin: ${UNICORE_ORIGIN:https://sites.abhinavkumarsingh.tech,https://unicore-frontend.pages.dev}
   data-dir: ${UNICORE_DATA_DIR:./data}
   bootstrap-email: ${UNICORE_ADMIN_EMAIL:}
   sample-data: ${UNICORE_SAMPLE_DATA:false}
