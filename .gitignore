@@ -21,6 +21,12 @@ UniCore-Campus-Operating-Platform-1.pdf
 main.pdf
 How to Draft Academic Project Proposals.docx
 
+# Capstone Proposal (Local only - keep offline)
+docs/CAPSTONE_PROJECT_PROPOSAL.md
+project-proposal/
+code/frontend/public/pdfs/capstone_proposal.pdf
+docs/website/public/pdfs/capstone_proposal.pdf
+
 # TeX Build Auxiliaries
 *.aux
 *.log
