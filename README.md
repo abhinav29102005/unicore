@@ -42,9 +42,10 @@ Weekly details are in each member's journal.
 | **Stage 1 — Project Proposal** | [PDF](./project-proposal/UniCore_Project_Proposal.pdf) | [`project-proposal/`](./project-proposal/) |
 | **Stage 2 — Prototype Proposal** | [PDF](./project-report-prototype-stage/UniCore_Prototype_Proposal.pdf) | [`project-report-prototype-stage/`](./project-report-prototype-stage/) |
 | **Stage 3 — Final Report** | [PDF](./project-report-final/UniCore_Final_Report.pdf) | [`project-report-final/`](./project-report-final/) |
-| **Diagrams** (use case, class, sequence, component, DFD, activity, ER, deployment) | [ER PDF](./docs/diagrams/er/unicore_er_overview.pdf) · [Deployment PDF](./docs/diagrams/deployment/unicore_deployment_diagram.pdf) · [UML + DFD PDF](./docs/diagrams/uml/uml_and_dfd.pdf) | [`docs/diagrams/`](./docs/diagrams/) |
+| **Eight UML diagrams** (one folder per type) | [Diagram index](./docs/diagrams/README.md) | [`docs/diagrams/`](./docs/diagrams/) |
+| **Additional DFD and ER diagrams** | [DFD bundle](./docs/diagrams/uml/uml_and_dfd.pdf) · [ER overview](./docs/diagrams/er/unicore_er_overview.pdf) | [`docs/diagrams/`](./docs/diagrams/) |
 | **Test cases** (sign-in, student dashboard, attendance) | [PDF](./docs/test-cases/UniCore_Test_Cases.pdf) | [`docs/test-cases/`](./docs/test-cases/) |
-| **Gantt chart, milestones, RACI, risks** | [XLSX](./docs/planning/UniCore_Project_Gantt_Chart.xlsx) | [`docs/planning/`](./docs/planning/) |
+| **Gantt chart** | [PDF](./docs/planning/UniCore_Project_Gantt_Chart.pdf) | [Planning notes and earlier XLSX](./docs/planning/README.md) |
 | **Individual journals** | — | [`journals/`](./journals/) |
 | **Database schema** (8 schemas, BCNF) | — | [`code/database/`](./code/database/) |
 

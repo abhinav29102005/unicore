@@ -1,40 +1,28 @@
-# Diagrams
+# UniCore diagrams
 
-All UML, data-flow, ER, activity, sequence and deployment diagrams for UniCore.
+## Eight UML diagrams for UCS503
 
-| Diagram | File |
-|---------|------|
-| Use case, class, sequence, component, DFD (Level 0 & 1) | [uml/uml_and_dfd.pdf](./uml/uml_and_dfd.pdf) · previews [below](#previews) |
-| Sequence: student login and academic dashboard | [sequence/Sequence_diagram.pdf](./sequence/Sequence_diagram.pdf) |
-| Activity: student services, exams and results, hostel and outpass, library | [activity/UniCore_Activity_Diagrams.pdf](./activity/UniCore_Activity_Diagrams.pdf) |
-| Deployment: browser, GitHub Pages, Cloudflare Pages, Cloudflare Workers API, Turso database | [deployment/unicore_deployment_diagram.pdf](./deployment/unicore_deployment_diagram.pdf) · [HTML](./deployment/unicore_deployment_diagram.html) |
-| **ER diagram**: main 24 tables, colour-coded by module | [er/unicore_er_overview.pdf](./er/unicore_er_overview.pdf) |
-| ER: full reference, all 47 tables, generated from [`code/database/`](../../code/database/) | [er/unicore_er_diagram.pdf](./er/unicore_er_diagram.pdf) · [interactive HTML](./er/unicore_er_diagram.html) |
+The end-semester course contents list these eight types. Each current-system diagram has its own folder and PDF.
 
-Regenerate the ER diagrams after a schema change: `python3 docs/diagrams/er/build_er_overview.py` and `python3 docs/diagrams/er/build_er_diagram.py`  
-Regenerate the deployment diagram after an infrastructure change: `python3 docs/diagrams/deployment/build_deployment_diagram.py`
+| Type | PDF | What it shows |
+|---|---|---|
+| Use case | [Use-case diagram](./use-case/UniCore_use_case_diagram.pdf) | Student, faculty, admin and staff actions |
+| Activity and swimlane | [Activity diagram](./activity/UniCore_activity_diagram.pdf) | Student sign-in and dashboard read across browser, API and database |
+| Class | [Class diagram](./class/UniCore_class_diagram.pdf) | Representative persisted entities in the Java backend |
+| Sequence | [Sequence diagram](./sequence/UniCore_sequence_diagram.pdf) | Sign-in and student dashboard request order |
+| Collaboration | [Collaboration diagram](./collaboration/UniCore_collaboration_diagram.pdf) | Numbered messages between dashboard objects |
+| State chart | [State-chart diagram](./state-chart/UniCore_state_chart_diagram.pdf) | Server-side session states and invalidation |
+| Component | [Component diagram](./component/UniCore_component_diagram.pdf) | React, Spring Security, controllers, repositories and database |
+| Deployment | [Deployment diagram](./deployment/UniCore_current_deployment_diagram.pdf) | Static site and Java API deployment boundary |
 
----
+These diagrams describe the code in `code/frontend` and `code/backend` as of 25 November 2026. The deployment diagram labels the public Java backend as unverified; GitHub Pages hosts static files only.
 
-## Previews
+## Additional course diagrams and earlier material
 
-### Use case diagram
-![Use case diagram](../website/public/images/use_case_light.png)
+- [DFD and earlier UML bundle](./uml/uml_and_dfd.pdf) (includes the Level 0 and Level 1 DFDs)
+- [Schema-generated ER overview](./er/unicore_er_overview.pdf) and [full ER reference](./er/unicore_er_diagram.pdf)
+- [Earlier activity set](./activity/UniCore_Activity_Diagrams.pdf)
+- [Earlier sequence diagram](./sequence/Sequence_diagram.pdf)
+- [Earlier deployment diagram](./deployment/unicore_deployment_diagram.pdf), which describes the retired Worker/Turso architecture and should not be used for the current-system presentation
 
-### Class diagram
-![Class diagram](../website/public/images/class_diagram_light.png)
-
-### Sequence diagram
-![Sequence diagram](../website/public/images/seq_light.png)
-
-### Component diagram
-![Component diagram](../website/public/images/comp_light.png)
-
-### Data flow diagrams
-**Level 0 (context)**
-
-![DFD level 0](../website/public/images/dfd0_light.png)
-
-**Level 1**
-
-![DFD level 1](../website/public/images/dfd1_light.png)
+The earlier diagrams are retained for traceability. Use the eight linked PDFs above for this evaluation.
