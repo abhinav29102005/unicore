@@ -1,39 +1,39 @@
 <!doctype html><html lang='en'><head><meta charset='utf-8'><title>UniCore Test Cases</title>
-<style>@page{size:A4;margin:14mm}body{font:11pt Arial,sans-serif;color:#25364a}h1{color:#16324b}h2{color:#147d78;margin-top:20px}table{border-collapse:collapse;width:100%;font-size:9pt}th,td{border:1px solid #cad4de;padding:7px;vertical-align:top}th{background:#eaf3f3}.case{page-break-after:always}.case:last-child{page-break-after:auto}.meta{background:#f5f7f9;padding:10px}</style></head><body>
+<style>@page{size:A4;margin:14mm}body{font:10pt Arial,sans-serif;color:#25364a}h1{color:#16324b}h2{color:#147d78;margin-top:15px}table{border-collapse:collapse;width:100%;font-size:9pt}th,td{border:1px solid #cad4de;padding:6px;vertical-align:top}th{background:#eaf3f3}.case{page-break-after:always}.case:last-child{page-break-after:auto}.meta{background:#f5f7f9;padding:10px}</style></head><body>
 <section class='case'><h1>Test case 1.1: Student sign-in and rejection</h1>
-<div class='meta'>UCS503 - UniCore | Authentication | Designed by: Manan Kapoor<br>Execution date: __________ &nbsp; Executed by: __________</div>
-<p>Check CSRF-protected login, a server session, and rejection of invalid credentials.</p><h2>Preconditions</h2><ul>
+<div class='meta'>Project name: UniCore | Class / roll no.: UCS503 / 1024030467 | App version: Java backend, Nov 2026<br>Environment: __________ | Execution date: __________ | Executed by: __________<br>Test case ID: UC-1.1 | Module: Authentication | Test type: Positive + negative<br>Status: Not run | Priority: High | Evidence / defect ID: __________</div>
+<h2>Scenario / objective</h2><p>Check CSRF-protected login, a server session, and rejection of invalid credentials.</p><h2>Preconditions</h2><ul>
 <li>A Java UniCore API is running. Record its base URL as &lt;API&gt; (for local H2: http://localhost:8080/api).</li>
 <li>An active Student account and its current password have been provided privately by the administrator. Use a fresh browser or API-client cookie jar.</li>
-</ul><h2>Steps and expected results</h2><table><tr><th>#</th><th>Action</th><th>Expected result</th><th>Pass / Fail</th></tr>
-<tr><td>1</td><td>GET &lt;API&gt;/auth/csrf in a fresh session.</td><td>200; JSON contains a CSRF token. Keep the session cookie for the next request.</td><td>______</td></tr>
-<tr><td>2</td><td>POST &lt;API&gt;/auth/login with the same cookie, X-CSRF-TOKEN and the student email/password.</td><td>200; response contains user.role = Student and user.rollNo. A server-side session is established; no JWT/token is returned.</td><td>______</td></tr>
-<tr><td>3</td><td>GET &lt;API&gt;/auth/me with the signed-in cookie.</td><td>200; the same Student identity is returned.</td><td>______</td></tr>
-<tr><td>4</td><td>In another fresh session, get CSRF then POST login with the correct email and a wrong password.</td><td>401 Invalid credentials; no authenticated session is created.</td><td>______</td></tr>
-<tr><td>5</td><td>Repeat with an unknown email and valid CSRF.</td><td>401 Invalid credentials; the response does not reveal whether an account exists.</td><td>______</td></tr>
-</table><h2>Postconditions</h2><p>The successful account&#x27;s last-login time is updated. Failed attempts do not authenticate the caller.</p><p>Actual result / comment: __________________________________________</p></section>
+</ul><h2>Test data</h2><p>Active Student email and current password (provided privately); one wrong password; one unknown email.</p><h2>Test steps and expected result</h2><table><tr><th>#</th><th>Test steps</th><th>Expected result</th></tr>
+<tr><td>1</td><td>GET &lt;API&gt;/auth/csrf in a fresh session.</td><td>200; JSON contains a CSRF token. Keep the session cookie for the next request.</td></tr>
+<tr><td>2</td><td>POST &lt;API&gt;/auth/login with the same cookie, X-CSRF-TOKEN and the student email/password.</td><td>200; response contains user.role = Student and user.rollNo. A server-side session is established; no JWT/token is returned.</td></tr>
+<tr><td>3</td><td>GET &lt;API&gt;/auth/me with the signed-in cookie.</td><td>200; the same Student identity is returned.</td></tr>
+<tr><td>4</td><td>In another fresh session, get CSRF then POST login with the correct email and a wrong password.</td><td>401 Invalid credentials; no authenticated session is created.</td></tr>
+<tr><td>5</td><td>Repeat with an unknown email and valid CSRF.</td><td>401 Invalid credentials; the response does not reveal whether an account exists.</td></tr>
+</table><h2>Postconditions</h2><p>The successful account&#x27;s last-login time is updated. Failed attempts do not authenticate the caller.</p><h2>Actual result / execution notes</h2><p>________________________________________________________________________________</p></section>
 <section class='case'><h1>Test case 1.2: Student dashboard access</h1>
-<div class='meta'>UCS503 - UniCore | Student portal | Designed by: Manan Kapoor<br>Execution date: __________ &nbsp; Executed by: __________</div>
-<p>Check that the dashboard reads the signed-in student&#x27;s records and rejects other identities.</p><h2>Preconditions</h2><ul>
+<div class='meta'>Project name: UniCore | Class / roll no.: UCS503 / 1024030467 | App version: Java backend, Nov 2026<br>Environment: __________ | Execution date: __________ | Executed by: __________<br>Test case ID: UC-1.2 | Module: Student portal | Test type: Positive + access control<br>Status: Not run | Priority: High | Evidence / defect ID: __________</div>
+<h2>Scenario / objective</h2><p>Check that the dashboard reads the signed-in student&#x27;s records and rejects other identities.</p><h2>Preconditions</h2><ul>
 <li>Test case 1.1 produced a signed-in Student session. Record user.rollNo as &lt;OWN_ROLL&gt;.</li>
 <li>The selected student has seeded or provisioned course records; use the same API base and cookie jar.</li>
-</ul><h2>Steps and expected results</h2><table><tr><th>#</th><th>Action</th><th>Expected result</th><th>Pass / Fail</th></tr>
-<tr><td>1</td><td>GET &lt;API&gt;/student/&lt;OWN_ROLL&gt;/dashboard with the signed-in cookie.</td><td>200; student profile and the enrollments, attendance, hostel, library and fines fields are returned.</td><td>______</td></tr>
-<tr><td>2</td><td>Compare the displayed name/roll and one enrollment with the provisioned record.</td><td>Identity and course values match the source record; no fixed sample values are assumed.</td><td>______</td></tr>
-<tr><td>3</td><td>GET the dashboard for a different student&#x27;s roll with the same cookie.</td><td>403 Access denied; no other student&#x27;s records are returned.</td><td>______</td></tr>
-<tr><td>4</td><td>GET own dashboard with no session cookie.</td><td>401 Sign in to continue.</td><td>______</td></tr>
-<tr><td>5</td><td>Repeat the own-roll GET with the valid session.</td><td>200; the read did not change student records.</td><td>______</td></tr>
-</table><h2>Postconditions</h2><p>Student records remain unchanged. A student session cannot read another student&#x27;s dashboard.</p><p>Actual result / comment: __________________________________________</p></section>
+</ul><h2>Test data</h2><p>&lt;OWN_ROLL&gt; from the signed-in profile; one different student roll; one provisioned enrollment.</p><h2>Test steps and expected result</h2><table><tr><th>#</th><th>Test steps</th><th>Expected result</th></tr>
+<tr><td>1</td><td>GET &lt;API&gt;/student/&lt;OWN_ROLL&gt;/dashboard with the signed-in cookie.</td><td>200; student profile and the enrollments, attendance, hostel, library and fines fields are returned.</td></tr>
+<tr><td>2</td><td>Compare the displayed name/roll and one enrollment with the provisioned record.</td><td>Identity and course values match the source record; no fixed sample values are assumed.</td></tr>
+<tr><td>3</td><td>GET the dashboard for a different student&#x27;s roll with the same cookie.</td><td>403 Access denied; no other student&#x27;s records are returned.</td></tr>
+<tr><td>4</td><td>GET own dashboard with no session cookie.</td><td>401 Sign in to continue.</td></tr>
+<tr><td>5</td><td>Repeat the own-roll GET with the valid session.</td><td>200; the read did not change student records.</td></tr>
+</table><h2>Postconditions</h2><p>Student records remain unchanged. A student session cannot read another student&#x27;s dashboard.</p><h2>Actual result / execution notes</h2><p>________________________________________________________________________________</p></section>
 <section class='case'><h1>Test case 1.3: Student attendance and percentages</h1>
-<div class='meta'>UCS503 - UniCore | Academic attendance | Designed by: Manan Kapoor<br>Execution date: __________ &nbsp; Executed by: __________</div>
-<p>Check per-course attendance totals and the student&#x27;s access boundary.</p><h2>Preconditions</h2><ul>
+<div class='meta'>Project name: UniCore | Class / roll no.: UCS503 / 1024030467 | App version: Java backend, Nov 2026<br>Environment: __________ | Execution date: __________ | Executed by: __________<br>Test case ID: UC-1.3 | Module: Academic attendance | Test type: Positive + access control<br>Status: Not run | Priority: High | Evidence / defect ID: __________</div>
+<h2>Scenario / objective</h2><p>Check per-course attendance totals and the student&#x27;s access boundary.</p><h2>Preconditions</h2><ul>
 <li>Use a signed-in Student session and &lt;OWN_ROLL&gt; from test case 1.1.</li>
 <li>The selected student has attendance entries. If a course has none, record it as not applicable instead of inventing a percentage.</li>
-</ul><h2>Steps and expected results</h2><table><tr><th>#</th><th>Action</th><th>Expected result</th><th>Pass / Fail</th></tr>
-<tr><td>1</td><td>GET &lt;API&gt;/student/&lt;OWN_ROLL&gt;/attendance with the signed-in cookie.</td><td>200; response contains an attendance list with course_code, present, late, absent, excused, total and percentage.</td><td>______</td></tr>
-<tr><td>2</td><td>Choose a course and total its four status counts.</td><td>present + late + absent + excused equals total.</td><td>______</td></tr>
-<tr><td>3</td><td>Compute 100 x (present + late) / total for the chosen course.</td><td>Rounded to one decimal, the value equals percentage returned by the API.</td><td>______</td></tr>
-<tr><td>4</td><td>GET another student&#x27;s attendance with the same cookie.</td><td>403 Access denied; no other student&#x27;s attendance is returned.</td><td>______</td></tr>
-<tr><td>5</td><td>GET own attendance without a session cookie.</td><td>401 Sign in to continue.</td><td>______</td></tr>
-</table><h2>Postconditions</h2><p>Attendance is read only. No attendance row changes during this test.</p><p>Actual result / comment: __________________________________________</p></section>
+</ul><h2>Test data</h2><p>&lt;OWN_ROLL&gt;; one course with attendance rows; a different student roll for the denial check.</p><h2>Test steps and expected result</h2><table><tr><th>#</th><th>Test steps</th><th>Expected result</th></tr>
+<tr><td>1</td><td>GET &lt;API&gt;/student/&lt;OWN_ROLL&gt;/attendance with the signed-in cookie.</td><td>200; response contains an attendance list with course_code, present, late, absent, excused, total and percentage.</td></tr>
+<tr><td>2</td><td>Choose a course and total its four status counts.</td><td>present + late + absent + excused equals total.</td></tr>
+<tr><td>3</td><td>Compute 100 x (present + late) / total for the chosen course.</td><td>Rounded to one decimal, the value equals percentage returned by the API.</td></tr>
+<tr><td>4</td><td>GET another student&#x27;s attendance with the same cookie.</td><td>403 Access denied; no other student&#x27;s attendance is returned.</td></tr>
+<tr><td>5</td><td>GET own attendance without a session cookie.</td><td>401 Sign in to continue.</td></tr>
+</table><h2>Postconditions</h2><p>Attendance is read only. No attendance row changes during this test.</p><h2>Actual result / execution notes</h2><p>________________________________________________________________________________</p></section>
 </body></html>
